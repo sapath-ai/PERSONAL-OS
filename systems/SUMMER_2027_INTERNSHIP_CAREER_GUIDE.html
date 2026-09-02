@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summer 2027 Internship &amp; Career Guide</title>
+<style>
+  :root{
+    --bg:#0a0b0e;
+    --bg-2:#0d0f13;
+    --panel:#12141a;
+    --panel-2:#171a21;
+    --border:#262a34;
+    --border-soft:#1c1f28;
+    --text:#e8e9ed;
+    --text-dim:#9096a5;
+    --text-faint:#5b606e;
+    --accent:#e8a33d;
+    --accent-soft:rgba(232,163,61,.14);
+    --accent-line:rgba(232,163,61,.35);
+    --cyan:#55c7c9;
+    --cyan-soft:rgba(85,199,201,.14);
+    --green:#5fc98a;
+    --green-soft:rgba(95,201,138,.14);
+    --yellow:#e8c547;
+    --yellow-soft:rgba(232,197,71,.14);
+    --red:#e2695c;
+    --red-soft:rgba(226,105,92,.14);
+    --font-display: -apple-system, "Segoe UI Semibold", "Helvetica Neue", Arial, sans-serif;
+    --font-body: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "Consolas", "Roboto Mono", monospace;
+    --rail-w: 76px;
+    --content-w: 780px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 12% -10%, rgba(232,163,61,.05), transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, rgba(85,199,201,.04), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important;}
+  }
+  ::selection{background:var(--accent-soft); color:var(--accent);}
+  a{color:var(--accent);}
+
+  /* ---------- layout shell ---------- */
+  .shell{display:flex; min-height:100vh;}
+  .rail{
+    position:fixed; top:0; left:0; bottom:0; width:var(--rail-w);
+    display:flex; flex-direction:column; align-items:center;
+    padding:18px 0 14px; border-right:1px solid var(--border-soft);
+    background:linear-gradient(180deg, rgba(18,20,26,.95), rgba(13,15,19,.95));
+    backdrop-filter:blur(6px);
+    z-index:50;
+  }
+  .rail-mark{
+    font-family:var(--font-mono); font-size:10px; letter-spacing:.12em; color:var(--text-faint);
+    writing-mode:vertical-rl; text-orientation:mixed; margin-bottom:14px; flex:0 0 auto;
+  }
+  .rail-progress-track{
+    width:2px; height:36px; flex:0 0 auto; background:var(--border); position:relative; border-radius:2px; margin:0 0 14px;
+  }
+  .rail-progress-fill{
+    position:absolute; bottom:0; left:0; width:100%; background:linear-gradient(180deg,var(--accent),var(--cyan));
+    border-radius:2px; height:0%; transition:height .4s ease;
+  }
+  .rail-nodes{
+    display:flex; flex-direction:column; align-items:center; gap:5px;
+    flex:1 1 auto; min-height:0; width:100%;
+    overflow-y:auto; overflow-x:hidden;
+    padding:2px 0 4px;
+    scrollbar-width:thin; scrollbar-color:var(--border) transparent;
+    -webkit-mask-image:linear-gradient(180deg, transparent 0, #000 10px, #000 calc(100% - 10px), transparent 100%);
+    mask-image:linear-gradient(180deg, transparent 0, #000 10px, #000 calc(100% - 10px), transparent 100%);
+  }
+  .rail-nodes::-webkit-scrollbar{width:4px;}
+  .rail-nodes::-webkit-scrollbar-track{background:transparent;}
+  .rail-nodes::-webkit-scrollbar-thumb{background:var(--border); border-radius:4px;}
+  .rail-nodes::-webkit-scrollbar-thumb:hover{background:var(--accent-line);}
+  .rail-node{
+    width:30px; height:30px; border-radius:50%; border:1px solid var(--border);
+    background:var(--panel); color:var(--text-faint); font-family:var(--font-mono); font-size:10.5px;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;
+    transition:all .2s ease; position:relative;
+  }
+  .rail-node:hover{border-color:var(--accent-line); color:var(--accent);}
+  .rail-node.active{border-color:var(--accent); color:var(--accent); background:var(--accent-soft); box-shadow:0 0 0 3px var(--accent-soft);}
+  .rail-node.done::after{
+    content:""; position:absolute; top:-2px; right:-2px; width:7px; height:7px; border-radius:50%;
+    background:var(--green); border:2px solid var(--bg-2);
+  }
+  .rail-restart{
+    margin-top:12px; width:30px; height:30px; border-radius:50%; border:1px solid var(--border);
+    background:transparent; color:var(--text-faint); cursor:pointer; display:flex; align-items:center; justify-content:center;
+    font-size:14px; flex:0 0 auto;
+  }
+  .rail-restart:hover{color:var(--red); border-color:var(--red);}
+
+  .main{margin-left:var(--rail-w); flex:1; min-width:0;}
+  .content{max-width:var(--content-w); margin:0 auto; padding:0 28px 140px;}
+
+  @media (max-width: 860px){
+    .rail{
+      position:fixed; top:auto; bottom:0; left:0; right:0; width:100%; height:58px;
+      flex-direction:row; padding:0 10px; border-right:none; border-top:1px solid var(--border-soft);
+      overflow:hidden;
+    }
+    .rail-mark{display:none;}
+    .rail-progress-track{width:100%; height:2px; flex:0 0 auto; margin:0 10px;}
+    .rail-progress-fill{height:100%; width:0%; transition:width .4s ease;}
+    .rail-nodes{
+      flex-direction:row; overflow-x:auto; overflow-y:hidden; padding:0 4px; height:100%;
+      -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 10px, #000 calc(100% - 10px), transparent 100%);
+      mask-image:linear-gradient(90deg, transparent 0, #000 10px, #000 calc(100% - 10px), transparent 100%);
+    }
+    .rail-nodes::-webkit-scrollbar{height:0; display:none;}
+    .rail-restart{margin-top:0;}
+    .main{margin-left:0; padding-bottom:58px;}
+    .content{padding:0 18px 100px;}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding:96px 0 60px; border-bottom:1px solid var(--border-soft); position:relative;
+  }
+  .hero-eyebrow{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:22px;
+  }
+  .hero-eyebrow .dot{width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent); animation:pulse 2.4s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+  .hero h1{
+    font-family:var(--font-display); font-weight:700; font-size:clamp(32px,5vw,52px);
+    line-height:1.08; letter-spacing:-.02em; margin:0 0 18px;
+  }
+  .hero h1 span{color:var(--accent);}
+  .hero p.lead{
+    color:var(--text-dim); font-size:17px; max-width:58ch; margin:0 0 30px;
+  }
+  .hero-meta{display:flex; flex-wrap:wrap; gap:10px 26px; font-family:var(--font-mono); font-size:12px; color:var(--text-faint);}
+  .hero-meta b{color:var(--text-dim); font-weight:500;}
+  .hero-cta{
+    margin-top:34px; display:inline-flex; align-items:center; gap:10px; padding:12px 20px;
+    border:1px solid var(--accent-line); border-radius:8px; color:var(--accent); font-family:var(--font-mono);
+    font-size:13px; letter-spacing:.04em; cursor:pointer; background:var(--accent-soft); transition:all .2s;
+  }
+  .hero-cta:hover{background:var(--accent); color:#0a0b0e;}
+
+  /* ---------- stage / section ---------- */
+  .stage{padding:70px 0 10px; border-bottom:1px solid var(--border-soft); scroll-margin-top:40px;}
+  .stage:last-of-type{border-bottom:none;}
+  .stage-head{display:flex; align-items:flex-start; gap:16px; margin-bottom:22px;}
+  .stage-num{
+    font-family:var(--font-mono); font-size:13px; color:var(--accent); border:1px solid var(--accent-line);
+    background:var(--accent-soft); border-radius:6px; padding:4px 9px; flex-shrink:0; margin-top:4px;
+  }
+  .stage-title h2{
+    font-family:var(--font-display); font-size:clamp(22px,3vw,30px); font-weight:700; margin:0 0 6px; letter-spacing:-.01em;
+  }
+  .stage-title p{color:var(--text-dim); margin:0; font-size:15px; max-width:56ch;}
+  .stage-body{padding-left:0;}
+
+  h3.sub{font-family:var(--font-display); font-size:16px; font-weight:700; color:var(--text); margin:30px 0 12px; letter-spacing:.01em;}
+  p{color:var(--text-dim); font-size:15px;}
+  .note{
+    border-left:2px solid var(--accent); background:var(--accent-soft); border-radius:0 8px 8px 0;
+    padding:14px 16px; margin:18px 0; font-size:14px; color:var(--text);
+  }
+  .note b{color:var(--accent);}
+  .callout-red{border-left-color:var(--red); background:var(--red-soft);}
+  .callout-red b{color:var(--red);}
+  .callout-cyan{border-left-color:var(--cyan); background:var(--cyan-soft);}
+  .callout-cyan b{color:var(--cyan);}
+
+  ul.plain{margin:10px 0; padding-left:20px; color:var(--text-dim); font-size:14.5px;}
+  ul.plain li{margin-bottom:6px;}
+
+  /* ---------- pipeline flow (stage 01 + 06) ---------- */
+  .flow{
+    display:flex; align-items:stretch; gap:0; overflow-x:auto; margin:24px 0 8px; padding-bottom:10px;
+  }
+  .flow-node{
+    flex:1 1 0; min-width:120px; background:var(--panel); border:1px solid var(--border);
+    border-radius:10px; padding:14px 12px; text-align:center; position:relative;
+  }
+  .flow-node .k{font-family:var(--font-mono); font-size:10px; color:var(--text-faint); letter-spacing:.08em; text-transform:uppercase;}
+  .flow-node .v{font-size:13.5px; color:var(--text); margin-top:6px; font-weight:600;}
+  .flow-arrow{
+    flex:0 0 26px; display:flex; align-items:center; justify-content:center; color:var(--accent); font-size:14px;
+  }
+  @media (max-width:640px){.flow{flex-direction:column;} .flow-arrow{transform:rotate(90deg); flex-basis:20px;}}
+
+  /* ---------- decision tree ---------- */
+  .tree-box{
+    background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:26px; margin:22px 0;
+  }
+  .tree-crumbs{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px; font-family:var(--font-mono); font-size:11px; color:var(--text-faint);}
+  .tree-crumbs span{background:var(--panel-2); border:1px solid var(--border-soft); border-radius:5px; padding:3px 8px;}
+  .tree-question{font-family:var(--font-display); font-size:18px; font-weight:700; margin-bottom:18px;}
+  .tree-options{display:flex; flex-direction:column; gap:10px;}
+  .tree-opt{
+    text-align:left; background:var(--panel-2); border:1px solid var(--border); color:var(--text);
+    padding:13px 16px; border-radius:9px; cursor:pointer; font-size:14.5px; font-family:var(--font-body);
+    display:flex; justify-content:space-between; align-items:center; transition:all .15s;
+  }
+  .tree-opt:hover{border-color:var(--accent-line); background:var(--accent-soft); color:var(--accent);}
+  .tree-opt .arrow{opacity:.5; font-family:var(--font-mono);}
+  .tree-result{border-radius:10px; padding:18px; margin-top:6px;}
+  .tree-result.green{background:var(--green-soft); border:1px solid rgba(95,201,138,.4);}
+  .tree-result.yellow{background:var(--yellow-soft); border:1px solid rgba(232,197,71,.4);}
+  .tree-result.red{background:var(--red-soft); border:1px solid rgba(226,105,92,.4);}
+  .tree-result .pill{
+    display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:11px;
+    letter-spacing:.08em; text-transform:uppercase; padding:4px 10px; border-radius:20px; margin-bottom:10px; font-weight:700;
+  }
+  .tree-result.green .pill{background:var(--green); color:#0a0b0e;}
+  .tree-result.yellow .pill{background:var(--yellow); color:#0a0b0e;}
+  .tree-result.red .pill{background:var(--red); color:#0a0b0e;}
+  .tree-result p{color:var(--text); font-size:14.5px; margin:0;}
+  .tree-nav{display:flex; gap:10px; margin-top:16px;}
+  .tree-nav button{
+    background:transparent; border:1px solid var(--border); color:var(--text-dim); font-family:var(--font-mono);
+    font-size:12px; padding:8px 14px; border-radius:7px; cursor:pointer;
+  }
+  .tree-nav button:hover{border-color:var(--accent-line); color:var(--accent);}
+
+  /* ---------- pipeline cards (stage 03) ---------- */
+  .pipe-chain{display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin:20px 0 30px; font-family:var(--font-mono); font-size:12px; color:var(--text-faint);}
+  .pipe-chain span.node{background:var(--panel); border:1px solid var(--border); padding:6px 10px; border-radius:6px; color:var(--text-dim);}
+  .pipe-chain span.sep{color:var(--accent);}
+  .pipe-cards{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  @media (max-width:720px){.pipe-cards{grid-template-columns:1fr;}}
+  .pipe-card{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:18px; border-top:3px solid var(--accent);}
+  .pipe-card.b{border-top-color:var(--cyan);}
+  .pipe-card.c{border-top-color:var(--green);}
+  .pipe-card h4{font-family:var(--font-display); margin:0 0 8px; font-size:15px;}
+  .pipe-card p{margin:0; font-size:13.5px;}
+
+  /* ---------- calendar (stage 04) ---------- */
+  .cal-tabs{display:flex; gap:8px; margin-top:22px; flex-wrap:wrap;}
+  .cal-tab{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:.03em; padding:9px 16px; border-radius:8px;
+    border:1px solid var(--border); background:var(--panel); color:var(--text-dim); cursor:pointer; transition:all .15s;
+  }
+  .cal-tab:hover{border-color:var(--accent-line); color:var(--accent);}
+  .cal-tab.active{background:var(--accent-soft); border-color:var(--accent); color:var(--accent);}
+  .cal-list{display:flex; flex-direction:column; gap:10px; margin-top:16px;}
+  .cal-item{background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden;}
+  .cal-head{
+    display:flex; align-items:center; gap:14px; padding:16px 18px; cursor:pointer; user-select:none;
+  }
+  .cal-head .m{font-family:var(--font-mono); font-size:12px; color:var(--accent); width:110px; flex-shrink:0;}
+  .cal-head .t{font-weight:600; font-size:14.5px; flex:1;}
+  .cal-head .chev{color:var(--text-faint); transition:transform .2s;}
+  .cal-item.open .chev{transform:rotate(90deg);}
+  .cal-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+  .cal-item.open .cal-body{max-height:900px;}
+  .cal-body-in{padding:0 18px 20px 18px; display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media (max-width:640px){.cal-body-in{grid-template-columns:1fr;}}
+  .cal-block h5{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint);
+    margin:0 0 6px;
+  }
+  .cal-block ul{margin:0; padding-left:16px; font-size:13.5px; color:var(--text-dim);}
+  .cal-block ul li{margin-bottom:4px;}
+  .cal-block.success{color:var(--green);}
+  .cal-block.standard{
+    grid-column:1 / -1; background:var(--accent-soft); border:1px solid var(--accent-line);
+    border-radius:9px; padding:14px 16px; margin-bottom:2px;
+  }
+  .cal-block.standard h5{color:var(--accent);}
+  .std-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+  @media (max-width:640px){.std-grid{grid-template-columns:1fr;}}
+  .std-item .k{font-family:var(--font-mono); font-size:10px; letter-spacing:.07em; text-transform:uppercase; color:var(--accent); margin-bottom:3px;}
+  .std-item .v{font-size:13px; color:var(--text);}
+
+  /* ---------- role families (stage 05) ---------- */
+  .role-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:20px;}
+  @media (max-width:640px){.role-grid{grid-template-columns:1fr;}}
+  .role-card{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:18px;}
+  .role-card h4{font-family:var(--font-display); font-size:14px; margin:0 0 10px; color:var(--accent);}
+  .role-card ul{margin:0; padding-left:0; list-style:none;}
+  .role-card li{
+    font-size:13.5px; color:var(--text-dim); padding:6px 0; border-bottom:1px dashed var(--border-soft);
+  }
+  .role-card li:last-child{border-bottom:none;}
+  .zone-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:20px 0;}
+  @media (max-width:720px){.zone-grid{grid-template-columns:1fr;}}
+  .role-card.z1{border-top:3px solid var(--accent);}
+  .role-card.z2{border-top:3px solid var(--cyan);}
+  .role-card.z3{border-top:3px solid var(--green);}
+  .role-card .zone-tag{
+    font-family:var(--font-mono); font-size:10.5px; color:var(--text-faint); text-transform:uppercase;
+    letter-spacing:.05em; margin:-4px 0 10px;
+  }
+
+  /* ---------- application machine loop (stage 06) ---------- */
+  .loop-grid{display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;}
+  .loop-node{
+    background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:10px 14px;
+    font-family:var(--font-mono); font-size:12.5px; cursor:pointer; color:var(--text-dim); flex:1 1 140px; text-align:center;
+    transition:all .15s;
+  }
+  .loop-node.active, .loop-node:hover{border-color:var(--accent-line); color:var(--accent); background:var(--accent-soft);}
+  .loop-detail{
+    margin-top:16px; background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:20px;
+  }
+  .loop-detail h4{margin:0 0 12px; font-family:var(--font-display); color:var(--accent); font-size:16px;}
+  .loop-row{display:grid; grid-template-columns:120px 1fr; gap:12px; padding:8px 0; border-top:1px solid var(--border-soft); font-size:13.5px;}
+  .loop-row:first-of-type{border-top:none;}
+  .loop-row .k{font-family:var(--font-mono); font-size:11px; color:var(--text-faint); text-transform:uppercase; letter-spacing:.06em;}
+  .loop-row .v{color:var(--text-dim);}
+  .loop-note{font-size:12px; color:var(--text-faint); margin-top:14px; font-family:var(--font-mono);}
+
+  /* ---------- generic card grid ---------- */
+  .card-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0;}
+  @media (max-width:720px){.card-grid{grid-template-columns:1fr;}}
+  .mini-card{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px;}
+  .mini-card .big{font-family:var(--font-display); font-size:24px; color:var(--accent); font-weight:700;}
+  .mini-card .lbl{font-size:12.5px; color:var(--text-dim); margin-top:4px;}
+
+  /* ---------- ATS resume judge (stage 10) ---------- */
+  .struct-list{margin:0; padding-left:18px; font-size:13.5px; color:var(--text-dim);}
+  .struct-list li{margin-bottom:5px;}
+  .kw-pills{display:flex; flex-wrap:wrap; gap:8px;}
+  .kw-pill{
+    background:var(--panel-2); border:1px solid var(--border); border-radius:20px; padding:5px 12px;
+    font-family:var(--font-mono); font-size:11.5px; color:var(--text-dim);
+  }
+  .bullet-pair{display:flex; flex-direction:column; gap:10px;}
+  .bullet-box{border-radius:9px; padding:12px 14px; font-size:13.5px; border:1px solid var(--border); color:var(--text);}
+  .bullet-box .tag{
+    font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.06em;
+    display:block; margin-bottom:5px; font-weight:700;
+  }
+  .bullet-box.weak{background:var(--red-soft); border-color:rgba(226,105,92,.4);}
+  .bullet-box.weak .tag{color:var(--red);}
+  .bullet-box.strong{background:var(--green-soft); border-color:rgba(95,201,138,.4);}
+  .bullet-box.strong .tag{color:var(--green);}
+
+  /* ---------- outreach examples (stage 08) ---------- */
+  .msg{border-radius:10px; padding:16px; margin:14px 0; font-size:13.5px; border:1px solid var(--border); background:var(--panel);}
+  .msg .tag{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; display:inline-block; padding:3px 8px; border-radius:5px;}
+  .msg.bad .tag{background:var(--red-soft); color:var(--red);}
+  .msg.ok .tag{background:var(--yellow-soft); color:var(--yellow);}
+  .msg.strong .tag{background:var(--green-soft); color:var(--green);}
+  .msg p{margin:0; color:var(--text); font-style:italic;}
+
+  /* ---------- checklist ---------- */
+  .checklist{display:flex; flex-direction:column; gap:8px; margin:20px 0;}
+  .chk{
+    display:flex; align-items:flex-start; gap:12px; background:var(--panel); border:1px solid var(--border);
+    border-radius:10px; padding:13px 16px; cursor:pointer;
+  }
+  .chk .box{
+    width:18px; height:18px; border-radius:5px; border:1px solid var(--border); flex-shrink:0; margin-top:1px;
+    display:flex; align-items:center; justify-content:center; font-size:11px; color:transparent; transition:all .15s;
+  }
+  .chk.checked .box{background:var(--green); border-color:var(--green); color:#0a0b0e;}
+  .chk.checked .label{color:var(--text-faint); text-decoration:line-through;}
+  .chk .label{font-size:14px; color:var(--text);}
+
+  /* ---------- chain (interview prep stage 10) ---------- */
+  .chain{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:22px 0;}
+  .chain-node{background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:8px 12px; font-size:12.5px; color:var(--text-dim); font-family:var(--font-mono);}
+  .chain-arrow{color:var(--accent); font-size:13px;}
+
+  /* ---------- eligibility filter flow (stage 11) ---------- */
+  .filter-flow{display:flex; flex-direction:column; gap:0; margin:22px 0;}
+  .filter-row{display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px dashed var(--border-soft);}
+  .filter-row:last-child{border-bottom:none;}
+  .filter-row .n{font-family:var(--font-mono); color:var(--accent); font-size:12px; min-width:34px; flex-shrink:0;}
+  .filter-row .t{font-weight:600; font-size:14px; width:190px; flex-shrink:0;}
+  .filter-row .d{font-size:13.5px; color:var(--text-dim);}
+  @media (max-width:640px){.filter-row{flex-direction:column; align-items:flex-start; gap:4px;} .filter-row .t{width:auto;}}
+  .rule-pills{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;}
+  .rule-pill{border-radius:20px; padding:8px 16px; font-size:13px; font-family:var(--font-mono); display:flex; align-items:center; gap:8px;}
+  .rule-pill.g{background:var(--green-soft); color:var(--green); border:1px solid rgba(95,201,138,.4);}
+  .rule-pill.y{background:var(--yellow-soft); color:var(--yellow); border:1px solid rgba(232,197,71,.4);}
+  .rule-pill.r{background:var(--red-soft); color:var(--red); border:1px solid rgba(226,105,92,.4);}
+
+  /* ---------- rejection diagnostic (stage 12) ---------- */
+  .diag-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:20px;}
+  @media (max-width:640px){.diag-grid{grid-template-columns:1fr;}}
+  .diag-card{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:16px; cursor:pointer; transition:all .15s;}
+  .diag-card:hover{border-color:var(--accent-line);}
+  .diag-card .q{font-weight:600; font-size:14px; margin-bottom:4px;}
+  .diag-card .hint{font-size:12px; color:var(--text-faint); font-family:var(--font-mono);}
+  .diag-answer{
+    display:none; margin-top:10px; padding-top:14px; border-top:1px solid var(--border-soft); font-size:13.5px; color:var(--text-dim);
+  }
+  .diag-card.open .diag-answer{display:block;}
+  .diag-card.open{border-color:var(--accent-line); background:var(--accent-soft);}
+  .diag-answer b{color:var(--accent); display:block; margin-bottom:4px; font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.06em;}
+
+  /* ---------- final mission spine (stage 13) ---------- */
+  .spine{position:relative; margin:34px 0 10px; padding-left:22px; border-left:2px solid var(--border);}
+  .spine-pt{position:relative; padding-bottom:22px;}
+  .spine-pt::before{
+    content:""; position:absolute; left:-27px; top:2px; width:10px; height:10px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--accent);
+  }
+  .spine-pt b{font-family:var(--font-mono); font-size:12px; color:var(--accent); display:block; margin-bottom:2px;}
+  .spine-pt span{font-size:13.5px; color:var(--text-dim);}
+
+  .final-cta{
+    margin-top:40px; text-align:center; padding:40px 20px; border:1px solid var(--accent-line);
+    border-radius:16px; background:linear-gradient(180deg, var(--accent-soft), transparent);
+  }
+  .final-cta h3{font-family:var(--font-display); font-size:22px; margin:0 0 10px;}
+  .final-cta p{max-width:50ch; margin:0 auto 20px;}
+  .final-cta button{
+    background:var(--accent); color:#0a0b0e; border:none; padding:13px 26px; border-radius:8px;
+    font-family:var(--font-mono); font-size:13px; letter-spacing:.04em; cursor:pointer; font-weight:700;
+  }
+
+  footer{text-align:center; padding:50px 0 30px; color:var(--text-faint); font-size:12px; font-family:var(--font-mono);}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <nav class="rail" id="rail">
+    <div class="rail-mark">MISSION&nbsp;PATH</div>
+    <div class="rail-progress-track"><div class="rail-progress-fill" id="railFill"></div></div>
+    <div class="rail-nodes" id="railNodes"></div>
+    <button class="rail-restart" id="restartBtn" title="Reset guide">&#8635;</button>
+  </nav>
+
+  <div class="main">
+    <div class="content">
+
+      <!-- HERO -->
+      <header class="hero">
+        <div class="hero-eyebrow"><span class="dot"></span> FIELD MANUAL &middot; CLASS OF JULY 2027</div>
+        <h1>Summer 2027 Internship<br>&amp; <span>Career Guide</span></h1>
+        <p class="lead">A guided operating manual for an M.Tech CS student graduating around July 2027 &mdash; from
+        "I don't understand the recruiting calendar" to "I know exactly what I should do each month." Follow the
+        path below in order. Nothing here is a dashboard to monitor &mdash; it's a route to walk.</p>
+        <div class="hero-meta">
+          <div><b>Track</b> AI/ML &middot; Software &middot; Research</div>
+          <div><b>Horizon</b> Aug 2026 &rarr; Jul 2027</div>
+          <div><b>Stages</b> 14</div>
+        </div>
+        <div class="hero-cta" onclick="document.getElementById('stage-01').scrollIntoView()">START AT STAGE 01 &nbsp;&rarr;</div>
+      </header>
+
+      <!-- 01 -->
+      <section class="stage" id="stage-01" data-stage="1">
+        <div class="stage-head">
+          <div class="stage-num">01</div>
+          <div class="stage-title">
+            <h2>Understand the Recruiting Calendar</h2>
+            <p>Why postings for a Summer 2027 internship are already live in 2026, and why that's normal, not late.</p>
+          </div>
+        </div>
+        <div class="stage-body">
+          <p>Every internship follows the same pipeline, but companies enter that pipeline at wildly different
+          points in time. The pipeline itself never changes:</p>
+
+          <div class="flow">
+            <div class="flow-node"><div class="k">Step</div><div class="v">Posting Opens</div></div>
+            <div class="flow-arrow">&rarr;</div>
+            <div class="flow-node"><div class="k">Step</div><div class="v">Application</div></div>
+            <div class="flow-arrow">&rarr;</div>
+            <div class="flow-node"><div class="k">Step</div><div class="v">Online Assessment</div></div>
+            <div class="flow-arrow">&rarr;</div>
+            <div class="flow-node"><div class="k">Step</div><div class="v">Interview(s)</div></div>
+            <div class="flow-arrow">&rarr;</div>
+            <div class="flow-node"><div class="k">Step</div><div class="v">Offer</div></div>
+            <div class="flow-arrow">&rarr;</div>
+            <div class="flow-node"><div class="k">Step</div><div class="v">Internship, Summer 2027</div></div>
+          </div>
+
+          <p>What changes is <b style="color:var(--text)">when each company starts the pipeline.</b> Quant finance and
+          elite consulting are the earliest movers of all &mdash; their Summer 2027 cycles largely opened and closed
+          between Dec 2025 and Mar 2026, over a year ahead. Large tech employers open next: Amazon and Databricks
+          typically post first (Jul&ndash;Aug), Microsoft follows mid-August, Meta in early September, and Google
+          around mid-October with a notoriously short 2&ndash;4 week window that closes before most students even
+          notice it opened. Mid-size and growth companies typically open Sept 2026&ndash;Feb 2027. Startups, research
+          labs, and many university-affiliated groups post on rolling timelines, often not until Dec 2026&ndash;Apr
+          2027, sometimes even later, because they hire only as headcount and funding are confirmed.</p>
+
+          <h3 class="sub">Rolling vs. fixed recruiting</h3>
+          <ul class="plain">
+            <li><b style="color:var(--text)">Fixed-cycle recruiters</b> (most large tech companies) open a window, collect
+            applications, and close it &mdash; often within weeks. Google's software engineering internship posting is
+            the textbook example: it typically opens for only 2&ndash;4 weeks around mid-October and is gone before
+            many students realize it was live. Missing a fixed window usually means waiting for the next cycle, which
+            may not exist for interns.</li>
+            <li><b style="color:var(--text)">Rolling recruiters</b> (most startups, many labs, some mid-size firms)
+            review applications continuously and fill roles as strong candidates appear. Applying early still helps,
+            but a late application isn't automatically dead.</li>
+          </ul>
+
+          <div class="note callout-cyan"><b>The trap to avoid:</b> seeing a "Summer 2028" posting in late 2026 and
+          panicking that you're behind. You are not. Summer 2028 openings are for students graduating a full year
+          after you. They are <b>irrelevant to your search</b> &mdash; a different cohort, a different pipeline. Your
+          job is to filter every posting by <i>which summer</i> it is actually for, not by how early it appeared.</div>
+
+          <h3 class="sub">How to read any individual posting</h3>
+          <p>Instead of memorizing dates, learn to ask three questions of every listing you see:</p>
+          <ul class="plain">
+            <li>Which specific summer does this internship run in? (Read the fine print, not just the title.)</li>
+            <li>Is this company historically an early, mid, or late recruiter for this role family?</li>
+            <li>Is the window fixed (apply now or miss it) or rolling (apply when ready, sooner is still better)?</li>
+          </ul>
+          <p>That's the whole skill. Everything else in this guide builds on top of it.</p>
+        </div>
+      </section>
+
+      <!-- 02 -->
+      <section class="stage" id="stage-02" data-stage="2">
+        <div class="stage-head">
+          <div class="stage-num">02</div>
+          <div class="stage-title">
+            <h2>Determine Whether I Am Eligible</h2>
+            <p>The single most misunderstood filter in student recruiting. Walk the tree below with your real situation.</p>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="tree-box" id="tree1"></div>
+
+          <div class="note"><b>The lesson that matters most in this entire guide:</b> a posting that says
+          "currently pursuing a Master's degree" is <i>not the same requirement</i> as one that says "must have at
+          least one semester/year of study remaining after the internship." The first describes your enrollment status.
+          The second describes your <i>timeline</i>. You can satisfy the first and fail the second, or vice versa &mdash;
+          read both conditions separately, every time.</div>
+        </div>
+      </section>
+
+      <!-- 03 -->
+      <section class="stage" id="stage-03" data-stage="3">
+        <div class="stage-head">
+          <div class="stage-num">03</div>
+          <div class="stage-title">
+            <h2>My Three Career Pipelines</h2>
+            <p>"Summer 2027" is not one search. You are running three searches at once, off the same raw materials.</p>
+          </div>
+        </div>
+        <div class="stage-body">
+          <p>Every asset you build &mdash; your projects, your GitHub, your resume, your recommendations &mdash; feeds
+          all three pipelines simultaneously. You are not choosing between them; you are stocking one supply chain
+          that serves three destinations.</p>
+
+          <div class="pipe-chain">
+            <span class="node">Research</span><span class="sep">&rarr;</span>
+            <span class="node">Projects</span><span class="sep">&rarr;</span>
+            <span class="node">GitHub</span><span class="sep">&rarr;</span>
+            <span class="node">Resume</span><span class="sep">&rarr;</span>
+            <span class="node">Interviews</span><span class="sep">&rarr;</span>
+            <span class="node">Recommendations</span><span class="sep">&rarr;</span>
+            <span class="node">Opportunities</span>
+          </div>
+
+          <div class="pipe-cards">
+            <div class="pipe-card a">
+              <h4>A &middot; Summer 2027 Internship</h4>
+              <p>Industry roles: ML/AI engineering, software, applied research. Highest volume of opportunities,
+              fastest feedback loop, best short-term leverage for offers and experience.</p>
+            </div>
+            <div class="pipe-card b">
+              <h4>B &middot; 2027 Full-Time Job</h4>
+              <p>Runs in parallel because many companies convert interns to full-time, and some full-time-only
+              openings appear on the same calendar. Treat this as insurance, not a distraction.</p>
+            </div>
+            <div class="pipe-card c">
+              <h4>C &middot; Research / PhD Track</h4>
+              <p>Labs, RA positions, and PhD applications move on their own, often slower, calendar. Your existing
+              research experience is a real asset here &mdash; don't let it sit idle while you only chase industry roles.</p>
+            </div>
+          </div>
+
+          <div class="note">Run all three at once because they share fixed costs (one strong resume update helps
+          all three) but have independent, uncorrelated outcomes. If industry recruiting is slow in a given month,
+          research outreach can still move forward, and vice versa &mdash; you are never fully blocked.</div>
+        </div>
+      </section>
+
+      <!-- 04 -->
+      <section class="stage" id="stage-04" data-stage="4">
+        <div class="stage-head">
+          <div class="stage-num">04</div>
+          <div class="stage-title">
+            <h2>The Master Calendar</h2>
+            <p>Click a month to open it. Each month covers the market, what to do, the technical standard you should be at, what to apply for, mistakes to avoid, and what success looks like.</p>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="cal-tabs" id="calTabs">
+            <button class="cal-tab active" data-target="calList">Industry / Internship Calendar</button>
+            <button class="cal-tab" data-target="calListResearch">Research / PhD Calendar</button>
+          </div>
+
+          <div class="cal-list" id="calList"></div>
+          <div class="cal-list" id="calListResearch" style="display:none;"></div>
+
+          <div class="note callout-cyan" style="margin-top:20px;">Treat every date here as a typical pattern, not a
+          guarantee. Always verify against the actual posting, program, or professor for the actual dates &mdash; these
+          calendars teach you the shape of the year, not a fixed schedule anyone must follow. The two calendars run in
+          parallel: use the Industry tab for internship/full-time recruiting, and the Research tab for lab outreach and
+          PhD applications, since they move on genuinely different clocks (Stage 03 explains why you run both at once).</div>
+        </div>
+      </section>
+
+      <!-- 05 -->
+      <section class="stage" id="stage-05" data-stage="5">
+        <div class="stage-head">
+          <div class="stage-num">05</div>
+          <div class="stage-title">
+            <h2>What Roles Should I Target?</h2>
+            <p>Search beyond the words "AI Intern." These are the role families your background actually qualifies you for.</p>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="role-grid" id="roleGrid"></div>
+          <div class="note callout-cyan"><b>Right now, the hottest sub-family inside AI/ML is Agentic AI / RAG.</b>
+          Roles building LLM-powered agents (tool-calling, planning, memory) and retrieval-augmented systems (vector
+          search feeding an LLM) are growing faster than almost any other posting category in 2026. It sits inside
+          "AI/ML" above, but search for it by name too &mdash; "Agentic AI Engineer," "RAG Engineer," "LLM Application
+          Engineer" &mdash; since generic "AI Intern" searches under-surface it.</div>
+          <div class="note"><b>Why this matters for you specifically:</b> you already have AI/ML research experience
+          and projects. That background qualifies you for research-flavored roles &mdash; Research Intern, Applied
+          Scientist Intern, ML Systems &mdash; that generic "software internship" search terms won't surface. Restricting
+          yourself to "Software Engineer Intern" alone throws away the exact edge your research gives you.</div>
+        </div>
+      </section>
+
+      <!-- 06 -->
+      <section class="stage" id="stage-06" data-stage="6">
+        <div class="stage-head">
+          <div class="stage-num">06</div>
+          <div class="stage-title">
+            <h2>Build the Application Machine</h2>
+            <p>This is a loop, not a checklist &mdash; you cycle through it continuously. Click each stage to inspect it.</p>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="loop-grid" id="loopGrid"></div>
+          <div class="loop-detail" id="loopDetail"></div>
+          <div class="loop-note">&#8635; after Follow-up, you return to Discover &mdash; the machine keeps running even while individual applications are still in progress.</div>
+        </div>
+      </section>
+
+      <!-- 07 -->
+      <section class="stage" id="stage-07" data-stage="7">
+        <div class="stage-head">
+          <div class="stage-num">07</div>
+          <div class="stage-title">
+            <h2>Application Strategy</h2>
+            <p>Volume without targeting is noise. Targeting without volume is fragile. You need both, tuned correctly.</p>
+          </div>
+        </div>
+        <div class="stage-body">
+          <p><b style="color:var(--text)">High-volume garbage applications</b> &mdash; the same unedited resume blasted
+          at 200 postings &mdash; waste your time and rarely convert, because nothing in the application signals fit.
+          <b style="color:var(--text)">Targeted applications</b> &mdash; fewer roles, each with a resume and note tuned
+          to the actual team and posting &mdash; convert at a meaningfully higher rate. The right strategy blends both:
+          enough volume that a slow month doesn't stall you, enough targeting that your best-fit roles get real effort.</p>
+
+          <div class="card-grid">
+            <div class="mini-card"><div class="big">10&ndash;15</div><div class="lbl">applications / week, baseline (Aug&ndash;Sep)</div></div>
+            <div class="mini-card"><div class="big">20&ndash;30</div><div class="lbl">applications / week during major waves (Sep&ndash;Nov)</div></div>
+            <div class="mini-card"><div class="big">Ongoing</div><div class="lbl">keep applying even while interviewing elsewhere</div></div>
+          </div>
+
+          <h3 class="sub">Three company buckets</h3>
+          <ul class="plain">
+            <li><b style="color:var(--text)">Dream</b> &mdash; competitive, high-signal companies where you'd take
+            the offer instantly. Apply early, put in real tailoring effort.</li>
+            <li><b style="color:var(--text)">Realistic</b> &mdash; strong fit given your profile, solid odds. This
+            bucket should be your largest, and where most of your effort goes.</li>
+            <li><b style="color:var(--text)">Aggressive / backup</b> &mdash; smaller companies, rolling startups,
+            labs with lighter competition. Lower prestige, faster feedback, real safety net.</li>
+          </ul>
+
+          <div class="note">The goal is never "apply everywhere." The goal is to <b>maximize the probability of
+          receiving strong offers</b> &mdash; which means spending your limited tailoring time on roles that are
+          actually worth tailoring for, while keeping a volume floor so the pipeline never runs empty.</div>
+        </div>
+      </section>
+
+      <!-- 08 -->
+      <section class="stage" id="stage-08" data-stage="8">
+        <div class="stage-head">
+          <div class="stage-num">08</div>
+          <div class="stage-title">
+            <h2>Referral Strategy</h2>
+            <p>A referral doesn't guarantee an interview, but it moves your application in front of a human much faster.</p>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="chain">
+            <div class="chain-node">Find employee</div><div class="chain-arrow">&rarr;</div>
+            <div class="chain-node">Understand role</div><div class="chain-arrow">&rarr;</div>
+            <div class="chain-node">Build context</div><div class="chain-arrow">&rarr;</div>
+            <div class="chain-node">Contact</div><div class="chain-arrow">&rarr;</div>
+            <div class="chain-node">Apply</div><div class="chain-arrow">&rarr;</div>
+            <div class="chain-node">Follow up</div>
+          </div>
+          <p>Find someone at the company &mdash; ideally on a related team &mdash; through alumni networks, LinkedIn,
+          or mutual connections. Read the actual job description before you write anything. Build context by
+          reading a couple of their recent posts or projects. Then reach out with something specific and short.</p>
+
+          <div class="msg bad"><span class="tag">Bad outreach</span><p>"Hi, I saw you work at [Company]. Can you refer me for any open role? I've attached my resume."</p></div>
+          <div class="msg ok"><span class="tag">Acceptable outreach</span><p>"Hi [Name], I'm an M.Tech CS student graduating in 2027, applying for the ML Engineer Intern role. I saw you're on the applied ML team &mdash; would you be open to a referral?"</p></div>
+          <div class="msg strong"><span class="tag">Strong outreach</span><p>"Hi [Name], I noticed your team's recent work on [specific project]. I've been building something related &mdash; [one-line project description] &mdash; and I'm applying to the ML Engineer Intern posting. Would you be open to a quick referral or a 10-minute chat about the team?"</p></div>
+
+          <div class="note callout-red"><b>Do not:</b> ask for a referral before reading the job description, message
+          ten employees at once with the same copy-pasted text, or disappear after the referral without a thank-you
+          and a status update once you hear back.</div>
+        </div>
+      </section>
+
+      <!-- 09 -->
+      <section class="stage" id="stage-09" data-stage="9">
+        <div class="stage-head">
+          <div class="stage-num">09</div>
+          <div class="stage-title">
+            <h2>Resume &amp; Portfolio Readiness</h2>
+            <p>What must exist before you start applying seriously. Check items off as you complete them &mdash; your progress is saved.</p>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="checklist" id="resumeChecklist"></div>
+          <div class="note">A recruiter spends roughly 6&ndash;10 seconds on a first resume pass. In that time they
+          should understand: your degree and graduation timing, your strongest technical/research signal, and one
+          concrete, specific project or result &mdash; not a list of tools. If those three things aren't obvious at a
+          glance, the resume needs another pass before you apply anywhere.</div>
+        </div>
+      </section>
+
+      <!-- 10 -->
+      <section class="stage" id="stage-10" data-stage="10">
+        <div class="stage-head">
+          <div class="stage-num">10</div>
+          <div class="stage-title">
+            <h2>The ATS Resume Judge</h2>
+            <p>Pick the role you're building this resume for, build the right 3-zone project portfolio, prep the right languages, then run the compliance checklist.</p>
+          </div>
+        </div>
+        <div class="stage-body">
+          <p>Most large and mid-size companies run every resume through an Applicant Tracking System before a human
+          ever opens it. It parses your document into fields, scores how well those fields match the job description,
+          and often ranks or filters candidates before a recruiter sees anything. A resume can be strong and still
+          score badly if it's structured for the wrong role or formatted in a way the parser can't read. This section
+          judges both: role-fit structure, and raw parseability.</p>
+
+          <h3 class="sub">Select your target role</h3>
+          <div class="loop-grid" id="atsRoleGrid"></div>
+          <div class="loop-detail" id="atsRoleDetail"></div>
+          <div class="loop-note">Building for more than one role family? Re-run this per role &mdash; the ideal structure genuinely changes, it isn't just relabeling the same resume.</div>
+
+          <h3 class="sub">The 3-zone project portfolio</h3>
+          <p>Role-specific structure only works if the projects behind it are actually strong. Most rejected resumes
+          don't fail because of formatting &mdash; they fail because every project on them proves the same thing.
+          Three similar notebook projects convince no one of anything beyond "can follow a tutorial." Instead, your
+          project section should cover three distinct zones of credibility, each proving something the others can't:</p>
+
+          <div class="zone-grid">
+            <div class="role-card z1">
+              <h4>Zone 1 &middot; End-to-End Project</h4>
+              <div class="zone-tag">Signals: you can ship, not just prototype</div>
+              <ul>
+                <li>Full pipeline: data ingestion &rarr; model/logic &rarr; backend &rarr; interface &rarr; deployment</li>
+                <li>Actually hosted and reachable by a link, not just runnable locally</li>
+                <li>Example: a RAG chatbot with a FastAPI backend, vector-DB retrieval, and a minimal frontend, deployed</li>
+              </ul>
+            </div>
+            <div class="role-card z2">
+              <h4>Zone 2 &middot; Deep / Specialized Project</h4>
+              <div class="zone-tag">Signals: you understand what's under the hood</div>
+              <ul>
+                <li>One hard technical problem solved from scratch, or rigorously optimized and benchmarked</li>
+                <li>Comes with real numbers &mdash; before/after, against a baseline, against a known method</li>
+                <li>Example: implementing attention or a retrieval-ranking algorithm from scratch and benchmarking it</li>
+              </ul>
+            </div>
+            <div class="role-card z3">
+              <h4>Zone 3 &middot; Open-Source Contribution</h4>
+              <div class="zone-tag">Signals: you can collaborate on real production code</div>
+              <ul>
+                <li>A real, merged PR to an existing repo &mdash; even a small one &mdash; or a self-maintained tool others use</li>
+                <li>Shows you can follow someone else's conventions and survive code review</li>
+                <li>Example: a merged PR to LangChain, LlamaIndex, or Hugging Face fixing a bug or adding a tested feature</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="note">Together these three prove breadth-and-ownership, depth-and-rigor, and collaboration &mdash;
+          a complete signal package no single project, however polished, can give on its own. On your resume, give
+          each zone its own 3-bullet block rather than blending them into one generic "Projects" wall of text.</div>
+
+          <h3 class="sub">Language stack, by purpose</h3>
+          <p>Different languages exist for different layers of the stack, and demonstrating the right combination
+          signals versatility &mdash; especially for agentic/RAG roles, which routinely span backend, retrieval infra,
+          and a demo frontend. Don't chase breadth for its own sake; be fluent in the ones that map to what you'll
+          actually be asked to build.</p>
+
+          <div class="filter-flow">
+            <div class="filter-row"><span class="n">PY</span><span class="t">Python</span><span class="d">Core language for ML/AI logic: model training, data pipelines, agent orchestration (LangChain, LlamaIndex, CrewAI), backend APIs (FastAPI). Non-negotiable &mdash; your primary weapon regardless of role.</span></div>
+            <div class="filter-row"><span class="n">SQL</span><span class="t">SQL</span><span class="d">The data layer: querying structured data, filtering vector-DB metadata, analytics on your own pipeline. Even RAG-heavy stacks have structured data somewhere &mdash; being able to query it directly separates you from someone who can only call APIs.</span></div>
+            <div class="filter-row"><span class="n">TS</span><span class="t">TypeScript / JavaScript</span><span class="d">The product layer: shipping a working demo or UI instead of handing it off. Much of modern agent tooling (LangChain.js, Vercel AI SDK) is TypeScript-native, and AI-product teams increasingly want engineers who can move across the stack.</span></div>
+            <div class="filter-row"><span class="n">C++</span><span class="t">One systems language (C++ / Go / Rust)</span><span class="d">Optional &mdash; valuable if targeting ML Systems, GPU, or Inference roles. Signals you can work close to hardware and performance-critical code, which Python fluency alone doesn't demonstrate.</span></div>
+          </div>
+
+          <div class="note callout-cyan">These map directly onto the 3 project zones above: your <b>end-to-end</b>
+          project is usually where TypeScript and SQL actually show up (a real interface, a real data layer); your
+          <b>deep/specialized</b> project is almost always pure Python algorithmic rigor; your <b>open-source</b>
+          contribution shows you can read and write in whatever language that project already uses &mdash; which is
+          itself a skill recruiters value. Genuine fluency in Python, working competence in SQL, and enough TypeScript
+          to ship a demo covers roughly 90% of what agentic/RAG and ML roles actually test for.</div>
+
+          <h3 class="sub">General ATS compliance checklist</h3>
+          <p>These formatting rules apply no matter which role you're targeting. Get these wrong and a strong resume
+          can be misread or dropped before the content is ever scored. Check items off as you verify them.</p>
+          <div class="checklist" id="atsChecklist"></div>
+
+          <div class="note callout-cyan"><b>The highest-leverage single move:</b> before every application, copy 8&ndash;10
+          exact phrases from that specific job description (tool names, methods, role-specific terms) and make sure
+          those exact phrases &mdash; not synonyms &mdash; appear somewhere in your resume. ATS matching is largely
+          literal string matching, not semantic understanding.</div>
+        </div>
+      </section>
+
+      <!-- 11 -->
+      <section class="stage" id="stage-11" data-stage="11">
+        <div class="stage-head">
+          <div class="stage-num">11</div>
+          <div class="stage-title">
+            <h2>Interview Preparation</h2>
+            <p>Preparation has an order. Start it before interviews arrive, not after the first one is scheduled.</p>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="chain">
+            <div class="chain-node">DSA</div><div class="chain-arrow">&rarr;</div>
+            <div class="chain-node">CS Fundamentals</div><div class="chain-arrow">&rarr;</div>
+            <div class="chain-node">ML Fundamentals</div><div class="chain-arrow">&rarr;</div>
+            <div class="chain-node">Projects</div><div class="chain-arrow">&rarr;</div>
+            <div class="chain-node">Research</div><div class="chain-arrow">&rarr;</div>
+            <div class="chain-node">System Design</div><div class="chain-arrow">&rarr;</div>
+            <div class="chain-node">Behavioral</div>
+          </div>
+          <p>DSA and CS fundamentals are the gatekeepers &mdash; nearly every OA and first-round interview tests them,
+          so they come first and stay warm all year. ML fundamentals matter most for AI/ML-labeled roles. Being able
+          to explain your own projects and research clearly, including trade-offs and failure points, is tested in
+          almost every technical and research interview. System design becomes relevant as you interview for more
+          senior-leaning or systems-heavy internships. Behavioral prep &mdash; concrete stories about collaboration,
+          failure, and initiative &mdash; is required everywhere and is the easiest to under-prepare for.</p>
+          <div class="note">Build a standing weekly rhythm (e.g. DSA three times a week, one ML fundamentals review,
+          one pass rehearsing your project pitch) starting in August, so that by the time interviews cluster in
+          Oct&ndash;Feb, you're refining, not starting from zero.</div>
+        </div>
+      </section>
+
+      <!-- 11 -->
+      <section class="stage" id="stage-12" data-stage="12">
+        <div class="stage-head">
+          <div class="stage-num">12</div>
+          <div class="stage-title">
+            <h2>The Eligibility Filter</h2>
+            <p>A reusable framework to run every posting through before you spend time tailoring an application.</p>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="filter-flow">
+            <div class="filter-row"><span class="n">1</span><span class="t">Role</span><span class="d">Does the title and description actually match your target track (AI/ML, software, research, systems)?</span></div>
+            <div class="filter-row"><span class="n">2</span><span class="t">Graduation requirement</span><span class="d">Does the posting specify a graduation window, and does July 2027 fall inside it?</span></div>
+            <div class="filter-row"><span class="n">3</span><span class="t">Degree requirement</span><span class="d">Does it accept Master's students, or is it restricted to Bachelor's/PhD only?</span></div>
+            <div class="filter-row"><span class="n">4</span><span class="t">Return-to-school requirement</span><span class="d">Must you resume study after the internship, and can you actually satisfy that?</span></div>
+            <div class="filter-row"><span class="n">5</span><span class="t">Location</span><span class="d">Is it in a country/city you can legally and practically work in for the internship's duration?</span></div>
+            <div class="filter-row"><span class="n">6</span><span class="t">Internship duration</span><span class="d">Does the length (typically 10&ndash;16 weeks) fit your academic calendar without conflicts?</span></div>
+            <div class="filter-row"><span class="n">7</span><span class="t">Skills</span><span class="d">Do you meet the core technical bar, even if not every listed "nice to have"?</span></div>
+            <div class="filter-row"><span class="n">8</span><span class="t">Eligibility</span><span class="d">Combine 1&ndash;7 into one honest call.</span></div>
+          </div>
+          <div class="rule-pills">
+            <div class="rule-pill g">&#128994; Apply &mdash; all checks clear</div>
+            <div class="rule-pill y">&#128993; Verify &mdash; one condition is unclear, ask before ruling it out</div>
+            <div class="rule-pill r">&#128308; Skip &mdash; a hard requirement is clearly unmet</div>
+          </div>
+          <div class="note"><b>Two failure modes, both costly:</b> rejecting yourself automatically over an unclear
+          line in a posting (you skip roles you'd have qualified for), and assuming you're eligible automatically
+          without reading the fine print (you waste a full application cycle on a role you never had a shot at).
+          Run every uncertain posting through this filter instead of guessing.</div>
+        </div>
+      </section>
+
+      <!-- 12 -->
+      <section class="stage" id="stage-13" data-stage="13">
+        <div class="stage-head">
+          <div class="stage-num">13</div>
+          <div class="stage-title">
+            <h2>What If I Get Rejected?</h2>
+            <p>Click where the process stopped for you. Rejection is pipeline data, not a verdict on you.</p>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="diag-grid" id="diagGrid"></div>
+        </div>
+      </section>
+
+      <!-- 13 -->
+      <section class="stage" id="stage-14" data-stage="14">
+        <div class="stage-head">
+          <div class="stage-num">14</div>
+          <div class="stage-title">
+            <h2>The Final Mission</h2>
+            <p>Everything above compresses into one sequence. Start here, this week.</p>
+          </div>
+        </div>
+        <div class="stage-body">
+          <h3 class="sub">This week</h3>
+          <div class="checklist" id="missionChecklist"></div>
+
+          <h3 class="sub">Aug 2026 &rarr; Jul 2027, the whole route</h3>
+          <div class="spine" id="finalSpine"></div>
+
+          <div class="final-cta">
+            <h3>You now know the map.</h3>
+            <p>The only thing left is to walk it, one month at a time, starting with the checklist above.</p>
+            <button onclick="document.getElementById('stage-01').scrollIntoView()">REVIEW STAGE 01 AGAIN</button>
+          </div>
+        </div>
+      </section>
+
+      <footer>SUMMER 2027 INTERNSHIP &amp; CAREER GUIDE &middot; BUILT AS A FIELD MANUAL, NOT A DASHBOARD</footer>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const STAGES = [1,2,3,4,5,6,7,8,9,10,11,12,13,14];
+
+const MONTHS = [
+  {m:"AUG 2026", t:"Build the system, become application-ready", market:"Postings are already live and moving fast: Amazon and Databricks opened in July, Microsoft follows around mid-August, and Meta opens in early September &mdash; quant finance and elite consulting cycles for Summer 2027 already closed months ago (Dec 2025&ndash;Mar 2026). This is a live month, not a quiet one.", doNow:["Finalize resume + research CV","Set up / clean GitHub and LinkedIn","Build target company list across all 3 buckets","Start a weekly DSA rhythm"], ready:["1-page resume","GitHub with pinned projects","LinkedIn headline updated"], apply:["Amazon, Databricks, and other early-mover postings live now","Microsoft opening mid-month &mdash; be ready"], avoid:["Waiting until September to start your resume","Assuming nothing is open yet so there's no rush"], success:"By Aug 31 your resume, GitHub, and LinkedIn could survive a recruiter's first glance, and you've applied to at least the earliest movers.",
+   standard:{dsa:"Arrays, strings, hashmaps, two pointers solid. ~50 problems done, mostly easy/medium.", depth:"Can re-explain your existing ML/research projects end to end &mdash; data, model, results, limitations &mdash; without notes.", portfolio:"2&ndash;3 GitHub repos with real READMEs; one flagship project you'd actually want a recruiter to open."}},
+  {m:"SEP 2026", t:"Begin serious applications", market:"Meta opens early this month and Apple opens on a rolling basis through November; the big-tech wave that started in July/August is now in full swing, and mid-size tech begins opening too.", doNow:["Apply 10&ndash;15/week across dream + realistic buckets","Start referral outreach","Keep DSA + ML fundamentals rhythm going"], ready:["Tailored resume variants per role family","A 2-line pitch for your research/projects"], apply:["Big tech ML/SWE internships","Applied Scientist / Research Intern postings that opened early"], avoid:["Only applying to 2&ndash;3 dream companies and waiting","Sending an untailored resume everywhere"], success:"First applications submitted, first referral conversations started.",
+   standard:{dsa:"100+ problems. Trees, recursion, basic graphs comfortable. Most mediums solvable in 25&ndash;30 min.", depth:"Core ML solid: loss functions, optimizers, train/val/test discipline, overfitting. High-level grasp of transformer architecture if targeting AI/ML roles.", portfolio:"Resume fully tailored per role family (AI/ML vs. SWE vs. research). One project polished enough to demo live."}},
+  {m:"OCT 2026", t:"Aggressive applications + referrals", market:"Peak volume month &mdash; the largest number of Summer 2027 postings across company sizes goes live. Google typically opens around mid-October for a short 2&ndash;4 week window, so check daily rather than weekly this month.", doNow:["Push to 20&ndash;30 applications/week","Escalate referral outreach","Begin OA prep intensively"], ready:["OA-ready DSA level","Behavioral stories drafted"], apply:["Mid-size tech, ML infra teams, systems/GPU roles","Google, the moment the window opens"], avoid:["Letting application volume drop because you're mid-interview elsewhere","Neglecting research-track outreach in favor of only industry","Checking company career pages too infrequently to catch a short window"], success:"Multiple active applications in the OA or early-interview stage.",
+   standard:{dsa:"150+ problems. Graph traversal and DP patterns solid. 3+ full timed OAs simulated under real conditions.", depth:"Can implement basics from scratch: logistic regression, a small NN, attention conceptually. Comfortable with your framework of choice (PyTorch/TF) beyond tutorials.", portfolio:"Can defend every design decision in your top project &mdash; why this architecture, what you'd change, what broke."}},
+  {m:"NOV 2026", t:"Second wave + research opportunities", market:"A second wave of postings opens as some companies finalize headcount; research labs and PhD-adjacent RA roles start appearing.", doNow:["Reach out to professors/labs for research internships","Keep applying &mdash; don't slow down for interviews alone","Audit response rate so far"], ready:["Research-specific CV distinct from your industry resume"], apply:["Research Intern / RA roles","Late entrants to the main industry wave"], avoid:["Treating research outreach as lower priority than industry apps"], success:"At least one active research conversation alongside industry applications.",
+   standard:{dsa:"180&ndash;200 problems. Weak-pattern gaps from real OAs already closed. Can verbalize a solution cleanly while coding it.", depth:"Familiar with 2&ndash;3 recent papers relevant to your project niche &mdash; enough to discuss them, not just cite them. Basic system-design vocabulary (scalability, caching, APIs) if targeting SWE-adjacent roles.", portfolio:"5&ndash;6 behavioral stories drafted (STAR format) covering collaboration, failure, initiative, conflict."}},
+  {m:"DEC 2026", t:"Pipeline audit and improvement", market:"Posting volume dips around the holidays &mdash; a natural pause point rather than a dead month.", doNow:["Review response rates by company bucket and role family","Rewrite weak resume sections","Rest, but don't fully stop applying"], ready:["An honest list of what's converting and what isn't"], apply:["Rolling postings that don't pause for the holidays"], avoid:["Treating December as a full stop &mdash; some pipelines keep moving"], success:"A clear, written diagnosis of what to change entering January.",
+   standard:{dsa:"Maintenance mode, not new volume: spaced repetition, and a targeted fix for whatever pattern actually tripped you up in real interviews so far.", depth:"Mock-interview your project explanations with a peer or senior student; tighten based on real questions you've already been asked.", portfolio:"Resume v2 written, incorporating anything new since August &mdash; no stale bullet points."}},
+  {m:"JAN 2027", t:"Interview-heavy phase + continued applications", market:"Interviews from Sep&ndash;Nov applications cluster heavily this month; a fresh wave of postings also opens.", doNow:["Prioritize interview prep time","Keep submitting new applications in parallel","Track every interview's feedback, even informally"], ready:["Mock-interview reps completed","System design basics if relevant to your target roles"], apply:["New January postings, mid-size and startup"], avoid:["Stopping new applications because you're busy interviewing"], success:"Interviews in progress; applications still flowing in the background.",
+   standard:{dsa:"Peak sharpness: light daily practice, no new topics, timing under real interview pressure feels routine.", depth:"Can go deep on any core ML fundamental without hesitation; ready for a take-home ML task if one is given. Comfortable sketching a basic ML-system or backend design on a whiteboard.", portfolio:"Every project is demo-ready: you can share your screen and walk through working code live, not just slides."}},
+  {m:"FEB 2027", t:"Startups, research labs, late openings", market:"Larger companies mostly finish their main cycles; startups, smaller labs, and late openings dominate new listings.", doNow:["Shift search emphasis toward smaller, rolling employers","Continue interview prep for pending processes","Revisit the 'aggressive/backup' bucket seriously"], ready:["A shorter, faster outreach script for smaller teams"], apply:["Startup internships, smaller research groups, late corporate openings"], avoid:["Assuming the search is 'over' because big-company windows closed"], success:"Backup bucket actively converting into real conversations.",
+   standard:{dsa:"Same bar as January, maintained &mdash; smaller companies often skip formal DSA rounds but some still test it.", depth:"Broaden slightly: smaller teams expect end-to-end ownership, so be ready to talk deployment, debugging, and shipping, not just modeling.", portfolio:"Comfortable pitching your work in 60 seconds to a founder-type interviewer who won't read a full resume."}},
+  {m:"MAR 2027", t:"Conversion and offer focus", market:"Many candidates who started early are now converting interviews into offers; competition for remaining slots tightens.", doNow:["Push pending interviews to a decision","Negotiate/compare offers if you have more than one","Keep a small trickle of new applications open"], ready:["A clear personal ranking of what you'd accept"], apply:["Any strong remaining rolling postings"], avoid:["Accepting the first offer out of anxiety without comparing"], success:"At least one internship offer in hand, or a very active late-stage pipeline.",
+   standard:{dsa:"Maintenance only &mdash; protect the bar you built, don't chase new problems this month.", depth:"Know your own market value: comparable stipends/scope for your role family, so any negotiation conversation is grounded in fact.", portfolio:"A finished, ranked list of what you'd accept, written down before an offer call, not decided live under pressure."}},
+  {m:"APR 2027", t:"Final internship push + full-time applications", market:"Internship postings are mostly closed; full-time 2027 new-grad postings start appearing meaningfully.", doNow:["Close out remaining internship processes","Start building your full-time application list in parallel","Keep research-track conversations alive if unresolved"], ready:["Full-time-specific resume variant"], apply:["Last-chance internships, first wave of full-time new-grad roles"], avoid:["Ignoring full-time recruiting because you're focused on internship season"], success:"Internship decision finalized; full-time pipeline started, not from zero.",
+   standard:{dsa:"Same interview bar, now paired with full-time-level expectations: production, deployment, and monitoring questions become more common.", depth:"Comfortable discussing how a model or system would actually run in production, not just how it's trained &mdash; latency, cost, failure modes.", portfolio:"Full-time resume variant ready, distinct from your internship resume."}},
+  {m:"MAY&ndash;JUN 2027", t:"Internship / job / research execution", market:"You are now executing, not searching &mdash; but full-time recruiting for later 2027 continues elsewhere.", doNow:["Perform well in your internship/research role &mdash; it's your strongest 2027 full-time signal","Keep light full-time applications moving if unresolved","Ask for a return offer conversation before the internship ends"], ready:["A short list of achievements to add to your resume post-internship"], apply:["Remaining full-time roles if you don't have one locked yet"], avoid:["Treating the internship as separate from your full-time search &mdash; it's your best lead"], success:"Strong internship performance, a return-offer conversation started.",
+   standard:{dsa:"Interview muscle can rest unless you still have processes open &mdash; then keep a light weekly touch.", depth:"Shift from interview-depth to production-depth: real codebases, real reviews, real deployment constraints. This is where you actually close the gap interview prep can't.", portfolio:"Turn real internship outcomes into resume bullets with numbers as soon as you have them &mdash; don't wait until July to write them down."}},
+  {m:"JUL 2027", t:"M.Tech completion and transition", market:"Your program concludes; most Summer 2027 hiring has closed, and Summer 2028 postings are starting to appear for the next cohort &mdash; not you.", doNow:["Finalize graduation requirements","Convert internship performance into a full-time offer or renewed search","Update resume to 'M.Tech, completed' status"], ready:["Final academic transcripts / degree confirmation"], apply:["Any remaining full-time or research/PhD openings"], avoid:["Confusing new Summer 2028 postings with anything relevant to you now"], success:"Degree completed, full-time role or next step secured or in active progress.",
+   standard:{dsa:"If still interviewing for full-time roles, restore the January bar for 2&ndash;3 weeks before any remaining rounds.", depth:"A full year in: you should be able to speak fluently across DSA, ML fundamentals, your own research, and at least basic systems &mdash; the breadth this whole calendar was building toward.", portfolio:"Resume reflects 'M.Tech, completed' plus one real internship or research outcome with a measurable result."}}
+];
+
+const RESEARCH_MONTHS = [
+  {m:"AUG 2026", t:"Map the landscape", market:"Nothing is due yet, but professors' current funding and openings for next year are being decided now.", doNow:["Shortlist 15&ndash;25 professors/labs whose current work matches your research background","Read 2&ndash;3 recent papers per shortlisted lab, not just abstracts","Draft a one-paragraph research statement","Identify 2&ndash;3 potential recommenders and ask them to keep the door open"], ready:["Research CV distinct from your industry resume","A one-paragraph summary of your own research contribution"], apply:["Nothing formal yet &mdash; this month is entirely reconnaissance"], avoid:["Mass-emailing professors with a generic, non-specific message this early"], success:"A ranked shortlist of labs with real, paper-level reasons for each one."},
+  {m:"SEP 2026", t:"Begin outreach", market:"Industrial research labs (large-company research divisions, applied research teams) start opening research-internship postings; POI (professor-of-interest) outreach season begins.", doNow:["Send first round of specific, paper-referencing emails to POIs","Finalize your target PhD program list (reach/match/safety)","Check each program's GRE/English-test requirements &mdash; many have dropped GRE","Start SOP first draft"], ready:["Research CV finalized","A tracked list of who you've emailed and when"], apply:["Early industrial research-internship postings","Any lab explicitly advertising open positions"], avoid:["Sending the same unedited email to every professor on your list"], success:"First outreach round sent; at least one reply or acknowledgment received."},
+  {m:"OCT 2026", t:"SOPs and recommendations", market:"Most PhD program deadlines are 6&ndash;10 weeks away; recommenders need real lead time now.", doNow:["Formally request letters of recommendation &mdash; give 6&ndash;8 weeks minimum","Continue POI outreach, second round to non-responders after 2&ndash;3 weeks","Push SOP to a solid second draft","Apply to industrial research-internship postings closing this quarter"], ready:["SOP draft reviewed by at least one other person","Recommenders confirmed and briefed on your work"], apply:["Research internships at industry labs with Oct/Nov deadlines","Any RA positions posted by responsive POIs"], avoid:["Waiting until November to ask for recommendation letters"], success:"Recommenders locked in; SOP in a state you're not embarrassed to send for feedback."},
+  {m:"NOV 2026", t:"Application push", market:"The bulk of PhD program deadlines cluster in late Nov&ndash;Dec; industrial research-internship deadlines also peak.", doNow:["Finalize and submit early PhD applications","Send recommender reminders 2 weeks before each deadline","Keep applying to research internships in parallel","Follow up on any live POI conversations"], ready:["Transcripts, test scores (if required), and SOP all finalized"], apply:["PhD programs with November deadlines","Remaining industrial research-internship postings"], avoid:["Submitting a generic SOP to every program instead of tailoring the fit paragraph per school"], success:"At least half your PhD application list submitted."},
+  {m:"DEC 2026", t:"Submission month", market:"Most remaining PhD deadlines land Dec 1&ndash;15; this is the heaviest submission month of the whole calendar.", doNow:["Submit all remaining PhD applications","Confirm every recommender actually submitted their letter","Keep any rolling research-internship applications moving"], ready:["Every application portal shows 'submitted', not 'in progress'"], apply:["Any final PhD program deadlines","Rolling research internships that don't pause for winter break"], avoid:["Assuming a recommender submitted without confirming directly"], success:"Every planned PhD application submitted and confirmed complete."},
+  {m:"JAN 2027", t:"Interview prep", market:"Some CS PhD programs run applicant interviews in Jan&ndash;Feb; others move straight to committee review.", doNow:["Prepare a clear, rehearsed pitch of your research interests and past work","Reach out again to POIs at programs that interview, if appropriate","Keep light research-internship applications open"], ready:["A 5-minute and a 15-minute version of your research pitch"], apply:["Any late research-internship postings still open"], avoid:["Under-preparing for PhD interviews because internship interviews feel more urgent"], success:"Comfortable discussing your research interests fluently with a stranger."},
+  {m:"FEB 2027", t:"Interviews and early decisions", market:"PhD interview season peaks; the first informal admission signals start appearing for some programs.", doNow:["Attend interviews/visit days as scheduled","Keep evaluating programs against your own priorities, not just prestige","Continue any remaining research-internship conversations"], ready:["A short list of questions you want answered on any visit"], apply:["Nothing new to apply for &mdash; focus shifts to evaluation"], avoid:["Treating every interview invite as a guaranteed offer, or every silence as a rejection"], success:"At least one meaningful interview or visit completed."},
+  {m:"MAR 2027", t:"Decisions arrive", market:"Most US CS PhD programs release decisions by mid-March; a common informal reply deadline is April 15.", doNow:["Compare offers on funding, advisor fit, and lab direction, not rankings alone","Attend admitted-student visit days if offered","Decide whether PhD, research internship, or industry is the right next step for you"], ready:["A simple comparison sheet across every offer/path"], apply:["Nothing new &mdash; decision-making month"], avoid:["Deciding on prestige alone without talking to current students in the lab"], success:"A clear, informed direction: PhD offer accepted, declined, or still genuinely undecided with a plan."},
+  {m:"APR 2027", t:"Finalize the path", market:"Apr 15 is the common national reply deadline for PhD offers in the US; after this, most decisions are locked.", doNow:["Submit your final decision by each program's deadline","If not pursuing a PhD now, fully refocus on the research-internship or full-time industry search","Thank every recommender and POI who helped, regardless of outcome"], ready:["A confirmed final decision, communicated to all relevant programs"], apply:["Full-time industry or research roles if PhD isn't the chosen path"], avoid:["Leaving a program hanging past its deadline out of indecision"], success:"Your 2027/2028 research path is decided and confirmed in writing."},
+  {m:"MAY&ndash;JUN 2027", t:"Transition prep or internship execution", market:"If you're research-interning this summer, it runs on the same clock as the industry calendar; if you're PhD-bound, onboarding logistics begin.", doNow:["If interning: perform well, it's a strong signal for future recommendation letters","If PhD-bound: handle visas, housing, and any pre-arrival paperwork","Keep any co-authored papers or preprints moving toward submission"], ready:["Any pending publication drafts pushed forward, not shelved"], apply:["Nothing new &mdash; execution and logistics month"], avoid:["Letting a paper draft go completely cold during the transition"], success:"Either a strong summer research internship in progress, or PhD logistics fully handled."},
+  {m:"JUL 2027", t:"Degree completion and handoff", market:"Your M.Tech concludes; if PhD-bound, most programs start in August/September, so this is the final runway.", doNow:["Complete final degree requirements","Finalize any last publication or preprint submissions from your M.Tech work","Make sure your research CV reflects your completed degree and final results"], ready:["Final research CV, publications list, and degree confirmation"], apply:["Nothing new &mdash; this month closes the research/PhD calendar"], avoid:["Letting unfinished research work quietly disappear after graduation"], success:"Degree complete, research output finalized, and your next research chapter &mdash; PhD or research role &mdash; underway."}
+];
+
+const ROLE_FAMILIES = [
+  {cat:"AI / ML", roles:["ML Engineer Intern","AI Engineer Intern","Applied Scientist Intern","Computer Vision Intern","NLP / LLM Intern"]},
+  {cat:"Agentic AI / RAG", roles:["Agentic AI Engineer Intern","RAG / Retrieval Systems Intern","LLM Application Engineer Intern","AI Product Engineer Intern"]},
+  {cat:"Software", roles:["Software Engineer Intern","Backend Engineer Intern","Systems Engineer Intern"]},
+  {cat:"Research", roles:["Research Intern","Research Engineer Intern","AI Research Intern","ML Research Intern"]},
+  {cat:"Systems", roles:["ML Systems Intern","GPU / CUDA Intern","Inference Intern","Distributed Systems Intern","HPC Intern"]}
+];
+
+const LOOP_STAGES = [
+  {name:"Discover", meaning:"Find postings that match your role families and eligibility.", evidence:"Target company list, job boards, referral leads.", action:"Scan 15&ndash;20 new postings a few times a week; don't rely on one source.", mistakes:"Only checking one job board; missing rolling postings that never trend.", next:"Qualify"},
+  {name:"Qualify", meaning:"Run the posting through the eligibility filter (Stage 11).", evidence:"Graduation date, degree requirement, return-to-school clause, location.", action:"Sort into Apply / Verify / Skip before spending any more time.", mistakes:"Skipping this and tailoring a resume for a role you're not eligible for.", next:"Tailor"},
+  {name:"Tailor", meaning:"Adjust resume and any short answers to this specific role.", evidence:"Job description keywords, team focus, your matching project/research.", action:"Reorder bullets, swap in the most relevant project, keep it to one page.", mistakes:"Sending the exact same resume to every role regardless of fit.", next:"Apply"},
+  {name:"Apply", meaning:"Submit through the official channel.", evidence:"Tailored resume, transcript if required, portfolio links.", action:"Apply within days of a posting going live when possible.", mistakes:"Sitting on a good-fit posting for weeks before applying.", next:"Referral"},
+  {name:"Referral", meaning:"Get a human to vouch for your application internally.", evidence:"A contact at the company, a short specific message (Stage 08).", action:"Reach out within a day or two of applying, not weeks later.", mistakes:"Asking for a referral with no context or before applying.", next:"OA"},
+  {name:"OA", meaning:"Complete the online assessment if one is issued.", evidence:"DSA readiness, time-boxed practice under real constraints.", action:"Treat every OA like a timed exam &mdash; simulate conditions beforehand.", mistakes:"Attempting an OA without recent timed practice.", next:"Interview"},
+  {name:"Interview", meaning:"Technical and/or behavioral rounds with the team.", evidence:"Rehearsed project explanations, DSA/ML fundamentals, behavioral stories.", action:"Prep specifically for the round type you were told to expect.", mistakes:"Preparing generically instead of for the stated interview format.", next:"Follow-up"},
+  {name:"Follow-up", meaning:"Send a short thank-you and stay visible without being pushy.", evidence:"Interviewer names, a specific detail from the conversation.", action:"Send within 24 hours; ask about timeline, not for a decision.", mistakes:"Going silent, or following up so often it reads as pressure.", next:"Offer"},
+  {name:"Offer", meaning:"Receive, evaluate, and respond to an offer.", evidence:"Your ranked list of what you'd accept (built in March, Stage 04).", action:"Compare against your other active pipelines before deciding.", mistakes:"Accepting immediately out of relief without a real comparison.", next:"Discover"}
+];
+
+const RESUME_ITEMS = [
+  "1-page technical resume, tailored and typo-free",
+  "Separate research CV if you have publications or preprints",
+  "GitHub cleaned up, pinned repos are your strongest work",
+  "LinkedIn headline and summary reflect your current target roles",
+  "2&ndash;3 projects you can explain in under 2 minutes each",
+  "Research experience summarized in outcome terms, not just tasks",
+  "Publications / preprints listed if available, even if under review",
+  "A baseline of technical interview prep already underway"
+];
+
+const ATS_ROLES = [
+  {role:"Agentic AI Engineer / RAG Systems Intern",
+   structure:["Header &mdash; name, email, phone, GitHub, LinkedIn. No photo, no icons, no graphics.","Education &mdash; degree, university, expected graduation, relevant coursework.","Technical Skills &mdash; agent/retrieval tooling first (LangChain/LangGraph, LlamaIndex, vector DBs), then general ML/backend.","Projects &mdash; at least one full agentic or RAG system, with a retrieval/task-success metric.","Experience / Research &mdash; anything involving LLM integration, tool-calling, or retrieval pipelines.","Achievements &mdash; optional."],
+   emphasis:["Name the exact orchestration framework and vector DB (LangChain/LangGraph, LlamaIndex, CrewAI, Pinecone, Weaviate, Qdrant, FAISS) &mdash; not just 'LLM app'.","Quantify retrieval and task quality: retrieval precision/recall, task success rate, latency per agent step, cost per query.","Show you understand agent design beyond prompting: tool-calling, multi-step planning/looping, memory, guardrails against hallucination.","Mention if you evaluated the system systematically (a benchmark set, human eval, or automated eval harness) &mdash; not just 'it worked'. Eval fluency is one of the sharpest 2026 differentiators for this role."],
+   keywords:["LangChain / LangGraph","LlamaIndex / CrewAI","Vector DBs (Pinecone/Qdrant/Weaviate/FAISS)","RAG pipeline & evals","Tool-calling / function calling","Multi-agent orchestration"],
+   weak:"Built an AI agent that can answer questions using a language model.",
+   strong:"Built a RAG support agent (LangGraph + Pinecone) with tool-calling, lifting task-success rate from 61% to 88% on a 200-query eval set while cutting average latency 40%."},
+
+  {role:"ML Engineer / AI Engineer Intern",
+   structure:["Header &mdash; name, email, phone, GitHub, LinkedIn. No photo, no icons, no graphics.","Education &mdash; degree, university, expected graduation, relevant coursework.","Technical Skills &mdash; grouped by category (Languages / ML Frameworks / Tools).","Projects &mdash; 2&ndash;3 ML-focused, each with a measurable result.","Experience / Research &mdash; internships, RA positions, publications.","Achievements &mdash; short, only if space remains."],
+   emphasis:["Lead with measurable model performance: accuracy, latency, F1, throughput, cost.","Name exact frameworks (PyTorch, TensorFlow, scikit-learn) &mdash; not 'deep learning tools'.","Show the full pipeline: data &rarr; model &rarr; evaluation &rarr; deployment, not just 'built a model'.","Keep one project as the clear flagship, described in 3 tight, outcome-first bullets."],
+   keywords:["PyTorch","TensorFlow","Model training & evaluation","Feature engineering","MLOps / deployment","Python, SQL"],
+   weak:"Worked on a machine learning project for image classification.",
+   strong:"Built a CNN image classifier in PyTorch, improving validation accuracy from 82% to 94% on a 50K-image dataset."},
+
+  {role:"Computer Vision Intern",
+   structure:["Header &mdash; standard contact fields, no graphics.","Education &mdash; degree, university, graduation date, relevant CV/ML coursework.","Technical Skills &mdash; CV libraries first (OpenCV, PyTorch, torchvision), then general ML/programming.","Projects &mdash; vision-specific, with dataset size and a quantified metric.","Experience / Research &mdash; anything touching detection, segmentation, or image pipelines.","Publications &mdash; if any, even preprints."],
+   emphasis:["Specify the vision task precisely: detection, segmentation, classification, tracking &mdash; not just 'computer vision'.","Quantify with vision-specific metrics: mAP, IoU, FPS, inference latency.","Mention dataset scale and whether you handled data collection/labeling yourself.","If you optimized for real-time or edge deployment, say so explicitly &mdash; it's a strong differentiator."],
+   keywords:["OpenCV","Object detection","Semantic segmentation","CNN architectures","mAP / IoU","Real-time inference"],
+   weak:"Built a computer vision model to detect objects in images.",
+   strong:"Trained a YOLOv8 object detector reaching 0.87 mAP at 45 FPS on an edge device, cutting inference latency 3x."},
+
+  {role:"NLP / LLM Intern",
+   structure:["Header &mdash; standard fields only.","Education &mdash; degree, university, graduation date, NLP/ML coursework.","Technical Skills &mdash; NLP/LLM tooling first (Hugging Face, LangChain, spaCy), then general ML.","Projects &mdash; language-focused, with a task-specific metric.","Experience / Research &mdash; anything involving text data, fine-tuning, or evaluation.","Publications &mdash; if any."],
+   emphasis:["Name the exact task: fine-tuning, RAG, summarization, classification, not just 'NLP project'.","Quantify with task metrics: BLEU, ROUGE, perplexity, accuracy, or human-eval scores.","Mention model scale and whether you fine-tuned, prompted, or trained from scratch.","If you worked with production-scale text data, state the volume."],
+   keywords:["Hugging Face Transformers","Fine-tuning / LoRA","LLM evaluation","Prompt engineering","Tokenization","RAG"],
+   weak:"Worked with large language models for a text summarization task.",
+   strong:"Fine-tuned a 7B LLM with LoRA for abstractive summarization, improving ROUGE-L by 12% over the base model."},
+
+  {role:"Software Engineer Intern",
+   structure:["Header &mdash; standard fields only.","Education &mdash; degree, university, graduation date, relevant coursework.","Technical Skills &mdash; languages first, then frameworks, then tools/infra.","Projects &mdash; 2&ndash;3, full-stack or backend-focused, with scale or performance numbers.","Experience &mdash; internships, freelance, open-source contributions.","Leadership / Activities &mdash; optional, keep brief."],
+   emphasis:["Lead with what you shipped and who used it, not just what you learned.","Quantify scale: requests/sec, users, latency reduction, lines of code touched in a real codebase.","Name the actual stack precisely &mdash; specific languages, frameworks, databases.","If you contributed to an existing large codebase, say so &mdash; it signals real-world readiness."],
+   keywords:["Data structures & algorithms","REST APIs","Git / version control","System design basics","SQL / databases","CI/CD"],
+   weak:"Developed a web application using various technologies.",
+   strong:"Built a full-stack task manager (React, Node.js, PostgreSQL) handling 500+ concurrent users with sub-200ms API response times."},
+
+  {role:"Backend / Systems Engineer Intern",
+   structure:["Header &mdash; standard fields only.","Education &mdash; degree, university, graduation date, systems/DB coursework.","Technical Skills &mdash; backend languages, frameworks, infra/cloud tools grouped clearly.","Projects &mdash; backend-heavy, with throughput, latency, or reliability numbers.","Experience &mdash; internships or substantial personal/open-source backend work.","Certifications &mdash; cloud certs if relevant, optional."],
+   emphasis:["Emphasize scalability and reliability: uptime, throughput, fault tolerance.","Name the actual infra: specific cloud provider, container/orchestration tools, message queues.","Describe trade-offs you made (consistency vs. availability, sync vs. async) if relevant.","Show ownership of a system end to end, not just a feature within one."],
+   keywords:["Distributed systems","API design","Docker / Kubernetes","Cloud (AWS/GCP/Azure)","Caching","Message queues"],
+   weak:"Worked on backend services for an application.",
+   strong:"Designed a Kafka-based event pipeline processing 2M+ events/day with 99.9% uptime across 3 microservices."},
+
+  {role:"Research Intern / Research Engineer Intern",
+   structure:["Header &mdash; standard fields only.","Education &mdash; degree, university, graduation date, advisor name if relevant.","Research Interests &mdash; 1&ndash;2 lines, specific, not generic ('AI').","Publications / Preprints &mdash; full citation format, even if under review.","Research Experience &mdash; lab, project, methods, and outcome for each.","Technical Skills &mdash; frameworks and tools used in your research."],
+   emphasis:["Lead with research contribution and outcome, not just the lab you worked in.","State your specific role: did you design the method, run experiments, write the paper?","Reference concrete methods and results, not vague descriptions like 'studied deep learning'.","If unpublished, describe the work's status honestly ('in preparation', 'under review')."],
+   keywords:["Research methodology","Experimental design","Peer-reviewed / preprint","Statistical analysis","Literature review","Reproducibility"],
+   weak:"Conducted research on deep learning under a professor.",
+   strong:"Co-authored a paper (under review, NeurIPS 2027) proposing a regularization method that reduced overfitting by 18% across 4 benchmark datasets."},
+
+  {role:"ML Systems / Distributed Systems Intern",
+   structure:["Header &mdash; standard fields only.","Education &mdash; degree, university, graduation date, systems/ML coursework.","Technical Skills &mdash; systems tools first (CUDA, distributed frameworks), then general ML/programming.","Projects &mdash; systems-for-ML focused, with throughput/scaling numbers.","Experience / Research &mdash; anything touching training infrastructure or large-scale systems.","Certifications &mdash; optional."],
+   emphasis:["Quantify at scale: number of GPUs/nodes, training time reduction, throughput improvement.","Name the actual distributed tooling: PyTorch DDP, Horovod, Ray, custom schedulers.","Describe the specific bottleneck you solved (communication overhead, memory, I/O).","Show you understand the trade-off between model performance and system efficiency."],
+   keywords:["Distributed training","CUDA","Multi-GPU / multi-node","Throughput optimization","PyTorch DDP","Profiling"],
+   weak:"Worked on making model training faster using multiple GPUs.",
+   strong:"Optimized a multi-GPU training pipeline (PyTorch DDP, 8 GPUs), cutting epoch time from 40 to 14 minutes via gradient accumulation and mixed precision."},
+
+  {role:"GPU / Inference / HPC Intern",
+   structure:["Header &mdash; standard fields only.","Education &mdash; degree, university, graduation date, HPC/systems coursework.","Technical Skills &mdash; CUDA/kernel-level tools first, then general ML/systems.","Projects &mdash; performance-focused, with hard before/after numbers.","Experience / Research &mdash; anything involving low-level optimization or hardware-aware ML.","Certifications &mdash; optional."],
+   emphasis:["Every bullet should have a hard performance number: latency, throughput, memory footprint.","Name the exact hardware/tooling: specific GPU architecture, CUDA, TensorRT, Triton.","Describe the optimization technique specifically (kernel fusion, quantization, batching), not just 'made it faster'.","If you profiled before optimizing, mention the profiling tool &mdash; it signals rigor."],
+   keywords:["CUDA kernels","Inference optimization","Quantization","TensorRT / Triton","Latency / throughput","Memory bandwidth"],
+   weak:"Optimized a model to run faster on GPU hardware.",
+   strong:"Reduced inference latency 3.2x via INT8 quantization and kernel fusion in TensorRT, profiled with Nsight Systems."}
+];
+
+const ATS_CHECKLIST_ITEMS = [
+  "Standard section headers used (Experience, Education, Skills, Projects) &mdash; not creative titles like 'My Journey'",
+  "Single-column layout &mdash; no tables, text boxes, or multi-column sections an ATS can misread or scramble",
+  "No images, icons, logos, or graphics &mdash; ATS parsers can't read them, and some drop the whole section",
+  "Standard, widely-supported font (Arial, Calibri, Times New Roman, Helvetica) at 10&ndash;12pt",
+  "Saved as .docx or a text-selectable PDF &mdash; never a scanned image or a non-selectable export",
+  "No contact info placed only in a header/footer &mdash; some ATS systems strip headers and footers entirely",
+  "Exact keyword matches from the job description used, not just synonyms (e.g. 'PyTorch', not 'a deep learning framework')",
+  "Abbreviations spelled out at least once (e.g. 'Natural Language Processing (NLP)')",
+  "Consistent date format throughout (e.g. 'Jun 2026 &ndash; Aug 2026')",
+  "File named with your name and the target role (e.g. 'FirstLast_MLEngineerIntern_Resume.pdf')",
+  "One page, unless a program explicitly asks for more",
+  "No hidden white-text keyword stuffing or repeated invisible keyword lists &mdash; modern ATS platforms actively detect and penalize this rather than reward it"
+];
+
+const DIAG = [
+  {q:"No OA / no response at all", hint:"Nothing happened after applying", label:"Resume / targeting / timing", answer:"This usually means the resume isn't clearing an initial screen, the role wasn't actually a strong fit, or you applied too late in a fixed-cycle window. Fix: get a second pair of eyes on your resume's first 6 seconds of readability, re-check the eligibility filter (Stage 11) on that posting, and prioritize earlier application timing next cycle."},
+  {q:"Got an OA, failed it", hint:"Assessment invitation, no advance", label:"DSA / technical preparation", answer:"The screen worked &mdash; the resume was fine. This is a technical execution gap under time pressure. Fix: increase timed DSA practice specifically (not just untimed problem-solving), and simulate real OA conditions before your next one."},
+  {q:"Got an interview, then rejected", hint:"Made it to a human round", label:"Depth / communication / project understanding", answer:"You passed the screen and the OA &mdash; the gap is usually in how clearly you explained your reasoning, handled follow-up questions, or discussed trade-offs in your own projects. Fix: rehearse explaining your projects out loud to someone unfamiliar with them, and practice handling 'why' follow-ups, not just 'what' questions."},
+  {q:"Research application rejected", hint:"Lab, RA, or research-track role", label:"Research fit / outreach / profile", answer:"Research rejections are usually about fit with a specific lab's current direction, not a judgment on your ability. Fix: check whether your outreach named the professor's actual current work, whether your research CV emphasized the right prior work for that lab, and keep applying broadly &mdash; fit-based rejection is normal and not diagnostic of your overall quality."}
+];
+
+/* ============================================================
+   TREE 1 — Eligibility (Stage 02)
+   ============================================================ */
+const TREE1 = {
+  start:"q1",
+  nodes:{
+    q1:{q:"Are you currently enrolled in a degree program?", opts:[
+      {l:"Yes", to:"q2"},
+      {l:"No, I've already graduated", to:"r_grad"}
+    ]},
+    r_grad:{result:"red", text:"Internships generally require current enrollment. Look at 2027 full-time / new-grad roles (Stage 03, Pipeline B) instead of internships."},
+    q2:{q:"What degree are you pursuing?", opts:[
+      {l:"Master's (M.Tech)", to:"q3"},
+      {l:"Bachelor's", to:"r_bach"},
+      {l:"PhD", to:"r_phd"}
+    ]},
+    r_bach:{result:"yellow", text:"This guide is built around a Master's timeline. The overall framework still applies, but re-check graduation-window requirements carefully &mdash; many are written specifically for Bachelor's cohorts."},
+    r_phd:{result:"yellow", text:"PhD students are often eligible for a different set of research-heavy internships. Prioritize research-labeled roles and lab-specific programs over generic 'internship' listings."},
+    q3:{q:"When do you graduate?", opts:[
+      {l:"Around July 2027", to:"q4"},
+      {l:"Before December 2026", to:"r_early"},
+      {l:"After December 2027", to:"r_late"}
+    ]},
+    r_early:{result:"yellow", text:"You may already be eligible for internship cycles earlier than Summer 2027 too &mdash; check both the current and next cycle so you don't miss an earlier window."},
+    r_late:{result:"yellow", text:"You're likely on a Summer 2028 timeline, not 2027. Re-read Stage 01 on filtering postings by which summer they're actually for."},
+    q4:{q:"Does the internship posting require you to return to full-time study after the internship ends?", opts:[
+      {l:"Yes, explicitly required", to:"q5"},
+      {l:"Not mentioned / unclear", to:"r_unclear"},
+      {l:"No return requirement stated", to:"r_none"}
+    ]},
+    r_unclear:{result:"yellow", text:"Don't guess. Email the recruiting contact or check the program FAQ before spending time tailoring an application to this posting."},
+    r_none:{result:"green", text:"Apply. With no stated return-to-school requirement, a Summer 2027 internship (roughly May&ndash;Aug 2027) sitting right before your July 2027 graduation is very likely compatible."},
+    q5:{q:"Do you have any coursework or credits remaining after the internship concludes (e.g. a final term after Summer 2027)?", opts:[
+      {l:"Yes, one more term follows", to:"r_return_ok"},
+      {l:"No, graduation is right around when the internship ends", to:"r_return_risk"}
+    ]},
+    r_return_ok:{result:"green", text:"Apply. You satisfy a typical 'must return to complete your degree' condition."},
+    r_return_risk:{result:"yellow", text:"Verify directly with the recruiter before applying. This is exactly the edge case where 'currently pursuing a Master's' and 'must have time remaining afterward' can conflict &mdash; don't assume either way."}
+  }
+};
+
+/* ============================================================
+   RENDER HELPERS
+   ============================================================ */
+function el(tag, cls, html){
+  const e = document.createElement(tag);
+  if(cls) e.className = cls;
+  if(html !== undefined) e.innerHTML = html;
+  return e;
+}
+
+/* ---- Rail nav ---- */
+function buildRail(){
+  const wrap = document.getElementById('railNodes');
+  STAGES.forEach(n=>{
+    const b = el('div','rail-node');
+    b.textContent = String(n).padStart(2,'0');
+    b.dataset.stage = n;
+    b.title = "Stage " + n;
+    b.addEventListener('click', ()=>{
+      document.getElementById('stage-' + String(n).padStart(2,'0')).scrollIntoView();
+    });
+    wrap.appendChild(b);
+  });
+}
+buildRail();
+
+function markVisited(n){
+  const key = 'visited';
+  const v = JSON.parse(localStorage.getItem(key) || '[]');
+  if(!v.includes(n)){ v.push(n); localStorage.setItem(key, JSON.stringify(v)); }
+  updateProgress();
+}
+function updateProgress(){
+  const v = JSON.parse(localStorage.getItem('visited') || '[]');
+  const pct = Math.round((v.length / STAGES.length) * 100);
+  const fillEl = document.getElementById('railFill');
+  if(window.innerWidth <= 860){ fillEl.style.width = pct + '%'; fillEl.style.height='100%';}
+  else { fillEl.style.height = pct + '%'; }
+  document.querySelectorAll('.rail-node').forEach(node=>{
+    const n = Number(node.dataset.stage);
+    node.classList.toggle('done', v.includes(n));
+  });
+}
+
+/* Intersection observer to highlight active + mark visited */
+const sections = document.querySelectorAll('.stage');
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    const n = Number(entry.target.dataset.stage);
+    if(entry.isIntersecting){
+      document.querySelectorAll('.rail-node').forEach(rn=>rn.classList.remove('active'));
+      const active = document.querySelector('.rail-node[data-stage="'+n+'"]');
+      if(active) active.classList.add('active');
+      markVisited(n);
+    }
+  });
+}, {threshold:0.35});
+sections.forEach(s=>observer.observe(s));
+
+document.getElementById('restartBtn').addEventListener('click', ()=>{
+  if(confirm('Reset all progress, checklists and tree answers?')){
+    localStorage.clear();
+    location.reload();
+  }
+});
+
+/* ---- Tree renderer (Stage 02) ---- */
+function renderTree(containerId, tree, storageKey){
+  const container = document.getElementById(containerId);
+  let path = JSON.parse(localStorage.getItem(storageKey) || 'null') || [tree.start];
+
+  function save(){ localStorage.setItem(storageKey, JSON.stringify(path)); }
+
+  function render(){
+    container.innerHTML = '';
+    const crumbs = el('div','tree-crumbs');
+    path.forEach((id,i)=>{
+      const node = tree.nodes[id];
+      const label = node.result ? 'Result' : ('Q' + (i+1));
+      crumbs.appendChild(el('span',null,label));
+    });
+    container.appendChild(crumbs);
+
+    const current = tree.nodes[path[path.length-1]];
+
+    if(current.result){
+      const box = el('div','tree-result ' + current.result);
+      const pillText = current.result === 'green' ? '&#128994; Apply' : current.result === 'yellow' ? '&#128993; Verify' : '&#128308; Skip';
+      box.appendChild(el('div','pill', pillText));
+      box.appendChild(el('p',null,current.text));
+      container.appendChild(box);
+    } else {
+      container.appendChild(el('div','tree-question', current.q));
+      const opts = el('div','tree-options');
+      current.opts.forEach(o=>{
+        const b = el('button','tree-opt');
+        b.innerHTML = '<span>'+o.l+'</span><span class="arrow">&rarr;</span>';
+        b.addEventListener('click', ()=>{ path.push(o.to); save(); render(); });
+        opts.appendChild(b);
+      });
+      container.appendChild(opts);
+    }
+
+    const nav = el('div','tree-nav');
+    if(path.length > 1){
+      const back = el('button',null,'&larr; Back');
+      back.addEventListener('click', ()=>{ path.pop(); save(); render(); });
+      nav.appendChild(back);
+    }
+    const restart = el('button',null,'Restart tree');
+    restart.addEventListener('click', ()=>{ path = [tree.start]; save(); render(); });
+    nav.appendChild(restart);
+    container.appendChild(nav);
+  }
+  render();
+}
+renderTree('tree1', TREE1, 'tree1_path');
+
+/* ---- Calendar (Stage 04) ---- */
+function buildCalendarInto(containerId, data, includeStandard){
+  const list = document.getElementById(containerId);
+  data.forEach((m)=>{
+    const item = el('div','cal-item');
+    const head = el('div','cal-head');
+    head.innerHTML = '<span class="m">'+m.m+'</span><span class="t">'+m.t+'</span><span class="chev">&rsaquo;</span>';
+    const body = el('div','cal-body');
+    const inner = el('div','cal-body-in');
+    let html = '';
+    if(includeStandard && m.standard){
+      html += '<div class="cal-block standard"><h5>Technical standard to be at by this month</h5>' +
+        '<div class="std-grid">' +
+          '<div class="std-item"><div class="k">DSA</div><div class="v">'+m.standard.dsa+'</div></div>' +
+          '<div class="std-item"><div class="k">ML / Technical depth</div><div class="v">'+m.standard.depth+'</div></div>' +
+          '<div class="std-item"><div class="k">Portfolio</div><div class="v">'+m.standard.portfolio+'</div></div>' +
+        '</div></div>';
+    }
+    html +=
+      '<div class="cal-block"><h5>Market</h5><ul><li>'+m.market+'</li></ul></div>' +
+      '<div class="cal-block"><h5>Do now</h5><ul>'+m.doNow.map(x=>'<li>'+x+'</li>').join('')+'</ul></div>' +
+      '<div class="cal-block"><h5>Should already be ready</h5><ul>'+m.ready.map(x=>'<li>'+x+'</li>').join('')+'</ul></div>' +
+      '<div class="cal-block"><h5>Apply for</h5><ul>'+m.apply.map(x=>'<li>'+x+'</li>').join('')+'</ul></div>' +
+      '<div class="cal-block"><h5>Avoid</h5><ul>'+m.avoid.map(x=>'<li>'+x+'</li>').join('')+'</ul></div>' +
+      '<div class="cal-block success"><h5>Success looks like</h5><ul><li>'+m.success+'</li></ul></div>';
+    inner.innerHTML = html;
+    body.appendChild(inner);
+    head.addEventListener('click', ()=> item.classList.toggle('open'));
+    item.appendChild(head); item.appendChild(body);
+    list.appendChild(item);
+  });
+}
+function buildCalendar(){
+  buildCalendarInto('calList', MONTHS, true);
+  buildCalendarInto('calListResearch', RESEARCH_MONTHS, false);
+}
+buildCalendar();
+
+/* ---- Calendar tabs ---- */
+function buildCalTabs(){
+  const tabs = document.querySelectorAll('.cal-tab');
+  tabs.forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      tabs.forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('calList').style.display = tab.dataset.target === 'calList' ? 'flex' : 'none';
+      document.getElementById('calListResearch').style.display = tab.dataset.target === 'calListResearch' ? 'flex' : 'none';
+    });
+  });
+}
+buildCalTabs();
+
+/* ---- Role families (Stage 05) ---- */
+function buildRoles(){
+  const grid = document.getElementById('roleGrid');
+  ROLE_FAMILIES.forEach(f=>{
+    const c = el('div','role-card');
+    c.innerHTML = '<h4>'+f.cat+'</h4><ul>'+f.roles.map(r=>'<li>'+r+'</li>').join('')+'</ul>';
+    grid.appendChild(c);
+  });
+}
+buildRoles();
+
+/* ---- Application machine loop (Stage 06) ---- */
+function buildLoop(){
+  const grid = document.getElementById('loopGrid');
+  const detail = document.getElementById('loopDetail');
+  function showDetail(idx){
+    document.querySelectorAll('.loop-node').forEach((n,i)=>n.classList.toggle('active', i===idx));
+    const s = LOOP_STAGES[idx];
+    detail.innerHTML =
+      '<h4>'+s.name+'</h4>' +
+      '<div class="loop-row"><div class="k">Meaning</div><div class="v">'+s.meaning+'</div></div>' +
+      '<div class="loop-row"><div class="k">Evidence needed</div><div class="v">'+s.evidence+'</div></div>' +
+      '<div class="loop-row"><div class="k">Action</div><div class="v">'+s.action+'</div></div>' +
+      '<div class="loop-row"><div class="k">Common mistake</div><div class="v">'+s.mistakes+'</div></div>' +
+      '<div class="loop-row"><div class="k">Next stage</div><div class="v">'+s.next+'</div></div>';
+  }
+  LOOP_STAGES.forEach((s,i)=>{
+    const n = el('div','loop-node', s.name);
+    n.addEventListener('click', ()=> showDetail(i));
+    grid.appendChild(n);
+  });
+  showDetail(0);
+}
+buildLoop();
+
+/* ---- generic checklist builder with localStorage ---- */
+function buildChecklist(containerId, items, storageKey){
+  const wrap = document.getElementById(containerId);
+  const checked = JSON.parse(localStorage.getItem(storageKey) || '[]');
+  items.forEach((label, i)=>{
+    const row = el('div','chk' + (checked.includes(i) ? ' checked' : ''));
+    row.innerHTML = '<span class="box">&#10003;</span><span class="label">'+label+'</span>';
+    row.addEventListener('click', ()=>{
+      row.classList.toggle('checked');
+      let c = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      if(row.classList.contains('checked')){ if(!c.includes(i)) c.push(i); }
+      else { c = c.filter(x=>x!==i); }
+      localStorage.setItem(storageKey, JSON.stringify(c));
+    });
+    wrap.appendChild(row);
+  });
+}
+buildChecklist('resumeChecklist', RESUME_ITEMS, 'resume_checklist');
+
+/* ---- ATS role selector (Stage 10) ---- */
+function buildAtsRoles(){
+  const grid = document.getElementById('atsRoleGrid');
+  const detail = document.getElementById('atsRoleDetail');
+  function showAtsDetail(idx){
+    document.querySelectorAll('#atsRoleGrid .loop-node').forEach((n,i)=>n.classList.toggle('active', i===idx));
+    const r = ATS_ROLES[idx];
+    detail.innerHTML =
+      '<h4>'+r.role+'</h4>' +
+      '<div class="loop-row"><div class="k">Ideal structure</div><div class="v"><ol class="struct-list">'+r.structure.map(s=>'<li>'+s+'</li>').join('')+'</ol></div></div>' +
+      '<div class="loop-row"><div class="k">Emphasize</div><div class="v"><ul class="plain" style="margin:0;">'+r.emphasis.map(e=>'<li>'+e+'</li>').join('')+'</ul></div></div>' +
+      '<div class="loop-row"><div class="k">ATS keywords to weave in</div><div class="v"><div class="kw-pills">'+r.keywords.map(k=>'<span class="kw-pill">'+k+'</span>').join('')+'</div></div></div>' +
+      '<div class="loop-row"><div class="k">Bullet example</div><div class="v"><div class="bullet-pair">' +
+        '<div class="bullet-box weak"><span class="tag">Weak</span>'+r.weak+'</div>' +
+        '<div class="bullet-box strong"><span class="tag">Strong</span>'+r.strong+'</div>' +
+      '</div></div></div>';
+  }
+  ATS_ROLES.forEach((r,i)=>{
+    const n = el('div','loop-node', r.role);
+    n.addEventListener('click', ()=> showAtsDetail(i));
+    grid.appendChild(n);
+  });
+  showAtsDetail(0);
+}
+buildAtsRoles();
+buildChecklist('atsChecklist', ATS_CHECKLIST_ITEMS, 'ats_checklist');
+
+const MISSION_ITEMS = [
+  "Build / finalize your resume",
+  "Build your target company list (dream / realistic / aggressive)",
+  "Write your own internship eligibility criteria using Stage 11",
+  "Identify 10 real Summer 2027 openings",
+  "Apply to the first qualified roles",
+  "Begin referral outreach to at least 3 people",
+  "Start a weekly interview-prep rhythm",
+  "Set up a simple way to track outcomes (spreadsheet, notes app, anything)"
+];
+buildChecklist('missionChecklist', MISSION_ITEMS, 'mission_checklist');
+
+/* ---- Diagnostic cards (Stage 12) ---- */
+function buildDiag(){
+  const grid = document.getElementById('diagGrid');
+  DIAG.forEach(d=>{
+    const c = el('div','diag-card');
+    c.innerHTML =
+      '<div class="q">'+d.q+'</div>' +
+      '<div class="hint">'+d.hint+'</div>' +
+      '<div class="diag-answer"><b>'+d.label+'</b>'+d.answer+'</div>';
+    c.addEventListener('click', ()=> c.classList.toggle('open'));
+    grid.appendChild(c);
+  });
+}
+buildDiag();
+
+/* ---- Final spine (Stage 13) ---- */
+function buildSpine(){
+  const spine = document.getElementById('finalSpine');
+  MONTHS.forEach(m=>{
+    const pt = el('div','spine-pt');
+    pt.innerHTML = '<b>'+m.m+'</b><span>'+m.t+'</span>';
+    spine.appendChild(pt);
+  });
+}
+buildSpine();
+
+updateProgress();
+</script>
+</body>
+</html>

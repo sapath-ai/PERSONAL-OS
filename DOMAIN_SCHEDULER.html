@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Domain Distribution Scheduler</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#161923; --panel2:#1d2130; --border:#2a2f42;
+    --text:#e8eaf0; --muted:#8b90a3; --accent:#6d8bff; --accent2:#4ecdc4;
+    --warn:#ffb454; --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--text); padding:24px; line-height:1.4;
+  }
+  h1{font-size:22px; margin:0 0 4px;}
+  .sub{color:var(--muted); font-size:13px; margin-bottom:24px;}
+  .layout{display:grid; grid-template-columns:340px 1fr; gap:20px; align-items:start;}
+  @media (max-width:900px){ .layout{grid-template-columns:1fr;} }
+  .panel{background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:16px;}
+  .panel h2{font-size:14px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin:0 0 12px;}
+  label{display:block; font-size:12px; color:var(--muted); margin-bottom:4px;}
+  input[type=number]{
+    width:100%; background:var(--panel2); border:1px solid var(--border); color:var(--text);
+    padding:6px 8px; border-radius:6px; font-size:13px;
+  }
+  .row{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;}
+  .full{grid-column:1/-1;}
+  table.domains{width:100%; border-collapse:collapse; font-size:13px; margin-top:6px;}
+  table.domains th{text-align:left; color:var(--muted); font-weight:500; font-size:11px; padding:4px 4px 8px;}
+  table.domains td{padding:4px; vertical-align:middle;}
+  table.domains input[type=text]{
+    width:100%; background:var(--panel2); border:1px solid var(--border); color:var(--text);
+    padding:5px 7px; border-radius:6px; font-size:12.5px;
+  }
+  table.domains input[type=number]{width:54px; text-align:center;}
+  .weight-hint{font-size:10px; color:var(--muted);}
+  button{
+    background:var(--accent); color:#0d1020; border:none; border-radius:8px; padding:10px 14px;
+    font-size:13px; font-weight:600; cursor:pointer; width:100%; margin-top:6px;
+  }
+  button:hover{filter:brightness(1.08);}
+  button.secondary{background:transparent; border:1px solid var(--border); color:var(--text); font-weight:500;}
+  .cycle-btns{display:flex; gap:6px; margin-bottom:12px;}
+  .cycle-btns button{flex:1; padding:8px 4px; font-size:12px; background:var(--panel2); color:var(--text); border:1px solid var(--border); font-weight:500;}
+  .cycle-btns button.active{background:var(--accent); color:#0d1020; border-color:var(--accent);}
+  .week-block{margin-bottom:22px;}
+  .week-title{font-size:13px; color:var(--accent2); text-transform:uppercase; letter-spacing:.05em; margin:0 0 10px; font-weight:600;}
+  .days-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px;}
+  .day-card{background:var(--panel2); border:1px solid var(--border); border-radius:var(--radius); padding:10px; min-height:70px;}
+  .day-card h3{font-size:11.5px; color:var(--muted); margin:0 0 8px; text-transform:uppercase; letter-spacing:.04em;}
+  .block{
+    border-radius:6px; padding:6px 8px; margin-bottom:6px; font-size:12.5px; font-weight:600; color:#0d1020;
+  }
+  .block .mins{display:block; font-size:11px; font-weight:500; opacity:.8; margin-top:1px;}
+  .empty-day{color:var(--muted); font-size:12px; font-style:italic;}
+  .summary{margin-top:6px;}
+  table.summary-table{width:100%; border-collapse:collapse; font-size:12.5px;}
+  table.summary-table th{text-align:left; color:var(--muted); font-weight:500; padding:5px 6px; border-bottom:1px solid var(--border); font-size:11px;}
+  table.summary-table td{padding:5px 6px; border-bottom:1px solid var(--border);}
+  .swatch{width:10px; height:10px; border-radius:3px; display:inline-block; margin-right:6px; vertical-align:middle;}
+  .totalline{color:var(--muted); font-size:12px; margin-top:8px;}
+  .note{background:var(--panel2); border:1px solid var(--border); border-radius:8px; padding:10px 12px; font-size:12px; color:var(--muted); margin-top:10px;}
+</style>
+</head>
+<body>
+
+<h1>Domain Distribution Scheduler</h1>
+<div class="sub">Distributes your domains across a weekly or multi-week cycle based on a fixed daily time budget and per-domain weight. Adjust the inputs and regenerate.</div>
+
+<div class="layout">
+
+  <div class="panel">
+    <h2>Time Budget</h2>
+    <div class="row">
+      <div>
+        <label>Minutes / day</label>
+        <input type="number" id="dailyMinutes" value="135" min="15" step="5">
+      </div>
+      <div>
+        <label>Study days / week</label>
+        <input type="number" id="daysPerWeek" value="7" min="1" max="7">
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label>Max domains / day</label>
+        <input type="number" id="maxPerDay" value="2" min="1" max="4">
+      </div>
+      <div>
+        <label>Min block size (min)</label>
+        <input type="number" id="minBlock" value="20" min="5" step="5">
+      </div>
+    </div>
+
+    <label style="margin-top:4px;">Cycle length</label>
+    <div class="cycle-btns" id="cycleBtns">
+      <button data-w="1">1 wk</button>
+      <button data-w="2" class="active">2 wk</button>
+      <button data-w="4">4 wk</button>
+    </div>
+
+    <h2 style="margin-top:18px;">Domains &amp; Weight</h2>
+    <div class="weight-hint">Weight = relative priority (1 low – 5 high). Higher weight → more minutes over the cycle.</div>
+    <table class="domains" id="domainTable"></table>
+
+    <button id="genBtn">Generate Schedule</button>
+    <button class="secondary" id="resetBtn" style="margin-top:8px;">Reset weights to equal</button>
+  </div>
+
+  <div id="output">
+    <div class="panel">
+      <h2>Schedule</h2>
+      <div class="empty-day">Click "Generate Schedule" to build your plan.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const DEFAULT_DOMAINS = [
+  "Quantum Computing",
+  "CUDA & Parallel Computing",
+  "General Science (Physics, Math, Modern Physics)",
+  "Data Science & AI Engineering",
+  "Physical AI",
+  "AI Product Management",
+  "AI Backend Engineering",
+  "AI Security",
+  "Forward Deployment Engineering",
+  "Loop Engineering & Harness Engineering",
+  "Finance & Fintech",
+  "AI Healthcare Engineering"
+];
+
+const COLORS = [
+  "#6d8bff","#4ecdc4","#ffb454","#ff6b6b","#a78bfa","#f472b6",
+  "#34d399","#fbbf24","#60a5fa","#f87171","#2dd4bf","#c084fc"
+];
+
+let cycleWeeks = 2;
+let domains = DEFAULT_DOMAINS.map((name,i)=>({name, weight:3, color:COLORS[i%COLORS.length]}));
+
+function renderDomainTable(){
+  const tbl = document.getElementById('domainTable');
+  tbl.innerHTML = `<tr><th style="width:14px;"></th><th>Domain</th><th style="width:60px;">Weight</th></tr>` +
+    domains.map((d,i)=>`
+      <tr>
+        <td><span class="swatch" style="background:${d.color}"></span></td>
+        <td><input type="text" value="${d.name}" data-idx="${i}" class="dname"></td>
+        <td><input type="number" min="1" max="5" value="${d.weight}" data-idx="${i}" class="dweight"></td>
+      </tr>
+    `).join('');
+  tbl.querySelectorAll('.dname').forEach(inp=>{
+    inp.addEventListener('input', e=>{ domains[e.target.dataset.idx].name = e.target.value; });
+  });
+  tbl.querySelectorAll('.dweight').forEach(inp=>{
+    inp.addEventListener('input', e=>{
+      let v = parseInt(e.target.value)||1;
+      v = Math.max(1, Math.min(5, v));
+      domains[e.target.dataset.idx].weight = v;
+    });
+  });
+}
+
+document.getElementById('cycleBtns').addEventListener('click', e=>{
+  if(e.target.tagName !== 'BUTTON') return;
+  cycleWeeks = parseInt(e.target.dataset.w);
+  document.querySelectorAll('#cycleBtns button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+});
+
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  domains.forEach(d=>d.weight=3);
+  renderDomainTable();
+});
+
+function buildSchedule(){
+  const dailyMinutes = parseInt(document.getElementById('dailyMinutes').value)||135;
+  const daysPerWeek = Math.max(1, Math.min(7, parseInt(document.getElementById('daysPerWeek').value)||7));
+  const maxPerDay = Math.max(1, parseInt(document.getElementById('maxPerDay').value)||2);
+  const minBlock = Math.max(5, parseInt(document.getElementById('minBlock').value)||20);
+
+  const totalDays = cycleWeeks * daysPerWeek;
+  const totalCycleMinutes = totalDays * dailyMinutes;
+  const sumWeights = domains.reduce((s,d)=>s+d.weight,0);
+
+  const remaining = domains.map(d => (totalCycleMinutes * d.weight / sumWeights));
+  const target = remaining.slice();
+
+  const days = []; // {blocks:[{idx,mins}]}
+
+  for(let day=0; day<totalDays; day++){
+    // candidates: domains with remaining minutes > 0, sorted desc
+    let order = remaining.map((r,i)=>({i,r})).filter(o=>o.r > 0.01).sort((a,b)=>b.r-a.r);
+    let picks = order.slice(0, maxPerDay).map(o=>o.i);
+
+    if(picks.length === 0){
+      days.push({blocks:[]});
+      continue;
+    }
+
+    let budget = dailyMinutes;
+    let blocks = [];
+
+    // weighted split of today's budget among picks, proportional to remaining need
+    let sumR = picks.reduce((s,i)=>s+remaining[i],0);
+    let allocs = picks.map(i => budget * (remaining[i]/sumR));
+
+    // clamp to remaining, and enforce min block unless it's the only pick
+    allocs = allocs.map((a,k)=>{
+      let i = picks[k];
+      let clamped = Math.min(a, remaining[i]);
+      return clamped;
+    });
+
+    // if a domain would get less than minBlock but there are multiple picks, drop the smallest and give budget to the rest
+    if(picks.length > 1){
+      let kept = picks.map((i,k)=>({i, a:allocs[k]})).filter(o=>o.a >= minBlock || remaining[o.i] < minBlock);
+      if(kept.length === 0) kept = [{i:picks[0], a:budget}]; // fallback
+      if(kept.length < picks.length){
+        picks = kept.map(o=>o.i);
+        sumR = picks.reduce((s,i)=>s+remaining[i],0);
+        allocs = picks.map(i => Math.min(budget * (remaining[i]/sumR), remaining[i]));
+      }
+    }
+
+    // round to nearest 5 minutes, fix rounding drift on the largest block
+    allocs = allocs.map(a => Math.round(a/5)*5);
+    let drift = budget - allocs.reduce((s,a)=>s+a,0);
+    if(allocs.length){
+      let maxIdx = allocs.indexOf(Math.max(...allocs));
+      allocs[maxIdx] += drift;
+    }
+
+    picks.forEach((i,k)=>{
+      let mins = Math.max(0, allocs[k]);
+      if(mins > 0){
+        blocks.push({idx:i, mins});
+        remaining[i] -= mins;
+      }
+    });
+
+    days.push({blocks});
+  }
+
+  return {days, daysPerWeek, dailyMinutes, target, totalCycleMinutes};
+}
+
+function renderSchedule(){
+  const {days, daysPerWeek, dailyMinutes, target, totalCycleMinutes} = buildSchedule();
+  const DAY_NAMES = ["Day 1","Day 2","Day 3","Day 4","Day 5","Day 6","Day 7"];
+
+  let html = `<div class="panel">`;
+  for(let w=0; w<cycleWeeks; w++){
+    html += `<div class="week-block"><div class="week-title">Week ${w+1}</div><div class="days-grid">`;
+    for(let d=0; d<daysPerWeek; d++){
+      const dayIdx = w*daysPerWeek + d;
+      const day = days[dayIdx];
+      html += `<div class="day-card"><h3>${DAY_NAMES[d] || 'Day '+(d+1)}</h3>`;
+      if(!day || day.blocks.length===0){
+        html += `<div class="empty-day">Free / buffer</div>`;
+      } else {
+        day.blocks.forEach(b=>{
+          const dom = domains[b.idx];
+          html += `<div class="block" style="background:${dom.color}">${dom.name}<span class="mins">${b.mins} min</span></div>`;
+        });
+      }
+      html += `</div>`;
+    }
+    html += `</div></div>`;
+  }
+  html += `</div>`;
+
+  // summary
+  const actualTotals = domains.map((d,i)=>0);
+  days.forEach(day => day.blocks.forEach(b => actualTotals[b.idx]+=b.mins));
+
+  html += `<div class="panel" style="margin-top:16px;">
+    <h2>Cycle Summary — ${cycleWeeks} week${cycleWeeks>1?'s':''}, ${totalCycleMinutes} total minutes</h2>
+    <table class="summary-table">
+      <tr><th></th><th>Domain</th><th>Weight</th><th>Minutes allocated</th><th>Hours</th><th>% of cycle</th></tr>
+      ${domains.map((d,i)=>`
+        <tr>
+          <td><span class="swatch" style="background:${d.color}"></span></td>
+          <td>${d.name}</td>
+          <td>${d.weight}</td>
+          <td>${actualTotals[i]}</td>
+          <td>${(actualTotals[i]/60).toFixed(1)}h</td>
+          <td>${((actualTotals[i]/totalCycleMinutes)*100).toFixed(1)}%</td>
+        </tr>
+      `).join('')}
+    </table>
+    <div class="totalline">Daily budget: ${dailyMinutes} min · ${days.filter(d=>d.blocks.length).length}/${days.length} study days used in this cycle</div>
+    <div class="note">Higher-weight domains get proportionally more minutes across the full cycle, but each day is still capped at "Max domains/day" so you're not fragmenting focus. Change any weight or setting and regenerate to re-balance instantly.</div>
+  </div>`;
+
+  document.getElementById('output').innerHTML = html;
+}
+
+document.getElementById('genBtn').addEventListener('click', renderSchedule);
+
+renderDomainTable();
+renderSchedule();
+</script>
+
+</body>
+</html>

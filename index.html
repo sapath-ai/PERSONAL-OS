@@ -784,6 +784,546 @@ body {
         flex-direction: column;
     }
 }
+/* ============================================================
+   CONTINUUM LANDING SYSTEM
+   Premium Gradient Modern product-site layer.
+   Preserves the existing Personal OS component architecture.
+============================================================ */
+
+:root {
+    --continuum-indigo: #7277ff;
+    --continuum-violet: #a66cff;
+    --continuum-cyan: #4fd9e8;
+    --continuum-pink: #e58bff;
+    --continuum-glow: rgba(114,119,255,0.22);
+    --continuum-border: rgba(255,255,255,0.11);
+}
+
+body {
+    background:
+        radial-gradient(
+            900px 520px at 76% -5%,
+            rgba(114,119,255,0.13),
+            transparent 68%
+        ),
+        radial-gradient(
+            700px 500px at 5% 26%,
+            rgba(79,217,232,0.07),
+            transparent 70%
+        ),
+        radial-gradient(
+            800px 500px at 65% 74%,
+            rgba(166,108,255,0.06),
+            transparent 72%
+        ),
+        var(--bg);
+    overflow-x: hidden;
+}
+
+.main {
+    position: relative;
+}
+
+.main::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background:
+        linear-gradient(
+            115deg,
+            transparent 0%,
+            rgba(255,255,255,0.012) 42%,
+            transparent 68%
+        );
+    opacity: 0.75;
+}
+
+.container {
+    position: relative;
+}
+
+/* ------------------------------------------------------------
+   HERO
+------------------------------------------------------------ */
+
+.continuum-hero {
+    position: relative;
+    min-height: 540px;
+    margin-bottom: 34px;
+    padding: 68px 64px;
+    border: 1px solid var(--continuum-border);
+    border-radius: 30px;
+    overflow: hidden;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.055),
+            rgba(255,255,255,0.018) 48%,
+            rgba(114,119,255,0.028)
+        ),
+        rgba(16,18,22,0.72);
+    box-shadow:
+        0 45px 120px rgba(0,0,0,0.38),
+        inset 0 1px 0 rgba(255,255,255,0.045);
+    isolation: isolate;
+}
+
+.continuum-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            125deg,
+            transparent 20%,
+            rgba(114,119,255,0.055) 54%,
+            transparent 78%
+        );
+    pointer-events: none;
+}
+
+.continuum-hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 760px;
+}
+
+.continuum-eyebrow {
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.continuum-title {
+    margin: 22px 0 0;
+    max-width: 840px;
+    font-size: clamp(54px, 8vw, 104px);
+    line-height: 0.91;
+    letter-spacing: -0.065em;
+    font-weight: 800;
+}
+
+.continuum-title span {
+    display: block;
+    background:
+        linear-gradient(
+            100deg,
+            var(--text) 4%,
+            #9ba2ff 42%,
+            #d49aff 72%,
+            #7de3e8 100%
+        );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.continuum-intro {
+    max-width: 650px;
+    margin: 24px 0 0;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+.continuum-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.continuum-primary,
+.continuum-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 46px;
+    padding: 0 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    transition:
+        transform 0.22s ease,
+        border-color 0.22s ease,
+        background 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+.continuum-primary {
+    border: 1px solid rgba(255,255,255,0.18);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(114,119,255,0.82),
+            rgba(166,108,255,0.68)
+        );
+    color: #fff;
+    box-shadow:
+        0 12px 34px rgba(114,119,255,0.20),
+        inset 0 1px 0 rgba(255,255,255,0.20);
+}
+
+.continuum-secondary {
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.025);
+    color: var(--text-secondary);
+}
+
+.continuum-primary:hover,
+.continuum-secondary:hover {
+    transform: translateY(-2px);
+}
+
+.continuum-primary:hover {
+    box-shadow:
+        0 18px 42px rgba(114,119,255,0.27),
+        inset 0 1px 0 rgba(255,255,255,0.24);
+}
+
+.continuum-secondary:hover {
+    color: var(--text);
+    border-color: var(--border-hover);
+}
+
+.continuum-signals {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 11px;
+    margin-top: 40px;
+    color: var(--text-muted);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+}
+
+.continuum-signals i {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.22);
+}
+
+/* ------------------------------------------------------------
+   ATMOSPHERIC ORBIT
+------------------------------------------------------------ */
+
+.continuum-hero-ambient {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(4px);
+}
+
+.continuum-ambient-a {
+    width: 420px;
+    height: 420px;
+    right: -110px;
+    top: -120px;
+    background:
+        radial-gradient(
+            circle,
+            rgba(114,119,255,0.20),
+            rgba(166,108,255,0.08) 42%,
+            transparent 72%
+        );
+    animation: continuumDriftA 13s ease-in-out infinite alternate;
+}
+
+.continuum-ambient-b {
+    width: 360px;
+    height: 360px;
+    right: 120px;
+    bottom: -190px;
+    background:
+        radial-gradient(
+            circle,
+            rgba(79,217,232,0.12),
+            transparent 68%
+        );
+    animation: continuumDriftB 16s ease-in-out infinite alternate;
+}
+
+.continuum-hero-orbit {
+    position: absolute;
+    right: 3%;
+    top: 50%;
+    width: min(39vw, 470px);
+    aspect-ratio: 1;
+    transform: translateY(-50%);
+    pointer-events: none;
+    opacity: 0.95;
+}
+
+.continuum-orbit-ring {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(255,255,255,0.075);
+    border-radius: 50%;
+}
+
+.ring-one {
+    transform: rotate(22deg) scaleY(0.46);
+}
+
+.ring-two {
+    transform: rotate(-28deg) scaleY(0.68);
+    border-color: rgba(114,119,255,0.12);
+}
+
+.continuum-orbit-core {
+    position: absolute;
+    inset: 29%;
+    border-radius: 50%;
+    background:
+        radial-gradient(
+            circle at 38% 32%,
+            rgba(255,255,255,0.28),
+            rgba(114,119,255,0.21) 24%,
+            rgba(166,108,255,0.15) 49%,
+            transparent 72%
+        );
+    box-shadow:
+        0 0 90px rgba(114,119,255,0.17),
+        0 0 160px rgba(166,108,255,0.10);
+    animation: continuumPulse 7s ease-in-out infinite;
+}
+
+@keyframes continuumDriftA {
+    from { transform: translate3d(-10px, 8px, 0) scale(0.96); }
+    to   { transform: translate3d(18px, -12px, 0) scale(1.04); }
+}
+
+@keyframes continuumDriftB {
+    from { transform: translate3d(0, 10px, 0) scale(0.96); }
+    to   { transform: translate3d(-14px, -16px, 0) scale(1.05); }
+}
+
+@keyframes continuumPulse {
+    0%, 100% {
+        transform: scale(0.96);
+        opacity: 0.82;
+    }
+    50% {
+        transform: scale(1.04);
+        opacity: 1;
+    }
+}
+
+/* ------------------------------------------------------------
+   CONTINUOUS SECTION LANGUAGE
+------------------------------------------------------------ */
+
+.section {
+    position: relative;
+    margin-bottom: 62px;
+}
+
+.section::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -31px;
+    height: 1px;
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.075),
+            transparent
+        );
+    pointer-events: none;
+}
+
+.section:last-of-type::after {
+    display: none;
+}
+
+.section-header {
+    margin-bottom: 18px;
+}
+
+.section-title {
+    font-size: 11px;
+    letter-spacing: 0.13em;
+}
+
+.section-meta {
+    font-size: 10px;
+}
+
+.card {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.035),
+            rgba(255,255,255,0.012)
+        ),
+        var(--surface);
+    box-shadow:
+        0 16px 40px rgba(0,0,0,0.14),
+        inset 0 1px 0 rgba(255,255,255,0.022);
+}
+
+.card:hover {
+    box-shadow:
+        0 22px 52px rgba(0,0,0,0.22),
+        inset 0 1px 0 rgba(255,255,255,0.035);
+}
+
+/* Mission and Self Development gain greater product presence. */
+
+#mission-tracker .section-header,
+#self-development .section-header {
+    align-items: flex-end;
+}
+
+#mission-tracker,
+#self-development {
+    scroll-margin-top: 26px;
+}
+
+.quick {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.03),
+            rgba(255,255,255,0.012)
+        ),
+        var(--surface);
+}
+
+/* ------------------------------------------------------------
+   SEARCH BECOMES PART OF THE PRODUCT SHELL
+------------------------------------------------------------ */
+
+.search {
+    position: relative;
+    z-index: 5;
+    margin-bottom: 58px;
+}
+
+.search input {
+    border-color: rgba(255,255,255,0.09);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.035),
+            rgba(255,255,255,0.012)
+        ),
+        rgba(16,18,22,0.86);
+    box-shadow:
+        0 16px 44px rgba(0,0,0,0.17),
+        inset 0 1px 0 rgba(255,255,255,0.025);
+    backdrop-filter: blur(18px);
+}
+
+/* ------------------------------------------------------------
+   SIDEBAR REFINEMENT
+------------------------------------------------------------ */
+
+.sidebar {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(11,12,15,0.97),
+            rgba(9,10,13,0.94)
+        );
+    box-shadow:
+        12px 0 35px rgba(0,0,0,0.07);
+}
+
+.brand-title {
+    background:
+        linear-gradient(
+            100deg,
+            var(--text),
+            #9ea3ff,
+            #89dfe5
+        );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* ------------------------------------------------------------
+   RESPONSIVE
+------------------------------------------------------------ */
+
+@media (max-width: 900px) {
+    .continuum-hero {
+        min-height: 500px;
+        padding: 50px 40px;
+    }
+
+    .continuum-hero-orbit {
+        right: -8%;
+        width: min(48vw, 390px);
+        opacity: 0.65;
+    }
+
+    .continuum-title {
+        max-width: 680px;
+    }
+}
+
+@media (max-width: 760px) {
+    .continuum-hero {
+        min-height: 590px;
+        padding: 34px 24px;
+        border-radius: 22px;
+    }
+
+    .continuum-title {
+        font-size: clamp(48px, 14vw, 72px);
+    }
+
+    .continuum-intro {
+        max-width: 100%;
+        font-size: 13px;
+    }
+
+    .continuum-hero-orbit {
+        width: 360px;
+        right: -150px;
+        top: auto;
+        bottom: -120px;
+        transform: none;
+        opacity: 0.45;
+    }
+
+    .continuum-signals {
+        margin-top: 30px;
+    }
+
+    .section {
+        margin-bottom: 50px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .continuum-ambient-a,
+    .continuum-ambient-b,
+    .continuum-orbit-core {
+        animation: none;
+    }
+
+    .continuum-primary,
+    .continuum-secondary,
+    .card {
+        transition: none;
+    }
+}
+
 </style>
 </head>
 
@@ -870,6 +1410,61 @@ body {
                 </div>
 
             </header>
+
+
+            <!-- CONTINUUM LANDING SYSTEM -->
+            <section class="continuum-hero" aria-label="Personal OS introduction">
+
+                <div class="continuum-hero-ambient continuum-ambient-a"></div>
+                <div class="continuum-hero-ambient continuum-ambient-b"></div>
+
+                <div class="continuum-hero-content">
+
+                    <div class="continuum-eyebrow">
+                        PERSONAL OPERATING ENVIRONMENT
+                    </div>
+
+                    <h2 class="continuum-title">
+                        Your future should
+                        <span>feel designed.</span>
+                    </h2>
+
+                    <p class="continuum-intro">
+                        A personal command environment for building
+                        capability, creating momentum, and making ambitious
+                        work compound over time.
+                    </p>
+
+                    <div class="continuum-actions">
+                        <a class="continuum-primary" href="#mission-tracker">
+                            Enter the system
+                            <span>↗</span>
+                        </a>
+
+                        <a class="continuum-secondary" href="#self-development">
+                            Explore the journey
+                        </a>
+                    </div>
+
+                    <div class="continuum-signals">
+                        <span>Strategy</span>
+                        <i></i>
+                        <span>Systems</span>
+                        <i></i>
+                        <span>Growth</span>
+                        <i></i>
+                        <span>Performance</span>
+                    </div>
+
+                </div>
+
+                <div class="continuum-hero-orbit" aria-hidden="true">
+                    <div class="continuum-orbit-ring ring-one"></div>
+                    <div class="continuum-orbit-ring ring-two"></div>
+                    <div class="continuum-orbit-core"></div>
+                </div>
+
+            </section>
 
 
             <!-- SEARCH -->

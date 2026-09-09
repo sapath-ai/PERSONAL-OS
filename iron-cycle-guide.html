@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iron Cycle — The Complete Training Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+  :root{
+    --bg:#0A0908;
+    --surface:#141010;
+    --surface-2:#1C1614;
+    --border:#2E2320;
+    --border-soft:#221a17;
+    --chalk:#F2ECE5;
+    --dim:#9C8F86;
+    --dim-2:#655B54;
+    --strength:#E5342A;
+    --strength-glow:#FF6A4D;
+    --strength-dim:#3A1512;
+    --cardio:#8A2222;
+    --cardio-glow:#C24A3A;
+    --cardio-dim:#2E1310;
+    --warn:#FF5B32;
+    --black:#040302;
+    --font-display:'Oswald',"Arial Narrow Bold",Impact,sans-serif;
+    --font-body:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    --font-mono:'IBM Plex Mono',"SFMono-Regular",Consolas,monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 1200px 600px at 20% -10%, rgba(229,52,42,0.09), transparent 55%),
+      radial-gradient(ellipse 900px 500px at 100% 20%, rgba(138,34,34,0.10), transparent 50%),
+      var(--bg);
+    color:var(--chalk);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.6;
+  }
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
+
+  a{color:inherit;}
+  ::selection{background:var(--strength); color:var(--black);}
+
+  /* ---------------- HERO ---------------- */
+  .hero{
+    padding:64px 40px 48px; text-align:center; border-bottom:1px solid var(--border-soft); position:relative; overflow:hidden;
+  }
+  .hero-eyebrow{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:3px; text-transform:uppercase; color:var(--strength-glow);
+    margin-bottom:14px;
+  }
+  .hero h1{
+    font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:1px;
+    font-size:clamp(34px,6vw,64px); margin:0; line-height:1.05;
+  }
+  .hero h1 .accent{color:var(--strength);}
+  .hero p.sub{
+    max-width:640px; margin:18px auto 0; color:var(--dim); font-size:16px; line-height:1.65;
+  }
+  .hero-barbell{margin:36px auto 0; max-width:520px;}
+  .hero-barbell svg{width:100%; height:auto;}
+  .hero-meta{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:28px;}
+  .hero-chip{
+    font-family:var(--font-mono); font-size:11.5px; letter-spacing:0.5px; text-transform:uppercase;
+    color:var(--dim); border:1px solid var(--border); background:var(--surface); padding:7px 13px; border-radius:20px;
+  }
+
+  /* ---------------- LAYOUT ---------------- */
+  .layout{display:flex; max-width:1180px; margin:0 auto; align-items:flex-start;}
+  .sidebar{
+    width:250px; flex-shrink:0; position:sticky; top:0; height:100vh; overflow-y:auto;
+    padding:40px 20px 40px 40px; border-right:1px solid var(--border-soft);
+  }
+  .sidebar::-webkit-scrollbar{width:6px;}
+  .sidebar::-webkit-scrollbar-thumb{background:var(--border); border-radius:3px;}
+  .side-group{margin-bottom:26px;}
+  .side-group-label{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--dim-2); margin-bottom:10px;
+  }
+  .side-link{
+    display:flex; align-items:center; gap:9px; padding:7px 10px; border-radius:7px; font-size:13.5px;
+    color:var(--dim); text-decoration:none; margin-bottom:2px; transition:background .15s, color .15s;
+    border-left:2px solid transparent;
+  }
+  .side-link:hover{color:var(--chalk); background:var(--surface);}
+  .side-link.active{color:var(--strength-glow); background:var(--strength-dim); border-left-color:var(--strength);}
+  .side-link .tag{
+    font-family:var(--font-mono); font-size:9.5px; color:var(--dim-2); border:1px solid var(--border);
+    padding:1px 5px; border-radius:4px; margin-left:auto;
+  }
+  .side-link.strength .tag{color:var(--strength-glow); border-color:var(--strength);}
+  .side-link.cardio .tag{color:var(--cardio-glow); border-color:var(--cardio);}
+
+  .content{flex:1; min-width:0; padding:40px 48px 120px; max-width:800px;}
+  .content section{margin-bottom:64px; scroll-margin-top:30px;}
+  .section-kicker{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:2.5px; text-transform:uppercase; color:var(--strength-glow);
+    margin-bottom:8px;
+  }
+  .section-kicker.cardio-kicker{color:var(--cardio-glow);}
+  h2.section-title{
+    font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.5px;
+    font-size:32px; margin:0 0 18px;
+  }
+  h3.sub-title{
+    font-family:var(--font-display); font-weight:600; text-transform:uppercase; letter-spacing:0.4px;
+    font-size:19px; margin:30px 0 10px; color:var(--chalk);
+  }
+  .content p{color:var(--dim); font-size:15px; margin:0 0 14px;}
+  .content p strong, .content li strong{color:var(--chalk); font-weight:600;}
+  .lede{font-size:17px; color:var(--chalk); line-height:1.7;}
+  .lede::first-letter{
+    font-family:var(--font-display); font-size:52px; float:left; line-height:0.8; padding:6px 8px 0 0;
+    color:var(--strength);
+  }
+
+  hr.divider{border:none; border-top:1px solid var(--border-soft); margin:44px 0;}
+
+  /* ---------------- CALLOUTS ---------------- */
+  .callout{
+    display:flex; gap:12px; padding:16px 18px; border-radius:10px; margin:18px 0; border:1px solid var(--border);
+    background:var(--surface);
+  }
+  .callout svg{flex-shrink:0; margin-top:2px;}
+  .callout.warn{border-color:var(--warn); background:var(--cardio-dim);}
+  .callout.warn svg{color:var(--warn);}
+  .callout.tip{border-color:var(--strength); background:var(--strength-dim);}
+  .callout.tip svg{color:var(--strength-glow);}
+  .callout p{margin:0; font-size:13.5px; color:var(--chalk); line-height:1.55;}
+  .callout .callout-title{font-family:var(--font-display); text-transform:uppercase; letter-spacing:0.5px; font-size:12.5px; color:var(--chalk); margin-bottom:4px; display:block;}
+
+  /* ---------------- CARDS / GRID ---------------- */
+  .card-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:18px 0;}
+  @media (max-width:640px){ .card-grid{grid-template-columns:1fr;} }
+  .info-card{background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px;}
+  .info-card .ic-head{display:flex; align-items:center; gap:10px; margin-bottom:8px;}
+  .info-card .ic-icon{
+    width:32px; height:32px; border-radius:8px; background:var(--strength-dim); border:1px solid var(--strength);
+    color:var(--strength-glow); display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .info-card.cardio .ic-icon{background:var(--cardio-dim); border-color:var(--cardio); color:var(--cardio-glow);}
+  .info-card h4{font-family:var(--font-display); text-transform:uppercase; font-size:14px; letter-spacing:0.4px; margin:0; color:var(--chalk);}
+  .info-card p{font-size:13px; margin:0; color:var(--dim); line-height:1.55;}
+
+  /* ---------------- TABLES ---------------- */
+  .ex-table{width:100%; border-collapse:collapse; margin:14px 0 8px; font-size:13.5px;}
+  .ex-table th{
+    text-align:left; font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:1px;
+    color:var(--dim-2); padding:10px 12px; border-bottom:1px solid var(--border);
+  }
+  .ex-table td{padding:12px; border-bottom:1px solid var(--border-soft); color:var(--chalk); vertical-align:top;}
+  .ex-table tr:last-child td{border-bottom:none;}
+  .ex-table td.num{font-family:var(--font-mono); color:var(--dim-2); width:26px;}
+  .ex-table td.target{color:var(--dim); white-space:nowrap;}
+  .ex-table td.sets{font-family:var(--font-mono); color:var(--strength-glow); white-space:nowrap;}
+  .ex-table.cardio-table td.sets{color:var(--cardio-glow);}
+  .ex-table td.alt{color:var(--dim); font-size:12.5px;}
+  .table-wrap{overflow-x:auto; border:1px solid var(--border); border-radius:12px; background:var(--surface);}
+  .table-wrap .ex-table{margin:0;}
+  .table-wrap .ex-table th:first-child, .table-wrap .ex-table td:first-child{padding-left:16px;}
+  .table-wrap .ex-table th:last-child, .table-wrap .ex-table td:last-child{padding-right:16px;}
+
+  /* ---------------- DAY BLOCK ---------------- */
+  .day-block{margin-bottom:40px;}
+  .day-block-head{display:flex; align-items:center; gap:12px; margin-bottom:4px;}
+  .day-pill{
+    font-family:var(--font-mono); font-weight:600; font-size:13px; padding:5px 11px; border-radius:7px;
+    border:1.5px solid var(--strength); color:var(--strength-glow); background:var(--strength-dim);
+  }
+  .day-block.cardio-block .day-pill{border-color:var(--cardio); color:var(--cardio-glow); background:var(--cardio-dim);}
+  .day-block-head h3{font-family:var(--font-display); text-transform:uppercase; font-size:19px; margin:0; letter-spacing:0.4px;}
+  .form-note{
+    display:flex; gap:9px; align-items:flex-start; margin:10px 0 4px; padding:11px 14px; border-radius:8px;
+    background:var(--cardio-dim); border-left:3px solid var(--warn); color:#F2C8BC; font-size:13px;
+  }
+  .form-note svg{flex-shrink:0; margin-top:1px; color:var(--warn);}
+
+  /* ---------------- PROGRESSION TIMELINE ---------------- */
+  .stairs-visual{display:flex; justify-content:center; margin:6px 0 24px;}
+  .stairs-visual svg{width:100%; max-width:340px; height:auto;}
+  .timeline-item{display:flex; gap:14px; padding:16px 0; border-top:1px solid var(--border-soft);}
+  .timeline-item:first-of-type{border-top:none; padding-top:0;}
+  .timeline-icon{
+    width:38px; height:38px; border-radius:9px; border:1px solid var(--strength); background:var(--strength-dim);
+    color:var(--strength-glow); display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .timeline-item.cardio-item .timeline-icon{border-color:var(--cardio); background:var(--cardio-dim); color:var(--cardio-glow);}
+  .timeline-item.deload-item .timeline-icon{border-color:var(--warn); background:var(--cardio-dim); color:var(--warn);}
+  .timeline-title{
+    font-family:var(--font-display); text-transform:uppercase; font-size:15px; letter-spacing:0.5px;
+    color:var(--chalk); display:flex; align-items:center; gap:9px; flex-wrap:wrap;
+  }
+  .timeline-freq{
+    font-family:var(--font-mono); font-size:10.5px; color:var(--strength-glow); background:var(--strength-dim);
+    border:1px solid var(--strength); padding:2px 8px; border-radius:5px;
+  }
+  .timeline-item.cardio-item .timeline-freq{color:var(--cardio-glow); background:var(--cardio-dim); border-color:var(--cardio);}
+  .timeline-item.deload-item .timeline-freq{color:var(--warn); background:var(--cardio-dim); border-color:var(--warn);}
+  .timeline-text{margin-top:6px; font-size:13.5px; color:var(--dim); line-height:1.6;}
+
+  /* ---------------- CHECKLIST ---------------- */
+  ul.check-list{list-style:none; margin:14px 0; padding:0;}
+  ul.check-list li{
+    display:flex; gap:10px; padding:9px 0; border-top:1px solid var(--border-soft); font-size:14px; color:var(--chalk); line-height:1.5;
+  }
+  ul.check-list li:first-child{border-top:none;}
+  ul.check-list li svg{flex-shrink:0; margin-top:2px; color:var(--strength-glow);}
+  ul.check-list.cardio-list li svg{color:var(--cardio-glow);}
+
+  /* ---------------- STEPS ---------------- */
+  .steps{counter-reset:stepnum; margin:16px 0;}
+  .step{display:flex; gap:16px; padding:14px 0; border-top:1px solid var(--border-soft);}
+  .step:first-child{border-top:none;}
+  .step-num{
+    counter-increment:stepnum; font-family:var(--font-display); font-size:20px; color:var(--strength-glow);
+    width:32px; flex-shrink:0;
+  }
+  .step-num::before{content:counter(stepnum, decimal-leading-zero);}
+  .step-body h4{font-family:var(--font-display); text-transform:uppercase; font-size:14.5px; margin:0 0 4px; letter-spacing:0.3px;}
+  .step-body p{margin:0; font-size:13.5px; color:var(--dim); line-height:1.55;}
+
+  /* ---------------- EQUIPMENT ---------------- */
+  .equip-chips{display:flex; flex-wrap:wrap; gap:9px; margin:14px 0;}
+  .equip-chip{
+    padding:9px 14px; border-radius:8px; background:var(--surface); border:1px solid var(--border);
+    font-family:var(--font-mono); font-size:12.5px; color:var(--dim); text-transform:uppercase; letter-spacing:0.5px;
+  }
+
+  /* ---------------- GLOSSARY ---------------- */
+  .glossary-item{padding:14px 0; border-top:1px solid var(--border-soft);}
+  .glossary-item:first-child{border-top:none;}
+  .glossary-term{font-family:var(--font-mono); font-weight:600; color:var(--strength-glow); font-size:13.5px; text-transform:uppercase; letter-spacing:0.5px;}
+  .glossary-item p{margin:5px 0 0; font-size:13.5px;}
+
+  footer{
+    text-align:center; padding:32px 40px 56px; color:var(--dim-2); font-family:var(--font-mono); font-size:11.5px;
+    letter-spacing:0.5px; border-top:1px solid var(--border-soft);
+  }
+
+  /* ---------------- MOBILE FALLBACK ---------------- */
+  @media (max-width:900px){
+    .layout{flex-direction:column;}
+    .sidebar{
+      position:relative; width:100%; height:auto; border-right:none; border-bottom:1px solid var(--border-soft);
+      padding:24px 24px 8px; display:flex; overflow-x:auto; gap:24px;
+    }
+    .side-group{margin-bottom:0; flex-shrink:0;}
+    .content{padding:32px 24px 80px;}
+    .hero{padding:44px 20px 36px;}
+  }
+
+  a:focus-visible, button:focus-visible{outline:2px solid var(--strength-glow); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-eyebrow">A Beginner-Friendly Strength &amp; Cardio Manual</div>
+  <h1>IRON <span class="accent">CYCLE</span></h1>
+  <p class="sub">A self-paced, 7-session strength and low-impact cardio program — plus everything a beginner needs to know before picking up a dumbbell: form, warmups, recovery, nutrition basics, and how to actually progress over time.</p>
+
+  <div class="hero-barbell">
+    <svg viewBox="0 0 520 90" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="plateGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#FF6A4D"/>
+          <stop offset="100%" stop-color="#8A2015"/>
+        </linearGradient>
+      </defs>
+      <rect x="235" y="40" width="50" height="8" rx="4" fill="#3a322e"/>
+      <rect x="10" y="20" width="20" height="48" rx="4" fill="url(#plateGrad)"/>
+      <rect x="36" y="14" width="22" height="60" rx="4" fill="url(#plateGrad)"/>
+      <rect x="64" y="24" width="16" height="40" rx="4" fill="url(#plateGrad)"/>
+      <rect x="86" y="30" width="12" height="28" rx="3" fill="url(#plateGrad)"/>
+      <rect x="422" y="20" width="20" height="48" rx="4" fill="url(#plateGrad)"/>
+      <rect x="462" y="14" width="22" height="60" rx="4" fill="url(#plateGrad)"/>
+      <rect x="440" y="24" width="16" height="40" rx="4" fill="url(#plateGrad)"/>
+      <rect x="422" y="30" width="0" height="0"/>
+      <rect x="404" y="30" width="12" height="28" rx="3" fill="url(#plateGrad)"/>
+    </svg>
+  </div>
+
+  <div class="hero-meta">
+    <span class="hero-chip">7-Session Cycle</span>
+    <span class="hero-chip">Strength + Low-Impact Cardio</span>
+    <span class="hero-chip">Weights In Kg</span>
+    <span class="hero-chip">Home / Light-Equipment Friendly</span>
+  </div>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="side-group">
+      <div class="side-group-label">Getting Started</div>
+      <a class="side-link" href="#start">Before You Start</a>
+      <a class="side-link" href="#warmup">Warmup &amp; Form Basics</a>
+      <a class="side-link" href="#cycle">How The Cycle Works</a>
+    </div>
+    <div class="side-group">
+      <div class="side-group-label">The Sessions</div>
+      <a class="side-link strength" href="#a1">A1 · Push + Arms<span class="tag">STR</span></a>
+      <a class="side-link cardio" href="#c1">C1 · Cardio<span class="tag">CDO</span></a>
+      <a class="side-link strength" href="#a2">A2 · Delts + Legs<span class="tag">STR</span></a>
+      <a class="side-link cardio" href="#c2">C2 · Cardio<span class="tag">CDO</span></a>
+      <a class="side-link strength" href="#b1">B1 · Press + Pull<span class="tag">STR</span></a>
+      <a class="side-link cardio" href="#c3">C3 · Cardio<span class="tag">CDO</span></a>
+      <a class="side-link strength" href="#b2">B2 · Upper/Lower Finisher<span class="tag">STR</span></a>
+    </div>
+    <div class="side-group">
+      <div class="side-group-label">Rules &amp; Reference</div>
+      <a class="side-link" href="#cardio-rules">Cardio Rules</a>
+      <a class="side-link" href="#progression">When To Progress</a>
+      <a class="side-link" href="#nutrition">Nutrition &amp; Recovery</a>
+      <a class="side-link" href="#equipment">Equipment</a>
+      <a class="side-link" href="#glossary">Glossary</a>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <section id="start">
+      <div class="section-kicker">01 — Read This First</div>
+      <h2 class="section-title">Before You Start</h2>
+      <p class="lede">If you've never followed a structured program before, welcome — this section covers the handful of things that matter more than any single exercise: how to pick a starting weight, how to breathe and brace, how much rest to take, and how to tell good soreness from a warning sign.</p>
+
+      <h3 class="sub-title">Picking Your Starting Weight</h3>
+      <p>For every new exercise, start lighter than you think you need to. Run through the first set at roughly half of what feels challenging, check your form, then add weight on the following sets until the last few reps of a set feel genuinely difficult without breaking form. It's far easier to add weight next session than to walk back a knee, shoulder, or lower-back tweak from starting too heavy.</p>
+
+      <div class="callout tip">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2a6 6 0 0 0-4 10.4V15h8v-2.6A6 6 0 0 0 12 2z" stroke="currentColor" stroke-width="1.8"/><path d="M9 18h6M10 21h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <p><span class="callout-title">Rule of thumb</span>You should always feel like you had 1–2 more reps left in the tank on your working sets during your first few weeks. That margin is what keeps a beginner training consistently instead of getting sidelined.</p>
+      </div>
+
+      <h3 class="sub-title">Rest Between Sets</h3>
+      <p>Rest <strong>60–90 seconds</strong> between sets of an exercise, and <strong>90 seconds–3 minutes</strong> on heavier compound lifts like squats, presses, and deadlifts once you're loading them up. Undershooting rest early on just means worse form and fewer quality reps — you'll shorten these gaps naturally as the Progression section below describes.</p>
+
+      <h3 class="sub-title">Breathing &amp; Bracing</h3>
+      <p>On most lifts: inhale on the lowering (eccentric) part of the movement, exhale through the sticking point as you lift. Before a heavy rep, take a breath and gently brace your core like you're about to take a light punch to the stomach — this stabilizes your spine, especially on squats and rows.</p>
+
+      <h3 class="sub-title">Soreness vs. Pain — Know the Difference</h3>
+      <div class="card-grid">
+        <div class="info-card">
+          <div class="ic-head"><div class="ic-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h4>Normal Soreness</h4></div>
+          <p>A dull, general ache across a muscle you trained, usually peaking 24–48 hours later (DOMS) and fading within a few days. It's fine to train through this — light movement often helps it clear faster.</p>
+        </div>
+        <div class="info-card cardio">
+          <div class="ic-head"><div class="ic-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3L2 20h20L12 3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 10v4M12 17h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><h4>Stop &amp; Reassess</h4></div>
+          <p>Sharp, localized, or joint-specific pain, pain that worsens mid-set, or anything that lingers well past a week is your body's flag to back off, drop the load, and check in with a physiotherapist or doctor if it doesn't settle.</p>
+        </div>
+      </div>
+
+      <p>The original program principle to "push through soreness" refers to ordinary muscle fatigue and DOMS — not to joint pain or sharp discomfort. When in doubt, treat pain as information, not an obstacle.</p>
+    </section>
+
+    <section id="warmup">
+      <div class="section-kicker">02 — Every Session Starts Here</div>
+      <h2 class="section-title">Warmup &amp; Form Basics</h2>
+      <p class="lede">A rushed warmup is one of the most common beginner mistakes. Give it five to eight minutes — it's what lets you lift the weights in this program safely.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num"></div>
+          <div class="step-body">
+            <h4>Raise your heart rate (2–3 min)</h4>
+            <p>Light jogging in place, jumping jacks, or skipping rope. The goal is a light sweat, not fatigue.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num"></div>
+          <div class="step-body">
+            <h4>Dynamic mobility (2–3 min)</h4>
+            <p>Arm circles, leg swings, hip openers, and bodyweight squats — move the joints you're about to load through their full range.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num"></div>
+          <div class="step-body">
+            <h4>Ramp-up sets (1–2 sets per lift)</h4>
+            <p>Before your first working set of a compound lift (bench, squat, deadlift variant, overhead press), do 1–2 light sets at roughly 40–60% of your working weight to groove the movement pattern.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="sub-title">Form Cues That Apply Almost Everywhere</h3>
+      <ul class="check-list">
+        <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Full range of motion</strong> beats heavier weight with a shortened range — you'll build more strength and mobility.</span></li>
+        <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Controlled tempo</strong> — roughly 2 seconds down, 1 second up. Momentum-swinging a weight up removes tension from the muscle you're trying to train.</span></li>
+        <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Neutral spine</strong> on rows, deadlift variants, and squats — think "proud chest," not a rounded back.</span></li>
+        <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Squat form</strong>: keep your back straight and aim to go below parallel as your mobility allows — depth comes with practice, don't force it on day one.</span></li>
+      </ul>
+    </section>
+
+    <section id="cycle">
+      <div class="section-kicker">03 — The Structure</div>
+      <h2 class="section-title">How The Cycle Works</h2>
+      <p>Iron Cycle is <strong>not tied to calendar days</strong>. You move through seven sessions in a fixed order, at whatever pace your schedule and recovery allow, then the cycle loops back to the start:</p>
+
+      <div class="table-wrap" style="padding:18px; display:flex; gap:8px; flex-wrap:wrap; justify-content:center; align-items:center; border:1px solid var(--border);">
+        <span class="day-pill">A1</span><span style="color:var(--dim-2)">→</span>
+        <span class="day-pill" style="border-color:var(--cardio); color:var(--cardio-glow); background:var(--cardio-dim);">C1</span><span style="color:var(--dim-2)">→</span>
+        <span class="day-pill">A2</span><span style="color:var(--dim-2)">→</span>
+        <span class="day-pill" style="border-color:var(--cardio); color:var(--cardio-glow); background:var(--cardio-dim);">C2</span><span style="color:var(--dim-2)">→</span>
+        <span class="day-pill">B1</span><span style="color:var(--dim-2)">→</span>
+        <span class="day-pill" style="border-color:var(--cardio); color:var(--cardio-glow); background:var(--cardio-dim);">C3</span><span style="color:var(--dim-2)">→</span>
+        <span class="day-pill">B2</span><span style="color:var(--dim-2)">→ (loops to A1)</span>
+      </div>
+
+      <p style="margin-top:18px;">Strength sessions (A1, A2, B1, B2) are upper-body focused with some leg work woven in; cardio sessions (C1, C2, C3) are identical in structure — a morning jog toward a step target, plus a short core circuit. Rest whenever you need to between sessions; the cycle waits for you.</p>
+    </section>
+
+    <section id="sessions">
+      <div class="section-kicker">04 — Day By Day</div>
+      <h2 class="section-title">The Seven Sessions</h2>
+
+      <div class="day-block" id="a1">
+        <div class="day-block-head"><span class="day-pill">A1</span><h3>Push + Arms</h3></div>
+        <div class="table-wrap">
+          <table class="ex-table">
+            <thead><tr><th>#</th><th>Exercise</th><th>Target</th><th>Sets × Reps</th><th>No-Equipment Alt</th></tr></thead>
+            <tbody>
+              <tr><td class="num">1</td><td>Bench press / Floor press</td><td class="target">Chest</td><td class="sets">3 × 8–15</td><td class="alt">Pushups (weighted)</td></tr>
+              <tr><td class="num">2</td><td>Pullovers <span style="color:var(--dim-2); font-size:12px;">— open ribcage, stretch lats</span></td><td class="target">Back</td><td class="sets">3 × 8–15</td><td class="alt">—</td></tr>
+              <tr><td class="num">3</td><td>Overhead press</td><td class="target">Shoulders</td><td class="sets">3 × 8–15</td><td class="alt">—</td></tr>
+              <tr><td class="num">4</td><td>Bicep curls</td><td class="target">Biceps</td><td class="sets">3 × 12–20</td><td class="alt">—</td></tr>
+              <tr><td class="num">5</td><td>Skull crushers</td><td class="target">Triceps</td><td class="sets">3 × 15–20</td><td class="alt">Diamond pushups / DB overhead triceps ext.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="day-block cardio-block" id="c1">
+        <div class="day-block-head"><span class="day-pill">C1</span><h3>Cardio</h3></div>
+        <p>See the full <a href="#cardio-detail" style="color:var(--cardio-glow); text-decoration:underline;">Cardio Day structure</a> below — identical for C1, C2, and C3.</p>
+      </div>
+
+      <div class="day-block" id="a2">
+        <div class="day-block-head"><span class="day-pill">A2</span><h3>Delts + Legs</h3></div>
+        <div class="form-note">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 3L2 20h20L12 3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 10v4M12 17h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span>Squat form: keep back straight, go below parallel.</span>
+        </div>
+        <div class="table-wrap">
+          <table class="ex-table">
+            <thead><tr><th>#</th><th>Exercise</th><th>Target</th><th>Sets × Reps</th><th>Alt</th></tr></thead>
+            <tbody>
+              <tr><td class="num">6</td><td>Rear delt flies</td><td class="target">Shoulders</td><td class="sets">3 × 15–20</td><td class="alt">—</td></tr>
+              <tr><td class="num">7</td><td>Lateral raises</td><td class="target">Shoulders</td><td class="sets">3 × 15–20</td><td class="alt">—</td></tr>
+              <tr><td class="num">8</td><td>Front squat or Bulgarian split squat</td><td class="target">Legs</td><td class="sets">3 × 8–15</td><td class="alt">Goblet squat / DB leg extension</td></tr>
+              <tr><td class="num">9</td><td>Romanian deadlift</td><td class="target">Hamstrings</td><td class="sets">3 × 8–15</td><td class="alt">Assisted Nordic hamstring curl</td></tr>
+              <tr><td class="num">10</td><td>Calf raises <span style="color:var(--dim-2); font-size:12px;">— slow, pause</span></td><td class="target">Calves</td><td class="sets">3 × 15–25</td><td class="alt">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="day-block cardio-block" id="c2">
+        <div class="day-block-head"><span class="day-pill">C2</span><h3>Cardio</h3></div>
+        <p>Same structure as C1 — see <a href="#cardio-detail" style="color:var(--cardio-glow); text-decoration:underline;">Cardio Day structure</a>.</p>
+      </div>
+
+      <div class="day-block" id="b1">
+        <div class="day-block-head"><span class="day-pill">B1</span><h3>Press + Pull</h3></div>
+        <div class="table-wrap">
+          <table class="ex-table">
+            <thead><tr><th>#</th><th>Exercise</th><th>Target</th><th>Sets × Reps</th><th>Alt</th></tr></thead>
+            <tbody>
+              <tr><td class="num">1</td><td>Overhead press</td><td class="target">Shoulders</td><td class="sets">3 × 8–15</td><td class="alt">—</td></tr>
+              <tr><td class="num">2</td><td>Dumbbell rows</td><td class="target">Back</td><td class="sets">3 × 8–15</td><td class="alt">Lat pulldown / Pullups / DB pullover</td></tr>
+              <tr><td class="num">3</td><td>Incline bench press or decline pushup</td><td class="target">Chest</td><td class="sets">3 × 8–15</td><td class="alt">Decline pushup (weighted)</td></tr>
+              <tr><td class="num">4</td><td>Hammer curls</td><td class="target">Biceps</td><td class="sets">3 × 12–20</td><td class="alt">—</td></tr>
+              <tr><td class="num">5</td><td>Triceps kickbacks</td><td class="target">Triceps</td><td class="sets">3 × 15–20</td><td class="alt">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="day-block cardio-block" id="c3">
+        <div class="day-block-head"><span class="day-pill">C3</span><h3>Cardio</h3></div>
+        <p>Same structure as C1 — see <a href="#cardio-detail" style="color:var(--cardio-glow); text-decoration:underline;">Cardio Day structure</a>.</p>
+      </div>
+
+      <div class="day-block" id="b2">
+        <div class="day-block-head"><span class="day-pill">B2</span><h3>Upper / Lower Finisher</h3></div>
+        <div class="table-wrap">
+          <table class="ex-table">
+            <thead><tr><th>#</th><th>Exercise</th><th>Target</th><th>Sets × Reps</th><th>Alt</th></tr></thead>
+            <tbody>
+              <tr><td class="num">6</td><td>Rear delt flies</td><td class="target">Shoulders</td><td class="sets">3 × 15–20</td><td class="alt">—</td></tr>
+              <tr><td class="num">7</td><td>Lateral raises</td><td class="target">Shoulders</td><td class="sets">3 × 15–20</td><td class="alt">—</td></tr>
+              <tr><td class="num">8</td><td>Lunges or Bulgarian split squat</td><td class="target">Legs</td><td class="sets">3 × 12–15</td><td class="alt">Goblet squat / DB leg extension</td></tr>
+              <tr><td class="num">9</td><td>Front squat</td><td class="target">Legs</td><td class="sets">3 × 8–15</td><td class="alt">—</td></tr>
+              <tr><td class="num">10</td><td>Calf raises <span style="color:var(--dim-2); font-size:12px;">— slow, pause</span></td><td class="target">Calves</td><td class="sets">3 × 15–25</td><td class="alt">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="cardio-detail" style="scroll-margin-top:30px;">
+        <h3 class="sub-title">Cardio Day Structure <span style="color:var(--cardio-glow);">— C1 / C2 / C3</span></h3>
+        <p>Every cardio day is built the same way:</p>
+        <div class="card-grid">
+          <div class="info-card cardio">
+            <div class="ic-head"><div class="ic-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 3c2 0 3 2 3 5s-1 4-1 7-2 5-4 5-3-2-3-4c0-4 3-5 3-9 0-2-1-4 2-4z" stroke="currentColor" stroke-width="1.6"/><path d="M18 8c2 0 3 2 3 5s-1 4-1 6-2 4-4 4-3-1-3-3c0-3 3-4 3-7 0-2-1-3 2-5z" stroke="currentColor" stroke-width="1.6"/></svg></div><h4>Jogging (Morning)</h4></div>
+            <p>Target: <strong>10,000 steps/day</strong>. Keep the pace conversational — this is base-building cardio, not a time trial.</p>
+          </div>
+          <div class="info-card cardio">
+            <div class="ic-head"><div class="ic-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="7" y="4" width="10" height="16" rx="3" stroke="currentColor" stroke-width="1.8"/></svg></div><h4>Core Circuit</h4></div>
+            <p>Three exercises done back to back, detailed below.</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="ex-table cardio-table">
+            <thead><tr><th>Exercise</th><th>Sets × Reps</th><th>Rest</th><th>Alt</th></tr></thead>
+            <tbody>
+              <tr><td>Plank</td><td class="sets">3 × 30–60s hold</td><td class="target">45–60s</td><td class="alt">—</td></tr>
+              <tr><td>Leg raises</td><td class="sets">3 × 10–15</td><td class="target">45–60s</td><td class="alt">—</td></tr>
+              <tr><td>Crunches + Hollow body holds</td><td class="sets">3 × 30–60s</td><td class="target">60–90s</td><td class="alt">Weighted situps</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="cardio-rules">
+      <div class="section-kicker cardio-kicker">05 — Reference</div>
+      <h2 class="section-title">Cardio Rules</h2>
+      <ul class="check-list cardio-list">
+        <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>No HIIT — keep it low-impact.</span></li>
+        <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>150 minutes of cardio per week, total.</span></li>
+        <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Do cardio on rest days, or split strength (AM) and cardio (PM) with a gap between.</span></li>
+        <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Mix more than one type of cardio per week — do the one you enjoy.</span></li>
+        <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Refeed after cardio to prevent catabolism.</span></li>
+        <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Add ankle weights / a weighted bag to jogging once it feels easy.</span></li>
+      </ul>
+    </section>
+
+    <section id="progression">
+      <div class="section-kicker">06 — The Long Game</div>
+      <h2 class="section-title">When To Progress</h2>
+      <p class="lede">Progressive overload — gradually asking more of your muscles over weeks and months — is the single biggest driver of results in this program. Here's the practical timeline for how and when to increase weight, reps, and cardio volume. All weights are tracked in <strong>kilograms (kg)</strong>.</p>
+
+      <div class="stairs-visual">
+        <svg viewBox="0 0 220 78" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="stairGrad" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stop-color="#8A2015"/>
+              <stop offset="100%" stop-color="#FF6A4D"/>
+            </linearGradient>
+          </defs>
+          <rect x="10"  y="52" width="28" height="18" rx="2" fill="url(#stairGrad)"/>
+          <rect x="46" y="40" width="28" height="30" rx="2" fill="url(#stairGrad)"/>
+          <rect x="82" y="27" width="28" height="43" rx="2" fill="url(#stairGrad)"/>
+          <rect x="118" y="14" width="28" height="56" rx="2" fill="url(#stairGrad)"/>
+          <rect x="154" y="2"  width="28" height="68" rx="2" fill="url(#stairGrad)"/>
+          <path d="M10 70h200" stroke="#2E2320" stroke-width="1.5"/>
+          <path d="M18 48L54 36L90 23L126 10L172 4" stroke="#FF6A4D" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.85"/>
+          <path d="M164 2l10 0 0 10" stroke="#FF6A4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.85"/>
+        </svg>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M2 12h2M20 12h2M6 8v8M18 8v8M6 12h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M17 4l3 3-3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="timeline-body">
+          <div class="timeline-title">Weight<span class="timeline-freq">every 1–2 weeks</span></div>
+          <div class="timeline-text">Once you complete every set of an exercise at the top of its rep range, with solid form, for two sessions in a row, add weight the next time you see that exercise. Typical increase: <strong>+1–2 kg</strong> for upper-body lifts, <strong>+2–4 kg</strong> for lower-body lifts.</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M8 10h.01M12 10h.01M16 10h.01M8 14h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div class="timeline-body">
+          <div class="timeline-title">Reps<span class="timeline-freq">every session</span></div>
+          <div class="timeline-text">Staying at the same weight? Add 1–2 reps per set each session until every set reaches the top of the range — that's your signal to increase weight and drop back to the bottom of the range next time.</div>
+        </div>
+      </div>
+
+      <div class="timeline-item cardio-item">
+        <div class="timeline-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M6 3c2 0 3 2 3 5s-1 4-1 7-2 5-4 5-3-2-3-4c0-4 3-5 3-9 0-2-1-4 2-4z" stroke="currentColor" stroke-width="1.6"/><path d="M18 8c2 0 3 2 3 5s-1 4-1 6-2 4-4 4-3-1-3-3c0-3 3-4 3-7 0-2-1-3 2-5z" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        <div class="timeline-body">
+          <div class="timeline-title">Distance / Steps<span class="timeline-freq">every 1–2 weeks</span></div>
+          <div class="timeline-text">Raise weekly cardio volume (steps, minutes, or distance) by no more than about 10% at a time. Once your normal jog feels easy at the current distance, layer on ankle weights or a weighted bag before pushing distance further.</div>
+        </div>
+      </div>
+
+      <div class="timeline-item deload-item">
+        <div class="timeline-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 9 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 3v5l4-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="timeline-body">
+          <div class="timeline-title">Deload<span class="timeline-freq">every 4–6 weeks</span></div>
+          <div class="timeline-text">Every 4–6 weeks, take one lighter lap through the cycle — same reps, roughly 10% less weight and easier cardio — so joints and connective tissue catch up before you keep pushing loads.</div>
+        </div>
+      </div>
+
+      <div class="callout warn" style="margin-top:24px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L2 20h20L12 3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 10v4M12 17h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <p><span class="callout-title">Also decrease rest between sets over time</span>As your work capacity improves, gradually trim rest periods toward the lower end of the 60–90 second range on hypertrophy work — it's another lever for progressive overload beyond just adding weight or reps.</p>
+      </div>
+    </section>
+
+    <section id="nutrition">
+      <div class="section-kicker">07 — Fuel &amp; Recovery</div>
+      <h2 class="section-title">Nutrition &amp; Recovery Basics</h2>
+      <p class="lede">Training creates the stimulus; food and sleep are what actually let your body adapt and grow stronger. A beginner who eats and sleeps consistently will out-progress one who trains harder but neglects both.</p>
+
+      <div class="card-grid">
+        <div class="info-card">
+          <div class="ic-head"><div class="ic-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2v6M8 6l4-4 4 4M6 12c0 5 2.5 8 6 8s6-3 6-8c0-3-2-5-6-5s-6 2-6 5z" stroke="currentColor" stroke-width="1.6"/></svg></div><h4>Protein</h4></div>
+          <p>Aim for roughly 1.6–2.2g of protein per kg of bodyweight per day, spread across meals, to support muscle repair between sessions.</p>
+        </div>
+        <div class="info-card">
+          <div class="ic-head"><div class="ic-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2c1 4-4 5-4 10a4 4 0 0 0 8 0c1.5 1 2 3 2 4a6 6 0 1 1-12 0c0-5 3-6 4-10 1 1 1.5 2 2 3z" fill="currentColor"/></svg></div><h4>Hydration</h4></div>
+          <p>Drink water throughout the day, not just around workouts — mild dehydration alone can make sessions feel noticeably harder.</p>
+        </div>
+        <div class="info-card">
+          <div class="ic-head"><div class="ic-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z" stroke="currentColor" stroke-width="1.6"/></svg></div><h4>Sleep</h4></div>
+          <p>Target 7–9 hours a night. Most of your recovery and adaptation happens during sleep, not during the workout itself.</p>
+        </div>
+        <div class="info-card">
+          <div class="ic-head"><div class="ic-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v18M3 12h18" stroke="currentColor" stroke-width="1.4"/></svg></div><h4>Energy Balance</h4></div>
+          <p>A slight calorie surplus generally supports muscle gain; a slight deficit supports fat loss. Either way, keep protein and training consistent — the number on the scale is a slow-moving average, not a daily verdict.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-title">Refeeding After Cardio</h3>
+      <p>On cardio days, eat a meal with carbohydrates and protein within a couple of hours after your session to replenish glycogen and reduce muscle breakdown — this is the "refeed after cardio to prevent catabolism" rule from the Cardio Rules section, in plain terms.</p>
+    </section>
+
+    <section id="equipment">
+      <div class="section-kicker">08 — What You Need</div>
+      <h2 class="section-title">Equipment</h2>
+      <p>This program is built around minimal home equipment:</p>
+      <div class="equip-chips">
+        <div class="equip-chip">Dumbbells</div>
+        <div class="equip-chip">Ankle Weights</div>
+        <div class="equip-chip">Skipping Rope</div>
+      </div>
+      <p>Every strength exercise also lists a no-equipment alternative, so a session is never blocked by not having a particular piece of kit on hand. Always begin sessions with the warmup routine described above.</p>
+    </section>
+
+    <section id="glossary">
+      <div class="section-kicker">09 — Terms Worth Knowing</div>
+      <h2 class="section-title">Glossary</h2>
+
+      <div class="glossary-item">
+        <div class="glossary-term">Set / Rep</div>
+        <p>A "rep" is one full repetition of an exercise. A "set" is a group of consecutive reps done without resting, e.g. "3 × 8–15" means 3 sets of 8 to 15 reps each.</p>
+      </div>
+      <div class="glossary-item">
+        <div class="glossary-term">Progressive Overload</div>
+        <p>Gradually increasing the demand placed on a muscle over time — via more weight, more reps, more sets, or less rest — so it has a reason to keep adapting.</p>
+      </div>
+      <div class="glossary-item">
+        <div class="glossary-term">DOMS</div>
+        <p>Delayed Onset Muscle Soreness — the normal ache that shows up 24–48 hours after training a muscle, especially with new or unfamiliar exercises.</p>
+      </div>
+      <div class="glossary-item">
+        <div class="glossary-term">Compound vs. Isolation</div>
+        <p>Compound lifts (bench press, squats, rows) move multiple joints and muscle groups at once. Isolation lifts (curls, lateral raises) target one muscle group through a single joint.</p>
+      </div>
+      <div class="glossary-item">
+        <div class="glossary-term">Deload</div>
+        <p>A planned, temporary reduction in training weight or volume — usually every 4–6 weeks — to let the body recover fully before continuing to push loads upward.</p>
+      </div>
+      <div class="glossary-item">
+        <div class="glossary-term">Low-Impact Cardio</div>
+        <p>Cardio that avoids hard, jarring movements — brisk walking, jogging at a conversational pace, cycling, swimming, or rowing — as opposed to HIIT or explosive plyometric training.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>IRON CYCLE — TRAINING GUIDE · WEIGHTS TRACKED IN KG · CONSULT A PROFESSIONAL BEFORE STARTING A NEW PROGRAM IF YOU HAVE A PRE-EXISTING CONDITION</footer>
+
+<script>
+(function(){
+  "use strict";
+  var links = Array.prototype.slice.call(document.querySelectorAll('.side-link'));
+  var sections = links.map(function(l){ return document.querySelector(l.getAttribute('href')); }).filter(Boolean);
+
+  function onScroll(){
+    var pos = window.scrollY + 120;
+    var activeIdx = 0;
+    sections.forEach(function(sec, i){
+      if(sec.offsetTop <= pos) activeIdx = i;
+    });
+    links.forEach(function(l){ l.classList.remove('active'); });
+    if(links[activeIdx]) links[activeIdx].classList.add('active');
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>

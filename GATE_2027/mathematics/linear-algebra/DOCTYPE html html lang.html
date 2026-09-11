@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linear Algebra — GATE Problem Set</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+<script>
+tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif']},colors:{brand:{50:'#EFF6FF',100:'#DBEAFE',200:'#BFDBFE',300:'#93C5FD',400:'#60A5FA',500:'#3B82F6',600:'#2563EB',700:'#1D4ED8',800:'#1E40AF',900:'#1E3A8A'}},letterSpacing:{tighter:'-0.02em'}}}}
+</script>
+<style>
+*{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-feature-settings:"cv11","ss01"}
+.question-card{transition:all .3s ease}
+.question-card:hover{box-shadow:0 10px 15px -3px rgba(0,0,0,.1)}
+.opt{transition:all .2s ease;cursor:pointer}
+.opt:hover:not(.locked){transform:translateX(4px);border-color:#9CA3AF}
+.opt.sel{background:#EFF6FF;border-color:#3B82F6;color:#1E40AF}
+.opt.ok{background:#F0FDF4;border-color:#22C55E;color:#166534}
+.opt.no{background:#FEF2F2;border-color:#EF4444;color:#991B1B}
+.opt.miss{background:#FEF9C3;border-color:#EAB308;color:#854D0E}
+.opt.locked{pointer-events:none;opacity:.65}
+.opt.ok.locked,.opt.no.locked,.opt.miss.locked{opacity:1}
+.sol{max-height:0;overflow:hidden;transition:max-height .5s ease,opacity .3s ease;opacity:0}
+.sol.open{max-height:2000px;opacity:1}
+.nat-in:focus{border-color:#3B82F6;box-shadow:0 0 0 3px rgba(59,130,246,.15)}
+.score-ring{transition:stroke-dashoffset .8s ease}
+.b-mcq{background:linear-gradient(135deg,#DBEAFE,#BFDBFE);color:#1E40AF}
+.b-msq{background:linear-gradient(135deg,#FEF3C7,#FDE68A);color:#92400E}
+.b-nat{background:linear-gradient(135deg,#D1FAE5,#A7F3D0);color:#065F46}
+.math{font-family:'Times New Roman',serif;font-style:italic}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#F9FAFB}::-webkit-scrollbar-thumb{background:#D1D5DB;border-radius:3px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease forwards}
+</style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-700">
+
+<nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/50">
+<div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 bg-brand-600 rounded-lg flex items-center justify-center"><span class="iconify text-white text-sm" data-icon="lucide:grid-3x3"></span></div>
+<span class="font-semibold text-gray-900 text-sm">Linear Algebra</span>
+</div>
+<div class="hidden md:flex items-center gap-5 text-xs font-medium">
+<a href="#s-mcq1" class="text-gray-500 hover:text-gray-900 transition-colors">1M MCQ</a>
+<a href="#s-mcq2" class="text-gray-500 hover:text-gray-900 transition-colors">2M MCQ</a>
+<a href="#s-msq1" class="text-gray-500 hover:text-gray-900 transition-colors">1M MSQ</a>
+<a href="#s-msq2" class="text-gray-500 hover:text-gray-900 transition-colors">2M MSQ</a>
+<a href="#s-nat1" class="text-gray-500 hover:text-gray-900 transition-colors">1M NAT</a>
+<a href="#s-nat2" class="text-gray-500 hover:text-gray-900 transition-colors">2M NAT</a>
+<a href="#key" class="text-gray-500 hover:text-gray-900 transition-colors">Key</a>
+</div>
+<button onclick="resetAll()" class="flex items-center gap-1.5 text-xs text-gray-400 hover:text-red-500 transition-colors"><span class="iconify text-sm" data-icon="lucide:rotate-ccw"></span>Reset</button>
+</div>
+</nav>
+
+<header class="pt-14">
+<div class="bg-gradient-to-b from-brand-900 via-brand-800 to-brand-700 text-white">
+<div class="max-w-5xl mx-auto px-6 py-14 md:py-20">
+<div class="flex items-center gap-2 mb-5">
+<span class="px-2.5 py-1 bg-white/10 rounded-full text-[10px] font-semibold tracking-wider uppercase text-blue-200">GATE Standard</span>
+<span class="px-2.5 py-1 bg-white/10 rounded-full text-[10px] font-semibold tracking-wider uppercase text-blue-200">Matrix Algebra</span>
+</div>
+<h1 class="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-3">Linear Algebra<br><span class="text-blue-200">Problem Set</span></h1>
+<p class="text-base text-blue-100/70 max-w-xl mb-8 leading-relaxed">36 questions covering matrix operations, rank, determinants, inverse, LU decomposition — modeled after GATE patterns.</p>
+<div class="flex flex-wrap gap-4">
+<div class="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-2xl px-5 py-3.5">
+<svg width="56" height="56" viewBox="0 0 64 64" class="shrink-0"><circle cx="32" cy="32" r="28" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="4"/><circle id="sRing" cx="32" cy="32" r="28" fill="none" stroke="#60A5FA" stroke-width="4" stroke-linecap="round" stroke-dasharray="175.93" stroke-dashoffset="175.93" transform="rotate(-90 32 32)" class="score-ring"/><text x="32" y="36" text-anchor="middle" fill="white" font-size="15" font-weight="700" font-family="Inter" id="sTxt">0</text></svg>
+<div><div class="text-xl font-bold" id="sDisp">0 / 55</div><div class="text-xs text-blue-200/60">Score</div></div>
+</div>
+<div class="flex gap-3">
+<div class="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3.5 text-center min-w-[70px]"><div class="text-lg font-bold text-green-300" id="nOk">0</div><div class="text-[10px] text-blue-200/60">Correct</div></div>
+<div class="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3.5 text-center min-w-[70px]"><div class="text-lg font-bold text-red-300" id="nNo">0</div><div class="text-[10px] text-blue-200/60">Wrong</div></div>
+<div class="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3.5 text-center min-w-[70px]"><div class="text-lg font-bold text-blue-200" id="nAtt">0</div><div class="text-[10px] text-blue-200/60">Attempted</div></div>
+</div>
+</div>
+</div>
+</div>
+</header>
+
+<section class="bg-white border-b border-gray-100">
+<div class="max-w-5xl mx-auto px-6 py-6">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+<div class="flex items-center gap-2.5 p-3.5 rounded-xl bg-blue-50/50 border border-blue-100"><div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center shrink-0"><span class="iconify text-blue-600" data-icon="lucide:circle-dot"></span></div><div><div class="font-semibold text-gray-900 text-xs">MCQ</div><div class="text-[10px] text-gray-500">+full / −⅓ or −⅔</div></div></div>
+<div class="flex items-center gap-2.5 p-3.5 rounded-xl bg-amber-50/50 border border-amber-100"><div class="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center shrink-0"><span class="iconify text-amber-600" data-icon="lucide:check-square"></span></div><div><div class="font-semibold text-gray-900 text-xs">MSQ</div><div class="text-[10px] text-gray-500">+full if all correct / 0</div></div></div>
+<div class="flex items-center gap-2.5 p-3.5 rounded-xl bg-emerald-50/50 border border-emerald-100"><div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0"><span class="iconify text-emerald-600" data-icon="lucide:hash"></span></div><div><div class="font-semibold text-gray-900 text-xs">NAT</div><div class="text-[10px] text-gray-500">+full if in range / 0</div></div></div>
+</div>
+</div>
+</section>
+
+<main class="max-w-5xl mx-auto px-6 py-8 pb-24 md:pb-12" id="app"></main>
+
+<script>
+const Q=[
+// === 1-MARK MCQ ===
+{id:1,type:"mcq",m:1,neg:.33,sec:"mcq1",badge:"b-mcq",btxt:"+1 / −0.33",
+q:`Let <span class="math">A</span> be an <span class="math">m</span>×<span class="math">n</span> matrix and <span class="math">B</span> be <span class="math">n</span>×<span class="math">p</span>. If <span class="math">AB = 0</span>, which <strong>must</strong> be true?`,
+opts:["A = 0 or B = 0","Row space of A is orthogonal to column space of B","Rank(A) + Rank(B) ≤ n","Rank(A) = Rank(B)"],
+ans:"C",
+sol:"<b>Sylvester's Rank Inequality:</b> Rank(AB) ≥ Rank(A)+Rank(B)−n. Since AB=0, Rank(AB)=0, so 0 ≥ Rank(A)+Rank(B)−n ⟹ <b>Rank(A)+Rank(B) ≤ n</b>."},
+
+{id:2,type:"mcq",m:1,neg:.33,sec:"mcq1",badge:"b-mcq",btxt:"+1 / −0.33",
+q:`Let <span class="math">A</span> be a 4×4 matrix with <span class="math">A<sup>T</sup> = −A</span>. The determinant of <span class="math">A</span> is:`,
+opts:["1","−1","0","Cannot be determined"],
+ans:"D",
+sol:"For even-order skew-symmetric matrices, det can be anything. Example: block-diag of two [0 1;−1 0] has det=1. Only <b>odd order</b> skew-symmetric matrices are guaranteed det=0."},
+
+{id:3,type:"mcq",m:1,neg:.33,sec:"mcq1",badge:"b-mcq",btxt:"+1 / −0.33",
+q:`If <span class="math">A</span> is 3×3 with Rank(<span class="math">A</span>) = 2, then Rank(<span class="math">A<sup>T</sup>A</span>) is:`,
+opts:["0","1","2","3"],ans:"C",
+sol:"<b>Key theorem:</b> For real matrices, Rank(A<sup>T</sup>A) = Rank(A) = 2."},
+
+{id:4,type:"mcq",m:1,neg:.33,sec:"mcq1",badge:"b-mcq",btxt:"+1 / −0.33",
+q:`Which is <strong>NOT</strong> a property of an orthogonal matrix <span class="math">Q</span>?`,
+opts:["Q<sup>T</sup>Q = I","det(Q) = ±1","Q<sup>−1</sup> = Q<sup>T</sup>","The columns of Q need not be orthonormal"],ans:"D",
+sol:"By definition, orthogonal matrices have <b>orthonormal</b> columns. Option D directly contradicts this."},
+
+{id:5,type:"mcq",m:1,neg:.33,sec:"mcq1",badge:"b-mcq",btxt:"+1 / −0.33",
+q:`<span class="math">A</span> = [[1,a,b],[0,1,c],[0,0,1]] is always invertible for:`,
+opts:["No values of a,b,c","All values of a,b,c","Only when a=b=c=0","Only when abc≠0"],ans:"B",
+sol:"Upper triangular with all diagonal entries = 1. det(A) = 1×1×1 = 1 ≠ 0 for <b>any</b> values."},
+
+{id:6,type:"mcq",m:1,neg:.33,sec:"mcq1",badge:"b-mcq",btxt:"+1 / −0.33",
+q:`<span class="math">A</span> is n×n upper triangular. Diagonal: 2, 0, 5, −1, 3. Rank of <span class="math">A</span>?`,
+opts:["5","4","3","Cannot be determined from given information"],ans:"D",
+sol:"<b>GATE Trap!</b> Off-diagonal entries matter! Example: [[0,1],[0,0]] has zero diagonal but rank 1. Without off-diagonal info, rank <b>cannot be determined</b>."},
+
+{id:7,type:"mcq",m:1,neg:.33,sec:"mcq1",badge:"b-mcq",btxt:"+1 / −0.33",
+q:`If <span class="math">A</span> and <span class="math">B</span> are n×n invertible, then (<span class="math">AB</span>)<sup>−1</sup> equals:`,
+opts:["A<sup>−1</sup>B<sup>−1</sup>","B<sup>−1</sup>A<sup>−1</sup>","BA","AB"],ans:"B",
+sol:"<b>Order reverses:</b> (AB)<sup>−1</sup> = B<sup>−1</sup>A<sup>−1</sup>."},
+
+// === 2-MARK MCQ ===
+{id:8,type:"mcq",m:2,neg:.67,sec:"mcq2",badge:"b-mcq",btxt:"+2 / −0.67",
+q:`<span class="math">A</span> = [[1,2,3],[4,5,6],[7,8,9]]. Which is true about <span class="math">AA<sup>T</sup></span>?`,
+opts:["Rank-3 matrix","Rank-2 matrix","Rank-1 matrix","Zero matrix"],ans:"B",
+sol:"Rows are in arithmetic progression (R3−R2 = R2−R1), so Rank(A)=2. Rank(AA<sup>T</sup>) = Rank(A) = <b>2</b>."},
+
+{id:9,type:"mcq",m:2,neg:.67,sec:"mcq2",badge:"b-mcq",btxt:"+2 / −0.67",
+q:`<span class="math">A</span> is 4×3 with Rank=3, <span class="math">B</span> is 3×5 with Rank=3. Rank(<span class="math">AB</span>)?`,
+opts:["3","4","≤ 3","Cannot be determined"],ans:"A",
+sol:"Sylvester: Rank(AB) ≥ 3+3−3 = 3. Upper bound: min(3,3) = 3. So Rank(AB) = <b>3</b> exactly."},
+
+{id:10,type:"mcq",m:2,neg:.67,sec:"mcq2",badge:"b-mcq",btxt:"+2 / −0.67",
+q:`<span class="math">M</span> = [[2,1,1],[1,2,1],[1,1,2]] decomposed as <span class="math">LU</span>. The (2,2) entry of <span class="math">U</span>?`,
+opts:["1/2","3/2","2/3","5/2"],ans:"B",
+sol:"l₂₁ = 1/2. u₂₂ = 2 − (1/2)(1) = <b>3/2</b>."},
+
+{id:11,type:"mcq",m:2,neg:.67,sec:"mcq2",badge:"b-mcq",btxt:"+2 / −0.67",
+q:`<span class="math">A</span> = [[1,2],[2,4]], <span class="math">B</span> = [[4,−2],[−2,1]]. The product <span class="math">AB</span>?`,
+opts:["Rank-1 matrix","Rank-2 matrix","Identity matrix","Zero matrix"],ans:"D",
+sol:"Both rank-1: A=uv<sup>T</sup>, B=wz<sup>T</sup>. v<sup>T</sup>w = [1,2]·[2;−1] = 0. So AB = u·0·z<sup>T</sup> = <b>0</b>."},
+
+{id:12,type:"mcq",m:2,neg:.67,sec:"mcq2",badge:"b-mcq",btxt:"+2 / −0.67",
+q:`Which is <strong>NOT sufficient</strong> to conclude <span class="math">A<sup>−1</sup></span> exists?`,
+opts:["det(A) ≠ 0","Rows of A are linearly independent","A<sup>T</sup>A is invertible","A has a zero eigenvalue"],ans:"D",
+sol:"Zero eigenvalue ⟹ det(A) = 0 ⟹ A is <b>singular</b>. This guarantees A<sup>−1</sup> does NOT exist."},
+
+{id:13,type:"mcq",m:2,neg:.67,sec:"mcq2",badge:"b-mcq",btxt:"+2 / −0.67",
+q:`Every row of 3×3 matrix <span class="math">A</span> sums to <span class="math">k ≠ 0</span>. Then:`,
+opts:["k is eigenvalue with eigenvector [1,1,1]<sup>T</sup>","k is eigenvalue with eigenvector [1,0,0]<sup>T</sup>","A is always singular","det(A) = k³"],ans:"A",
+sol:"A[1,1,1]<sup>T</sup> = [k,k,k]<sup>T</sup> = k[1,1,1]<sup>T</sup>. Classic GATE question!"},
+
+{id:14,type:"mcq",m:2,neg:.67,sec:"mcq2",badge:"b-mcq",btxt:"+2 / −0.67",
+q:`<span class="math">P</span> and <span class="math">Q</span> are n×n permutation matrices. <span class="math">PQ</span> is:`,
+opts:["Always identity","Always a permutation matrix","Always symmetric","Always diagonal"],ans:"B",
+sol:"Product of two permutations is a permutation. Composition of permutations = permutation."},
+
+{id:15,type:"mcq",m:2,neg:.67,sec:"mcq2",badge:"b-mcq",btxt:"+2 / −0.67",
+q:`<span class="math">A</span> = [[a,b],[c,d]] with ad−bc=1. The (1,1) entry of <span class="math">A<sup>−1</sup></span>?`,
+opts:["a","d","−b","−c"],ans:"B",
+sol:"A<sup>−1</sup> = (1/1)[[d,−b],[−c,a]] = [[d,−b],[−c,a]]. (1,1) entry = <b>d</b>."},
+
+// === 1-MARK MSQ ===
+{id:16,type:"msq",m:1,sec:"msq1",badge:"b-msq",btxt:"+1 / 0",
+q:`Which matrices are <strong>always singular</strong>?`,
+opts:["A matrix with two identical rows","A matrix with a row of all zeros","A 4×3 matrix","A matrix where one column is a linear combination of others"],
+ans:["A","B","D"],
+sol:"(C) is false: 'Singular' applies to square matrices. A 4×3 can have full column rank."},
+
+{id:17,type:"msq",m:1,sec:"msq1",badge:"b-msq",btxt:"+1 / 0",
+q:`Which are <strong>true</strong> for any n×n matrices <span class="math">A</span>, <span class="math">B</span>?`,
+opts:["tr(AB) = tr(BA)","(AB)<sup>T</sup> = B<sup>T</sup>A<sup>T</sup>","det(AB) = det(A)det(B)","(A+B)² = A² + 2AB + B²"],
+ans:["A","B","C"],
+sol:"(D) is false: (A+B)² = A²+AB+BA+B² ≠ A²+2AB+B² unless AB=BA."},
+
+{id:18,type:"msq",m:1,sec:"msq1",badge:"b-msq",btxt:"+1 / 0",
+q:`<span class="math">A</span> is a rank-1 matrix. Which <strong>must</strong> be true?`,
+opts:["All columns are scalar multiples of each other","All rows are scalar multiples of each other","det(A) = 0","A can be written as uv<sup>T</sup>"],
+ans:["A","B","C","D"],
+sol:"All four are fundamental properties of rank-1 matrices."},
+
+{id:19,type:"msq",m:1,sec:"msq1",badge:"b-msq",btxt:"+1 / 0",
+q:`Which operations <strong>preserve rank</strong>?`,
+opts:["Multiplying a row by non-zero scalar","Swapping two rows","Adding multiple of one row to another","Multiplying entire matrix by 0"],
+ans:["A","B","C"],
+sol:"(D) gives zero matrix with rank 0. (A)(B)(C) are elementary row operations."},
+
+{id:20,type:"msq",m:1,sec:"msq1",badge:"b-msq",btxt:"+1 / 0",
+q:`For which types is <span class="math">A<sup>T</sup> = A<sup>−1</sup></span>?`,
+opts:["Symmetric matrix","Orthogonal matrix","Idempotent matrix","Involutory (A²=I) that is also symmetric"],
+ans:["B","D"],
+sol:"(B) By definition. (D) A<sup>−1</sup>=A (from A²=I) and A<sup>T</sup>=A, so A<sup>T</sup>=A=A<sup>−1</sup>."},
+
+// === 2-MARK MSQ ===
+{id:21,type:"msq",m:2,sec:"msq2",badge:"b-msq",btxt:"+2 / 0",
+q:`For real m×n matrix <span class="math">A</span>, which are <strong>always equal</strong>?`,
+opts:["Rank(A)","Rank(A<sup>T</sup>)","Number of pivots in RREF of A","Number of pivots in REF of A"],
+ans:["A","B","C","D"],
+sol:"Row rank = Column rank. Pivot count doesn't change from REF to RREF. All four equal!"},
+
+{id:22,type:"msq",m:2,sec:"msq2",badge:"b-msq",btxt:"+2 / 0",
+q:`<span class="math">A</span> = [[1,1,1],[1,1,1],[1,1,1]]. Which are <strong>true</strong>?`,
+opts:["Rank(A) = 1","A² = 3A","A = uu<sup>T</sup> for some vector u","det(A) = 1"],
+ans:["A","B","C"],
+sol:"A = uu<sup>T</sup> where u=[1,1,1]<sup>T</sup>. A² = u(u<sup>T</sup>u)u<sup>T</sup> = 3uu<sup>T</sup> = 3A. det(A)=0 (rank 1 in 3×3). ✗ for D."},
+
+{id:23,type:"msq",m:2,sec:"msq2",badge:"b-msq",btxt:"+2 / 0",
+q:`<span class="math">A</span> is n×n invertible. Which are <strong>also invertible</strong>?`,
+opts:["A<sup>T</sup>","2A","A²","A + A<sup>T</sup>"],
+ans:["A","B","C"],
+sol:"(D) false: A=[[0,1],[−1,0]] ⟹ A+A<sup>T</sup> = 0."},
+
+{id:24,type:"msq",m:2,sec:"msq2",badge:"b-msq",btxt:"+2 / 0",
+q:`3×3 <span class="math">A</span> with Rank=2. Which <strong>must</strong> be true?`,
+opts:["det(A) = 0","Columns are linearly dependent","Ax=0 has infinitely many solutions","A<sup>T</sup> has rank 2"],
+ans:["A","B","C","D"],
+sol:"Rank < n ⟹ det=0, columns LD, nullity=1>0, and Rank(A<sup>T</sup>)=Rank(A). All four!"},
+
+{id:25,type:"msq",m:2,sec:"msq2",badge:"b-msq",btxt:"+2 / 0",
+q:`<span class="math">L</span> is lower triangular with all diagonal = 1. Which are <strong>true</strong>?`,
+opts:["L is always invertible","det(L) = 1","L<sup>−1</sup> is also lower triangular","L<sup>−1</sup> has 1s on diagonal"],
+ans:["A","B","C","D"],
+sol:"Unit lower triangular: all four properties hold."},
+
+// === 1-MARK NAT ===
+{id:26,type:"nat",m:1,sec:"nat1",badge:"b-nat",btxt:"+1 / 0",
+q:`<span class="math">A</span> = [[1,2],[3,4]]. Find the <strong>(2,1) entry</strong> of <span class="math">A<sup>−1</sup></span>.`,
+ans:"1.5",accept:["1.5","3/2","1.50"],
+sol:"A<sup>−1</sup> = (1/−2)[[4,−2],[−3,1]] = [[−2,1],[1.5,−0.5]]. (2,1) = <b>1.5</b>."},
+
+{id:27,type:"nat",m:1,sec:"nat1",badge:"b-nat",btxt:"+1 / 0",
+q:`<span class="math">A</span> is 6×4 with Rank(A)=4. Nullity of <span class="math">A<sup>T</sup></span>?`,
+ans:"2",accept:["2"],
+sol:"A<sup>T</sup> is 4×6, Rank(A<sup>T</sup>)=4. Nullity = 6−4 = <b>2</b>."},
+
+{id:28,type:"nat",m:1,sec:"nat1",badge:"b-nat",btxt:"+1 / 0",
+q:`<span class="math">A</span> = [[1,2,3],[2,4,6],[3,6,9]] has rank ______.`,
+ans:"1",accept:["1"],
+sol:"Every row is a multiple of (1,2,3). Rank = <b>1</b>."},
+
+{id:29,type:"nat",m:1,sec:"nat1",badge:"b-nat",btxt:"+1 / 0",
+q:`det(<span class="math">A</span>) = 5 for 4×4 matrix. det(2<span class="math">A<sup>−1</sup></span>) = ______.`,
+ans:"3.2",accept:["3.2","16/5","3.20"],
+sol:"det(2A<sup>−1</sup>) = 2⁴ × (1/5) = 16/5 = <b>3.2</b>."},
+
+{id:30,type:"nat",m:1,sec:"nat1",badge:"b-nat",btxt:"+1 / 0",
+q:`<span class="math">A</span> = [[1,0,0],[2,1,0],[3,4,1]]. det(<span class="math">A</span>) = ______.`,
+ans:"1",accept:["1"],
+sol:"Lower triangular: det = 1×1×1 = <b>1</b>."},
+
+// === 2-MARK NAT ===
+{id:31,type:"nat",m:2,sec:"nat2",badge:"b-nat",btxt:"+2 / 0",
+q:`Using Cramer's rule, find <strong>x</strong> in Ax=b where <span class="math">A</span> = [[1,2,1],[2,5,3],[1,3,3]], <span class="math">b</span> = [4,10,7]<sup>T</sup>.`,
+ans:"1",accept:["1"],
+sol:"det(A) = 1(15−9)−2(6−3)+1(6−5) = 1. det(A₁) = 4(15−9)−2(30−21)+1(30−35) = 1. x = 1/1 = <b>1</b>."},
+
+{id:32,type:"nat",m:2,sec:"nat2",badge:"b-nat",btxt:"+2 / 0",
+q:`Find det of the Pascal matrix: [[1,1,1,1],[1,2,3,4],[1,3,6,10],[1,4,10,20]].`,
+ans:"1",accept:["1"],
+sol:"Apply R₂−R₁, R₃−R₂, R₄−R₃ repeatedly → upper triangular with diagonal (1,1,1,1). det = <b>1</b>."},
+
+{id:33,type:"nat",m:2,sec:"nat2",badge:"b-nat",btxt:"+2 / 0",
+q:`<span class="math">A</span> = [[2,1,1],[4,3,3],[8,7,9]]. In LU decomposition, find l₂₁ + l₃₁ + l₃₂.`,
+ans:"9",accept:["9"],
+sol:"l₂₁=4/2=2, l₃₁=8/2=4, l₃₂=3/1=3. Sum = <b>9</b>."},
+
+{id:34,type:"nat",m:2,sec:"nat2",badge:"b-nat",btxt:"+2 / 0",
+q:`<span class="math">A</span>,<span class="math">B</span> are 3×3 with det(A)=2, det(B)=3. Find det(2A<sup>−1</sup>B<sup>T</sup>).`,
+ans:"12",accept:["12"],
+sol:"2³ × (1/2) × 3 = 8 × 3/2 = <b>12</b>."},
+
+{id:35,type:"nat",m:2,sec:"nat2",badge:"b-nat",btxt:"+2 / 0",
+q:`<span class="math">A</span> = [[1,a,b],[0,1,c],[0,0,0]]. Max possible rank of <span class="math">AA<sup>T</sup></span>?`,
+ans:"2",accept:["2"],
+sol:"Rank(A)=2. AA<sup>T</sup> has last row/col zero → effectively 2×2 block. Max rank = <b>2</b>."},
+
+{id:36,type:"nat",m:2,sec:"nat2",badge:"b-nat",btxt:"+2 / 0",
+q:`5×5 matrix <span class="math">A</span> satisfies <span class="math">A</span>² = <span class="math">A</span> and tr(<span class="math">A</span>) = 3. Rank of <span class="math">A</span>?`,
+ans:"3",accept:["3"],
+sol:"Idempotent: eigenvalues ∈ {0,1}. Trace = sum of eigenvalues = number of 1s = Rank(A) = <b>3</b>."}
+];
+
+const SECS={
+mcq1:{t:"Multiple Choice Questions",s:"1-Mark MCQ",d:"Q1 – Q7"},
+mcq2:{t:"Multiple Choice Questions",s:"2-Mark MCQ",d:"Q8 – Q15"},
+msq1:{t:"Multiple Select Questions",s:"1-Mark MSQ",d:"Q16 – Q20"},
+msq2:{t:"Multiple Select Questions",s:"2-Mark MSQ",d:"Q21 – Q25"},
+nat1:{t:"Numerical Answer Type",s:"1-Mark NAT",d:"Q26 – Q30"},
+nat2:{t:"Numerical Answer Type",s:"2-Mark NAT",d:"Q31 – Q36"}
+};
+
+const state={};
+Q.forEach(q=>{state[q.id]={sel:q.type==='msq'?[]:null,checked:false,ok:false,score:0}});
+
+function render(){
+const app=document.getElementById('app');
+let html='';
+const secOrder=['mcq1','mcq2','msq1','msq2','nat1','nat2'];
+secOrder.forEach(sec=>{
+const info=SECS[sec];
+const qs=Q.filter(q=>q.sec===sec);
+const mStr=sec.includes('mcq')?'MCQ':sec.includes('msq')?'MSQ':'NAT';
+const mCls=sec.includes('mcq')?'b-mcq':sec.includes('msq')?'b-msq':'b-nat';
+const mMarks=sec.includes('1')?'1':'2';
+html+=`<section id="s-${sec}" class="mb-14 scroll-mt-20">
+<div class="flex items-center justify-between mb-5 cursor-pointer" onclick="togSec('${sec}')">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl ${mCls} flex items-center justify-center text-xs font-bold">${mMarks}M</div>
+<div><h2 class="text-lg font-semibold text-gray-900 tracking-tight">${info.t}</h2><p class="text-xs text-gray-500">${info.d}</p></div>
+</div>
+<span class="iconify text-gray-400 text-lg transition-transform duration-300" id="tog-${sec}" data-icon="lucide:chevron-down"></span>
+</div>
+<div id="body-${sec}" class="space-y-3.5">`;
+qs.forEach(q=>{
+const s=state[q.id];
+html+=`<div class="question-card bg-white rounded-2xl border border-gray-200 p-5 fade-up" id="card-${q.id}">
+<div class="flex items-start justify-between mb-3">
+<span class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Question ${q.id}</span>
+<span class="${q.badge} text-[10px] font-semibold px-2 py-0.5 rounded-full">${q.btxt}</span>
+</div>
+<p class="text-gray-900 font-medium mb-4 leading-relaxed text-[15px]">${q.q}</p>`;
+if(q.type==='mcq'){
+q.opts.forEach((o,i)=>{
+const l=String.fromCharCode(65+i);
+const cls=s.checked?(l===q.ans?'opt ok locked':s.sel===l?'opt no locked':'opt locked'):(s.sel===l?'opt sel':'opt');
+html+=`<button class="${cls} w-full text-left px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-700 flex items-center gap-2.5" onclick="selMCQ(${q.id},'${l}')">
+<span class="w-6 h-6 rounded-full border-2 ${s.checked&&l===q.ans?'border-green-500 bg-green-500 text-white':s.checked&&s.sel===l?'border-red-500 bg-red-500 text-white':'border-gray-300'} flex items-center justify-center text-[11px] font-semibold shrink-0">${l}</span><span>${o}</span></button>`;
+});
+}else if(q.type==='msq'){
+q.opts.forEach((o,i)=>{
+const l=String.fromCharCode(65+i);
+let cls='opt';
+if(s.checked){
+const isAns=q.ans.includes(l),isSel=s.sel.includes(l);
+if(isAns&&isSel) cls='opt ok locked';
+else if(!isAns&&isSel) cls='opt no locked';
+else if(isAns&&!isSel) cls='opt miss locked';
+else cls='opt locked';
+}else if(s.sel.includes(l)) cls='opt sel';
+html+=`<button class="${cls} w-full text-left px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-700 flex items-center gap-2.5" onclick="togMSQ(${q.id},'${l}')">
+<span class="w-6 h-6 rounded-lg border-2 ${s.checked&&q.ans.includes(l)?'border-green-500 bg-green-500 text-white':s.checked&&s.sel.includes(l)?'border-red-500 bg-red-500 text-white':s.sel.includes(l)?'border-brand-500 bg-brand-500 text-white':'border-gray-300'} flex items-center justify-center text-[11px] font-semibold shrink-0">${l}</span><span>${o}</span></button>`;
+});
+}else{
+html+=`<div class="flex items-center gap-2.5">
+<input type="text" class="nat-in w-36 px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm font-medium outline-none transition-all" placeholder="Answer" id="inp-${q.id}" ${s.checked?'disabled':''} value="${s.sel||''}" oninput="state[${q.id}].sel=this.value;showChk(${q.id})">
+<button class="check-btn text-sm text-brand-600 hover:text-brand-700 font-medium flex items-center gap-1 ${!s.sel||s.checked?'opacity-0 pointer-events-none':'opacity-100'} transition-opacity px-3 py-2.5 rounded-xl border border-brand-200 hover:bg-brand-50" onclick="chk(${q.id})"><span class="iconify" data-icon="lucide:check"></span> Submit</button>
+ ${s.checked?`<span class="text-sm font-semibold ${s.ok?'text-green-600':'text-red-500'}">${s.ok?'✓ Correct':'✗ Wrong'}</span>`:''}
+</div>`;
+}
+html+=`<div class="flex justify-end mt-3">`;
+if(q.type!=='nat'){
+html+=`<button class="check-btn text-xs text-brand-600 hover:text-brand-700 font-medium flex items-center gap-1 ${!s.checked&&(q.type==='mcq'?s.sel:s.sel.length)?'opacity-100':'opacity-0 pointer-events-none'} transition-opacity" onclick="chk(${q.id})"><span class="iconify" data-icon="lucide:eye"></span> Check Answer</button>`;
+}
+html+=`</div>
+<div class="sol ${s.checked?'open':''} mt-3">
+<div class="${q.type==='msq'?'bg-amber-50 border-amber-100':'q.type==='nat'?'bg-emerald-50 border-emerald-100':'bg-blue-50 border-blue-100'} border rounded-xl p-4 text-sm text-gray-700 leading-relaxed" style="background:${q.type==='msq'?'#FFFBEB':q.type==='nat'?'#ECFDF5':'#EFF6FF'};border-color:${q.type==='msq'?'#FEF3C7':q.type==='nat'?'#D1FAE5':'#DBEAFE'}">
+<div class="font-semibold mb-1.5" style="color:${q.type==='msq'?'#92400E':q.type==='nat'?'#065F46':'#1E40AF'}">💡 Solution</div>
+<p>${q.sol}</p>
+ ${q.type==='mcq'&&q.neg?`<p class="mt-2 text-gray-400 text-xs">Negative marking: −${q.neg} for wrong answer</p>`:''}
+</div></div></div>`;
+});
+html+=`</div></section>`;
+});
+// Answer Key
+html+=`<section id="key" class="mb-16 scroll-mt-20">
+<div class="flex items-center gap-3 mb-5"><div class="w-9 h-9 rounded-xl bg-gray-900 flex items-center justify-center text-xs font-bold text-white">Key</div><div><h2 class="text-lg font-semibold text-gray-900 tracking-tight">Answer Key</h2><p class="text-xs text-gray-500">Quick Reference</p></div></div>
+<div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+<table class="w-full text-sm"><thead><tr class="bg-gray-50 border-b border-gray-200">
+<th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase w-20">Q#</th>
+<th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase w-16">Type</th>
+<th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase w-16">Marks</th>
+<th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Answer</th>
+</tr></thead><tbody>`;
+Q.forEach((q,i)=>{
+const ans=q.type==='msq'?q.ans.join(', '):q.ans;
+const bg=i%2===0?'':'bg-gray-50/50';
+html+=`<tr class="${bg} border-b border-gray-100 last:border-0">
+<td class="px-4 py-2.5 font-medium text-gray-900">${q.id}</td>
+<td class="px-4 py-2.5"><span class="${q.badge} text-[10px] font-semibold px-2 py-0.5 rounded-full">${q.type.toUpperCase()}</span></td>
+<td class="px-4 py-2.5 text-gray-600">${q.m}</td>
+<td class="px-4 py-2.5 font-mono font-medium text-gray-900">${ans}</td>
+</tr>`;
+});
+html+=`</tbody></table></div></section>`;
+app.innerHTML=html;
+}
+
+function selMCQ(id,l){
+if(state[id].checked)return;
+state[id].sel=l;
+render();
+}
+function togMSQ(id,l){
+if(state[id].checked)return;
+const s=state[id].sel;
+const i=s.indexOf(l);
+if(i>-1)s.splice(i,1);else s.push(l);
+render();
+}
+function showChk(id){render();}
+function chk(id){
+const q=Q.find(x=>x.id===id);
+const s=state[id];
+if(s.checked)return;
+s.checked=true;
+if(q.type==='mcq'){
+if(s.sel===q.ans){s.ok=true;s.score=q.m;}
+else{s.ok=false;s.score=-q.neg;}
+}else if(q.type==='msq'){
+const sa=q.ans.slice().sort().join(',');
+const ss=s.sel.slice().sort().join(',');
+if(sa===ss){s.ok=true;s.score=q.m;}
+else{s.ok=false;s.score=0;}
+}else{
+const v=(s.sel||'').trim().replace(/\s/g,'');
+const acc=q.accept||[String(q.ans)];
+s.ok=acc.some(a=>v===a.replace(/\s/g,''));
+s.score=s.ok?q.m:0;
+}
+render();
+updateScore();
+}
+function updateScore(){
+let total=0,ok=0,no=0,att=0;
+Q.forEach(q=>{const s=state[q.id];total+=s.score;if(s.checked){att++;if(s.ok)ok++;else no++;}});
+document.getElementById('sDisp').textContent=`${Math.max(0,total)} / 55`;
+document.getElementById('sTxt').textContent=Math.max(0,total);
+document.getElementById('nOk').textContent=ok;
+document.getElementById('nNo').textContent=no;
+document.getElementById('nAtt').textContent=att;
+const pct=total/55;
+const circ=175.93;
+document.getElementById('sRing').style.strokeDashoffset=circ-(circ*Math.max(0,pct));
+document.getElementById('sRing').style.stroke=pct>=0.6?'#4ADE80':pct>=0.3?'#FBBF24':'#F87171';
+}
+function togSec(sec){
+const el=document.getElementById('body-'+sec);
+const tog=document.getElementById('tog-'+sec);
+if(el.style.display==='none'){el.style.display='';tog.style.transform='';}
+else{el.style.display='none';tog.style.transform='rotate(180deg)';}
+}
+function resetAll(){
+Q.forEach(q=>{state[q.id]={sel:q.type==='msq'?[]:null,checked:false,ok:false,score:0};});
+render();updateScore();
+window.scrollTo({top:0,behavior:'smooth'});
+}
+render();
+</script>
+</body>
+</html>

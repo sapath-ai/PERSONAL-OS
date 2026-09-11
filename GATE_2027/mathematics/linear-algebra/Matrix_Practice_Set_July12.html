@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Matrix Topics — Practice Set for 12 July Test</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js"></script>
+<style>
+  :root{
+    --bg:#0b1220;
+    --panel:#121a2b;
+    --panel2:#161f34;
+    --ink:#e8ecf4;
+    --dim:#9aa5bd;
+    --gold:#d4af37;
+    --teal:#2fb8a6;
+    --red:#e0596b;
+    --line:#233052;
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Segoe UI', -apple-system, Helvetica, Arial, sans-serif;
+    line-height:1.55;
+    margin:0;
+    padding:0 0 80px 0;
+  }
+  .wrap{max-width:840px;margin:0 auto;padding:0 24px;}
+  header.hero{
+    background:linear-gradient(180deg,#0e1626,#0b1220 85%);
+    border-bottom:1px solid var(--line);
+    padding:48px 24px 32px;
+    text-align:center;
+  }
+  header.hero .eyebrow{
+    font-family:'Courier New',monospace;
+    letter-spacing:.18em;
+    color:var(--gold);
+    font-size:12.5px;
+    text-transform:uppercase;
+  }
+  header.hero h1{
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:2.15em;
+    margin:10px 0 6px;
+    color:#fff;
+  }
+  header.hero .sub{color:var(--dim);font-size:0.98em;max-width:560px;margin:0 auto;}
+  .statrow{display:flex;justify-content:center;gap:28px;margin-top:26px;flex-wrap:wrap;}
+  .stat{text-align:center;}
+  .stat .n{font-family:Georgia,serif;font-size:1.7em;color:var(--gold);}
+  .stat .l{font-size:11px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;}
+
+  section{padding:34px 0;}
+  h2.section-title{
+    font-family:Georgia,serif;
+    font-size:1.35em;
+    color:#fff;
+    border-left:3px solid var(--teal);
+    padding-left:14px;
+    margin-bottom:6px;
+  }
+  .section-note{color:var(--dim);font-size:.92em;margin:0 0 20px 14px;}
+
+  table.ref{width:100%;border-collapse:collapse;font-size:.9em;margin-bottom:8px;}
+  table.ref th, table.ref td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  table.ref th{background:var(--panel2);color:var(--gold);font-weight:600;}
+  table.ref td{background:var(--panel);}
+
+  .qcard{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:18px 20px;
+    margin-bottom:16px;
+  }
+  .qmeta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+  .tag{
+    font-family:'Courier New',monospace;
+    font-size:10.5px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    padding:3px 8px;
+    border-radius:3px;
+    border:1px solid var(--line);
+    color:var(--dim);
+  }
+  .tag.easy{color:#7fd6a0;border-color:#2c5c43;}
+  .tag.medium{color:#e0c65a;border-color:#5c5327;}
+  .tag.hard{color:var(--red);border-color:#5c2933;}
+  .tag.type{color:var(--teal);border-color:#1d4a44;}
+  .tag.marks{color:var(--gold);border-color:#5c4d1c;}
+  .qtext{font-size:1.02em;margin-bottom:10px;}
+  .opts{margin:8px 0 0 0;padding-left:0;list-style:none;}
+  .opts li{padding:4px 0;color:var(--ink);}
+  .opts li b{color:var(--teal);margin-right:8px;}
+
+  details{margin-top:10px;}
+  summary{
+    cursor:pointer;color:var(--gold);font-size:.88em;
+    font-family:'Courier New',monospace;letter-spacing:.03em;
+  }
+  .solution{
+    margin-top:10px;padding:12px 14px;background:var(--panel2);
+    border-left:2px solid var(--teal);border-radius:4px;font-size:.94em;color:var(--dim);
+  }
+  .solution b{color:var(--ink);}
+
+  .errorlog{
+    background:var(--panel);border:1px dashed var(--line);border-radius:6px;padding:18px 20px;
+  }
+  .errorlog table{width:100%;border-collapse:collapse;font-size:.88em;margin-top:12px;}
+  .errorlog th,.errorlog td{border:1px solid var(--line);padding:8px;}
+  .errorlog th{background:var(--panel2);color:var(--gold);}
+  .errorlog td{height:26px;}
+
+  footer{text-align:center;color:var(--dim);font-size:.8em;padding:30px 0 10px;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="eyebrow">GATE CS 2027 · Master Plan v9 Elite · Weekly Prep Cell</div>
+  <h1>Matrix &amp; Its Related Topics</h1>
+  <div class="sub">Practice set for the 12 July Weekly Test window — Lectures 2d, 4a–4f, 5a–5c, 6b–6e, 7a–7c, 10f, 11a–11b. Eigenvalues, span, and system-conceptual lectures (8–10, 2a–2c, 3a–3c) are deliberately excluded, per your scope note.</div>
+  <div class="statrow">
+    <div class="stat"><div class="n">40</div><div class="l">Questions</div></div>
+    <div class="stat"><div class="n">64</div><div class="l">Marks</div></div>
+    <div class="stat"><div class="n">~100</div><div class="l">Min Target</div></div>
+    <div class="stat"><div class="n">50/30/20</div><div class="l">Easy/Med/Hard</div></div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section>
+  <h2 class="section-title">How to Run This Set</h2>
+  <p class="section-note">Use exactly like a Revision Test (Layer 4 / Part 0 of your plan) — full conditions, no hints, closed book. Below is your own marking scheme for self-grading.</p>
+  <table class="ref">
+    <tr><th>Type</th><th>Marks</th><th>Correct</th><th>Incorrect</th><th>Unattempted</th></tr>
+    <tr><td>MCQ 1-mark</td><td>1</td><td>+1</td><td>−0.33</td><td>0</td></tr>
+    <tr><td>MCQ 2-mark</td><td>2</td><td>+2</td><td>−0.67</td><td>0</td></tr>
+    <tr><td>MSQ (any)</td><td>as marked</td><td>full marks only if <i>all</i> correct options chosen</td><td>0</td><td>0</td></tr>
+    <tr><td>NAT (any)</td><td>as marked</td><td>full marks if within range</td><td>0</td><td>0</td></tr>
+  </table>
+  <p class="section-note">Time budget per question (Layer 7): easy MCQ ≤75s · medium/hard 2-mark ≤2.5 min · MSQ only if ≥80% confident on every option · NAT — always attempt, no negative marking. Target: finish all 40 in ~100 minutes, then spend ≥60 minutes on Layer 8 analysis before the 12th.</p>
+</section>
+
+<section>
+  <h2 class="section-title">Part A — Matrix Multiplication as Linear Combination</h2>
+  <p class="section-note">Lectures 2d, 4a, 4d</p>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag easy">Easy</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q1.</b> For \(A\) of size \(m\times n\) and vector \(x\) of size \(n\times 1\), the product \(Ax\) is best understood as:</div>
+    <ul class="opts">
+      <li><b>(A)</b> a linear combination of the rows of \(A\), weighted by the entries of \(x\)</li>
+      <li><b>(B)</b> a linear combination of the columns of \(A\), weighted by the entries of \(x\)</li>
+      <li><b>(C)</b> the dot product of every row of \(A\) with every entry of \(x\), summed once</li>
+      <li><b>(D)</b> the elementwise product of \(A\) and \(x\)</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: B.</b> \(Ax = x_1 a_1 + x_2 a_2 + \dots + x_n a_n\) where \(a_i\) are columns of \(A\). This is the "new approach" your Lecture 2d is built around — it is the single most useful mental model for the whole matrix-topics block.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">NAT</span><span class="tag medium">Medium</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q2.</b> Let \(A=\begin{bmatrix}1&2\\3&4\\5&6\end{bmatrix}\) and \(x=\begin{bmatrix}2\\-1\end{bmatrix}\). What is the second entry of \(Ax\)?</div>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: 2.</b> \(Ax = 2\begin{bmatrix}1\\3\\5\end{bmatrix} - 1\begin{bmatrix}2\\4\\6\end{bmatrix} = \begin{bmatrix}0\\2\\4\end{bmatrix}\). Second entry = 2.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag easy">Easy</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q3.</b> For matrices \(A\) (\(m\times n\)) and \(B\) (\(n\times p\)), the \(j\)-th column of \(AB\) equals:</div>
+    <ul class="opts">
+      <li><b>(A)</b> \(A\) times the \(j\)-th column of \(B\)</li>
+      <li><b>(B)</b> the \(j\)-th row of \(A\) times \(B\)</li>
+      <li><b>(C)</b> the \(j\)-th column of \(A\) times \(B\)</li>
+      <li><b>(D)</b> undefined unless \(A\) is square</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: A.</b> \((AB)_{:,j} = A\, b_j\), directly from the linear-combination view — this is the Walmart-interview idea from Lecture 4a.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MSQ</span><span class="tag medium">Medium</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q4.</b> \(AB\) can be written as \(\sum_{k=1}^{n} a_k\, b_k^T\), where \(a_k\) is the \(k\)-th column of \(A\) and \(b_k^T\) is the \(k\)-th row of \(B\). Which statements are TRUE?</div>
+    <ul class="opts">
+      <li><b>(A)</b> Each term \(a_k b_k^T\) is a rank-one matrix (when both are nonzero)</li>
+      <li><b>(B)</b> \(AB\) is a sum of rank-one matrices, one per shared inner dimension index</li>
+      <li><b>(C)</b> This decomposition only works when \(A\) and \(B\) are square</li>
+      <li><b>(D)</b> The number of rank-one terms equals \(n\), the shared inner dimension</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: A, B, D.</b> This "outer-product" view of matrix multiplication works for any conformable rectangular matrices, not just square ones — C is false.</div></details>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">Part B — Rank-One Matrices</h2>
+  <p class="section-note">Lectures 4b, 4c, 4e, 4f</p>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag easy">Easy</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q5.</b> A matrix \(M\) is called rank-one if it can be written as:</div>
+    <ul class="opts">
+      <li><b>(A)</b> the sum of two nonzero vectors</li>
+      <li><b>(B)</b> the outer product \(uv^T\) of a nonzero column vector \(u\) and a nonzero row vector \(v^T\)</li>
+      <li><b>(C)</b> the product of two square invertible matrices</li>
+      <li><b>(D)</b> the difference of two identical matrices</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: B.</b></div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag medium">Medium</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q6.</b> Let \(u=\begin{bmatrix}1\\2\\3\end{bmatrix}\), \(v=\begin{bmatrix}2\\-1\\1\end{bmatrix}\), and \(M=uv^T\). What are \(\text{rank}(M)\) and \(\text{trace}(M)\)?</div>
+    <ul class="opts">
+      <li><b>(A)</b> rank 1, trace 3</li>
+      <li><b>(B)</b> rank 1, trace 0</li>
+      <li><b>(C)</b> rank 3, trace 3</li>
+      <li><b>(D)</b> rank 1, trace −3</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: A.</b> \(M=\begin{bmatrix}2&-1&1\\4&-2&2\\6&-3&3\end{bmatrix}\). Diagonal entries are 2, −2, 3, so trace \(=2-2+3=3\). Rank is 1 since \(u,v\) are both nonzero.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">NAT</span><span class="tag hard">Hard</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q7.</b> For a rank-one matrix \(M=uv^T\) (\(u,v\in\mathbb{R}^n\)), the single nonzero eigenvalue of \(M\) equals \(v^Tu\), with all other eigenvalues equal to 0. If \(u=\begin{bmatrix}1\\1\\1\end{bmatrix}\) and \(v=\begin{bmatrix}2\\3\\-1\end{bmatrix}\), find the nonzero eigenvalue.</div>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: 4.</b> \(v^Tu = 2+3-1 = 4\). Note: this fact is the bridge between your rank-one lectures and eigenvalues — useful intuition even though eigenvalues are out of scope for the 12th.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag medium">Medium</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q8.</b> For a rank-one matrix \(M=uv^T\) with \(u,v\) nonzero and \(n>1\), which is <u>NOT</u> necessarily true?</div>
+    <ul class="opts">
+      <li><b>(A)</b> \(M\) is singular</li>
+      <li><b>(B)</b> \(M^2 = (v^Tu)\,M\)</li>
+      <li><b>(C)</b> \(M\) is symmetric</li>
+      <li><b>(D)</b> \(\text{rank}(M)=1\)</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: C.</b> \(M\) is symmetric only when \(v\) is a scalar multiple of \(u\); in general \(uv^T \ne (uv^T)^T = vu^T\).</div></details>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">Part C — Linear Combinations, Conceptual Rank Questions</h2>
+  <p class="section-note">Lectures 4d, 4e, 4f</p>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag easy">Easy</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q9.</b> If the columns of \(A\) are linearly independent and \(Ax=Ay\) for vectors \(x,y\), then:</div>
+    <ul class="opts">
+      <li><b>(A)</b> \(x\) can be different from \(y\)</li>
+      <li><b>(B)</b> \(x=y\) necessarily</li>
+      <li><b>(C)</b> \(A\) must be square</li>
+      <li><b>(D)</b> both \(x\) and \(y\) must be zero</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: B.</b> \(A(x-y)=0\); with LI columns the only solution is \(x-y=0\). This is exactly Lecture 4e — uniqueness of the linear combination.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag medium">Medium</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q10.</b> \(A\) is \(m\times n\) with \(m<n\) (more columns than rows). Which is always true?</div>
+    <ul class="opts">
+      <li><b>(A)</b> the columns of \(A\) are linearly independent</li>
+      <li><b>(B)</b> \(Ax=0\) has only the trivial solution</li>
+      <li><b>(C)</b> \(Ax=0\) has a nontrivial solution</li>
+      <li><b>(D)</b> \(A\) is invertible</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: C.</b> Since \(\text{rank}(A)\le m < n\), the nullity \(n-\text{rank}(A) \ge 1\), guaranteeing a nontrivial solution.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">NAT</span><span class="tag medium">Medium</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q11.</b> \(A\) is a \(4\times4\) matrix with rank 3. How many linearly independent solutions does \(Ax=0\) have?</div>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: 1.</b> Nullity \(=4-3=1\).</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag hard">Hard</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q12 (GATE-2017 pattern).</b> \(A\) is a real \(3\times3\) matrix with \(\text{rank}(A)=2\). Which of the following MUST be true?</div>
+    <ul class="opts">
+      <li><b>(A)</b> \(\det(A)\ne0\)</li>
+      <li><b>(B)</b> \(Ax=0\) has exactly one linearly independent nontrivial solution</li>
+      <li><b>(C)</b> \(A\) is invertible</li>
+      <li><b>(D)</b> all three rows of \(A\) are linearly independent</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: B.</b> Nullity \(=3-2=1\), so the null space is one-dimensional. \(\det(A)=0\) since rank \(<\) 3, so A, C, D are false.</div></details>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">Part D — Echelon Form, Gaussian Elimination, RREF</h2>
+  <p class="section-note">Lectures 5a, 5b, 6d, 6e</p>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag easy">Easy</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q13.</b> Pivot columns (in the echelon form of \(A\)) correspond to:</div>
+    <ul class="opts">
+      <li><b>(A)</b> columns holding the free variables</li>
+      <li><b>(B)</b> a set of linearly independent columns of the <i>original</i> matrix \(A\)</li>
+      <li><b>(C)</b> columns that are entirely zero</li>
+      <li><b>(D)</b> columns that get duplicated after row reduction</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: B.</b> The pivot columns of the echelon form mark which original columns of \(A\) form a maximal linearly independent set.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">NAT</span><span class="tag medium">Medium</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q14.</b> Reduce \(A=\begin{bmatrix}1&2&3\\2&4&7\\3&6&10\end{bmatrix}\) via Gaussian elimination. What is \(\text{rank}(A)\)?</div>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: 2.</b> \(R_2\to R_2-2R_1=[0,0,1]\); \(R_3\to R_3-3R_1=[0,0,1]\); then \(R_3\to R_3-R_2=[0,0,0]\). Echelon form: \(\begin{bmatrix}1&2&3\\0&0&1\\0&0&0\end{bmatrix}\) — 2 pivots.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag medium">Medium</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q15.</b> For the same \(A\) as Q14, how many free variables does \(Ax=0\) have?</div>
+    <ul class="opts"><li><b>(A)</b> 0</li><li><b>(B)</b> 1</li><li><b>(C)</b> 2</li><li><b>(D)</b> 3</li></ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: B.</b> \(n-\text{rank}=3-2=1\) (column 2 is the free column; pivots are in columns 1 and 3).</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MSQ</span><span class="tag hard">Hard</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q16.</b> For a matrix in Row-Reduced Echelon Form (RREF), which statements are always true?</div>
+    <ul class="opts">
+      <li><b>(A)</b> Every pivot entry equals 1</li>
+      <li><b>(B)</b> Every pivot column has zeros in all its other entries</li>
+      <li><b>(C)</b> Pivots move strictly to the right as you move down the rows</li>
+      <li><b>(D)</b> Entries above a pivot may be nonzero, only entries below must be zero</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: A, B, C.</b> D describes plain REF, not RREF — in RREF entries both above and below every pivot must be zero. This distinction (REF vs RREF) is exactly what Lecture 6e is testing.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MSQ</span><span class="tag medium">Medium</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q23.</b> Elementary row operations on \(A\) preserve which of the following (relative to the original matrix)?</div>
+    <ul class="opts">
+      <li><b>(A)</b> The row space of \(A\)</li>
+      <li><b>(B)</b> All linear dependence/independence relations among the columns of \(A\)</li>
+      <li><b>(C)</b> The column space of \(A\) itself</li>
+      <li><b>(D)</b> The exact value of \(\det(A)\), regardless of which row operation is used</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: A, B.</b> Row ops preserve the row space and preserve which columns are dependent on which (since \(Ax=0\)'s solution set is unchanged) — this is Lecture 6d's key claim. Column space itself generally changes; determinant is only preserved under row addition, not scaling or swapping (which flip sign) — C and D are false.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag easy">Easy</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q24.</b> Is the RREF of a given matrix unique?</div>
+    <ul class="opts">
+      <li><b>(A)</b> Yes — every matrix has exactly one RREF, regardless of the row operations used to get there</li>
+      <li><b>(B)</b> No — it depends on the order of row operations</li>
+      <li><b>(C)</b> Yes, but only for square matrices</li>
+      <li><b>(D)</b> No, except for the identity matrix</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: A.</b> RREF is unique; plain echelon form (REF) is not.</div></details>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">Part E — Rank, Rank-Nullity, and Solvability of Ax = b</h2>
+  <p class="section-note">Lectures 5c, 6b, 6c, 10f</p>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag easy">Easy</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q17.</b> For \(A\) with \(n\) columns, the Rank-Nullity theorem states \(\text{rank}(A)+\text{nullity}(A)=\)?</div>
+    <ul class="opts"><li><b>(A)</b> \(m\) (number of rows)</li><li><b>(B)</b> \(n\) (number of columns)</li><li><b>(C)</b> \(mn\)</li><li><b>(D)</b> \(m+n\)</li></ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: B.</b></div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">NAT</span><span class="tag medium">Medium</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q18.</b> \(A\) is a \(5\times7\) matrix with \(\text{rank}(A)=4\). Find \(\text{nullity}(A)\).</div>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: 3.</b> \(7-4=3\).</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag medium">Medium</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q19.</b> \(A\) is \(6\times4\) with full column rank (\(\text{rank}(A)=4\)). Then \(Ax=0\) has:</div>
+    <ul class="opts">
+      <li><b>(A)</b> infinitely many nontrivial solutions</li>
+      <li><b>(B)</b> only the trivial solution \(x=0\)</li>
+      <li><b>(C)</b> no solution</li>
+      <li><b>(D)</b> exactly 4 nontrivial solutions</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: B.</b> Nullity \(=4-4=0\).</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MSQ</span><span class="tag hard">Hard</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q20.</b> For \(Ax=b\) with \(A\) an \(m\times n\) matrix, let \(r=\text{rank}(A)\) and \(r'=\text{rank}([A\,|\,b])\). Select the correct statements:</div>
+    <ul class="opts">
+      <li><b>(A)</b> If \(r<r'\), the system is inconsistent (no solution)</li>
+      <li><b>(B)</b> If \(r=r'=n\), the system has a unique solution</li>
+      <li><b>(C)</b> If \(r=r'<n\), the system has infinitely many solutions</li>
+      <li><b>(D)</b> If \(r=r'\), the system always has infinitely many solutions</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: A, B, C.</b> D is false — if \(r=r'=n\) the solution is unique, not infinite.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag medium">Medium</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q21 (GATE-2018 pattern).</b> For \(Ax=b\) with \(A\) a \(3\times3\) matrix, \(\text{rank}(A)=2\) and \(\text{rank}([A|b])=3\). The system has:</div>
+    <ul class="opts"><li><b>(A)</b> a unique solution</li><li><b>(B)</b> infinitely many solutions</li><li><b>(C)</b> no solution</li><li><b>(D)</b> exactly two solutions</li></ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: C.</b> \(r<r'\) → inconsistent.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">NAT</span><span class="tag hard">Hard</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q22.</b> \(A\) is \(4\times6\), \(\text{rank}(A)=3\), and \(\text{rank}([A|b])=3\) for some \(b\). How many free parameters appear in the general solution of \(Ax=b\)?</div>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: 3.</b> \(n-r=6-3=3\).</div></details>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">Part F — Determinants</h2>
+  <p class="section-note">Lecture 7a</p>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">NAT</span><span class="tag easy">Easy</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q25.</b> If two rows of a square matrix are identical, \(\det(A)=\)?</div>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: 0.</b></div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">NAT</span><span class="tag medium">Medium</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q26.</b> Compute \(\det(A)\) for \(A=\begin{bmatrix}2&1&0\\1&3&1\\0&1&2\end{bmatrix}\) by cofactor expansion along the first row.</div>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: 8.</b> \(\det(A)=2(3\cdot2-1\cdot1)-1(1\cdot2-1\cdot0)+0 = 2(5)-1(2) = 10-2=8\).</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag medium">Medium</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q27.</b> For an \(n\times n\) matrix \(A\) and scalar \(k\), \(\det(kA)=\)?</div>
+    <ul class="opts"><li><b>(A)</b> \(k\det(A)\)</li><li><b>(B)</b> \(k^n\det(A)\)</li><li><b>(C)</b> \(kn\det(A)\)</li><li><b>(D)</b> \(\det(A)\)</li></ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: B.</b> Each of the \(n\) rows contributes one factor of \(k\).</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MSQ</span><span class="tag hard">Hard</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q28.</b> Which statements about determinants are TRUE?</div>
+    <ul class="opts">
+      <li><b>(A)</b> \(\det(AB)=\det(A)\det(B)\)</li>
+      <li><b>(B)</b> \(\det(A^T)=\det(A)\)</li>
+      <li><b>(C)</b> \(\det(A+B)=\det(A)+\det(B)\) always</li>
+      <li><b>(D)</b> \(A\) is invertible if and only if \(\det(A)\ne0\)</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: A, B, D.</b> C is a classic trap — determinant is not additive in general.</div></details>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">Part G — Inverse and Cramer's Rule</h2>
+  <p class="section-note">Lectures 7b, 7c</p>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag easy">Easy</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q29.</b> \(A^{-1}\) exists if and only if:</div>
+    <ul class="opts"><li><b>(A)</b> \(\det(A)=0\)</li><li><b>(B)</b> \(\det(A)\ne0\)</li><li><b>(C)</b> \(A\) is symmetric</li><li><b>(D)</b> \(A\) has a zero row</li></ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: B.</b></div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">NAT</span><span class="tag medium">Medium</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q30.</b> For \(A=\begin{bmatrix}2&1\\1&1\end{bmatrix}\), find \(\det(A^{-1})\).</div>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: 1.</b> \(\det(A)=2(1)-1(1)=1\), and \(\det(A^{-1})=1/\det(A)=1\).</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag medium">Medium</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q31.</b> For \(A=\begin{bmatrix}a&b\\c&d\end{bmatrix}\) with \(\det(A)\ne0\), \(A^{-1}=\)?</div>
+    <ul class="opts">
+      <li><b>(A)</b> \(\dfrac{1}{\det(A)}\begin{bmatrix}d&-b\\-c&a\end{bmatrix}\)</li>
+      <li><b>(B)</b> \(\dfrac{1}{\det(A)}\begin{bmatrix}a&-b\\-c&d\end{bmatrix}\)</li>
+      <li><b>(C)</b> \(\begin{bmatrix}d&-b\\-c&a\end{bmatrix}\)</li>
+      <li><b>(D)</b> \(\dfrac{1}{\det(A)}\begin{bmatrix}d&b\\c&a\end{bmatrix}\)</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: A.</b> Swap the diagonal entries, negate the off-diagonal ones, divide by the determinant.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag easy">Easy</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q33.</b> Cramer's Rule can be used to solve \(Ax=b\) when:</div>
+    <ul class="opts"><li><b>(A)</b> \(A\) is any matrix, square or not</li><li><b>(B)</b> \(A\) is square with \(\det(A)\ne0\)</li><li><b>(C)</b> \(A\) is singular</li><li><b>(D)</b> \(A\) is rectangular</li></ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: B.</b></div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">NAT</span><span class="tag medium">Medium</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q32.</b> Solve \(2x+y=5,\; x+3y=10\) using Cramer's Rule. Find \(x\).</div>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: 1.</b> \(D=\begin{vmatrix}2&1\\1&3\end{vmatrix}=5\), \(D_x=\begin{vmatrix}5&1\\10&3\end{vmatrix}=15-10=5\), so \(x=D_x/D=1\).</div></details>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">Part H — LU Decomposition</h2>
+  <p class="section-note">Lecture 11a</p>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag medium">Medium</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q34.</b> In \(A=LU\) (no pivoting), the matrix \(L\) is:</div>
+    <ul class="opts">
+      <li><b>(A)</b> upper triangular with 1's on the diagonal</li>
+      <li><b>(B)</b> lower triangular with 1's on the diagonal</li>
+      <li><b>(C)</b> orthogonal</li>
+      <li><b>(D)</b> diagonal</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: B.</b> \(L\) stores the multipliers used during elimination, below a unit diagonal.</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">NAT</span><span class="tag hard">Hard</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q35.</b> For \(A=\begin{bmatrix}2&3\\4&7\end{bmatrix}\), find the multiplier \(l_{21}\) used to zero out the (2,1) entry during elimination (\(R_2\to R_2-l_{21}R_1\)).</div>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: 2.</b> \(l_{21}=a_{21}/a_{11}=4/2=2\).</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag medium">Medium</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q36.</b> Following Q35, what is \(U\)?</div>
+    <ul class="opts">
+      <li><b>(A)</b> \(\begin{bmatrix}2&3\\0&1\end{bmatrix}\)</li>
+      <li><b>(B)</b> \(\begin{bmatrix}2&3\\0&7\end{bmatrix}\)</li>
+      <li><b>(C)</b> \(\begin{bmatrix}2&3\\4&0\end{bmatrix}\)</li>
+      <li><b>(D)</b> \(\begin{bmatrix}2&3\\0&-1\end{bmatrix}\)</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: A.</b> \(R_2^{new}=R_2-2R_1=[4-4,\,7-6]=[0,1]\).</div></details>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">Part I — Types of Matrices</h2>
+  <p class="section-note">Lecture 11b</p>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag easy">Easy</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q37.</b> A matrix \(Q\) is orthogonal if:</div>
+    <ul class="opts"><li><b>(A)</b> \(Q=Q^T\)</li><li><b>(B)</b> \(Q^TQ=I\)</li><li><b>(C)</b> \(Q\) is triangular</li><li><b>(D)</b> \(Q^2=I\)</li></ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: B.</b> This also implies \(Q^{-1}=Q^T\) and \(\det(Q)=\pm1\).</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MSQ</span><span class="tag medium">Medium</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q38.</b> For a symmetric matrix \(A\) (\(A=A^T\)), which are TRUE?</div>
+    <ul class="opts">
+      <li><b>(A)</b> All eigenvalues of \(A\) are real</li>
+      <li><b>(B)</b> \(A\) is always invertible</li>
+      <li><b>(C)</b> \(A\) can be diagonalised by an orthogonal matrix</li>
+      <li><b>(D)</b> \(A^TA=A^2\)</li>
+    </ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: A, C, D.</b> Symmetric matrices need not be invertible (e.g. the zero matrix is symmetric) — B is false. D holds because \(A^T=A\) so \(A^TA=A\cdot A=A^2\).</div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag easy">Easy</span><span class="tag marks">1 mark</span></div>
+    <div class="qtext"><b>Q39.</b> A skew-symmetric matrix satisfies:</div>
+    <ul class="opts"><li><b>(A)</b> \(A^T=A\)</li><li><b>(B)</b> \(A^T=-A\)</li><li><b>(C)</b> \(A^T=A^{-1}\)</li><li><b>(D)</b> \(A=I\)</li></ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: B.</b></div></details>
+  </div>
+
+  <div class="qcard">
+    <div class="qmeta"><span class="tag type">MCQ</span><span class="tag hard">Hard</span><span class="tag marks">2 marks</span></div>
+    <div class="qtext"><b>Q40 (GATE-2007 pattern).</b> \(A\) is a \(3\times3\) real skew-symmetric matrix. What must \(\det(A)\) equal?</div>
+    <ul class="opts"><li><b>(A)</b> Always 0</li><li><b>(B)</b> Always 1</li><li><b>(C)</b> Always negative</li><li><b>(D)</b> Cannot be determined</li></ul>
+    <details><summary>Show Answer</summary><div class="solution"><b>Answer: A.</b> \(\det(A)=\det(A^T)=\det(-A)=(-1)^3\det(A)=-\det(A)\). So \(2\det(A)=0 \Rightarrow \det(A)=0\). This only forces zero for <i>odd</i> order — for even-order skew-symmetric matrices, \(\det(A)\ge0\) but need not be zero.</div></details>
+  </div>
+</section>
+
+<section>
+  <div class="errorlog">
+    <h2 class="section-title" style="border:none;padding-left:0;">Layer 3 — Error Log (fill within 1 hour of finishing)</h2>
+    <p class="section-note" style="margin-left:0;">Codes: C = concept · F = formula · R = reading · T = time · S = silly · G = guessing · M = memory. Log every miss before you sleep — Rule 2 is zero exceptions.</p>
+    <table>
+      <tr><th>Q#</th><th>Topic</th><th>Error Code</th><th>Root Cause (1 line)</th><th>Fix Action</th></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+    </table>
+  </div>
+</section>
+
+</div>
+
+<footer>Sapath · GATE CS 2027 · Matrix Practice Set for 12 July · Built against Master Plan v9 Elite, Layers 3–8</footer>
+
+</body>
+</html>

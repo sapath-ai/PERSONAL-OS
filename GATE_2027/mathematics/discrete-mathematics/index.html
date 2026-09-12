@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GATE 2027 — Discrete Mathematics</title>
+
+<style>
+:root {
+    --bg: #090a0c;
+    --surface: #101216;
+    --surface-2: #15171c;
+    --border: #252830;
+    --border-hover: #3a3e48;
+    --text: #f1f3f5;
+    --text-secondary: #a4a9b3;
+    --text-muted: #686e79;
+    --success: #8fd3a8;
+    --radius: 16px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(
+            circle at 78% 8%,
+            rgba(255,255,255,0.045),
+            transparent 28rem
+        ),
+        #090a0c;
+    color: var(--text);
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+.wrap {
+    width: min(1100px, calc(100% - 48px));
+    margin: 0 auto;
+    padding: 64px 0 80px;
+}
+
+.back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 12px;
+    margin-bottom: 36px;
+}
+
+.back:hover {
+    color: var(--text);
+}
+
+.eyebrow {
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+h1 {
+    margin: 10px 0 0;
+    font-size: clamp(42px, 7vw, 78px);
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+}
+
+.intro {
+    max-width: 680px;
+    margin-top: 16px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+.meta {
+    margin-top: 22px;
+    display: inline-flex;
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-muted);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 42px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    min-height: 190px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: inherit;
+    text-decoration: none;
+    transition:
+        transform 0.18s ease,
+        border-color 0.18s ease,
+        background 0.18s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-hover);
+    background: var(--surface-2);
+}
+
+.card-index {
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+.card-title {
+    margin-top: auto;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.card-description {
+    margin-top: 8px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.card-arrow {
+    margin-top: 20px;
+    color: var(--text-muted);
+    font-size: 16px;
+}
+
+.card:hover .card-arrow {
+    color: var(--text);
+}
+
+@media (max-width: 700px) {
+    .wrap {
+        width: min(100% - 28px, 1100px);
+        padding-top: 36px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main class="wrap">
+
+    <a class="back" href="../../../index.html">
+        ← Personal OS
+    </a>
+
+    <div class="eyebrow">GATE 2027 · 02.01</div>
+
+    <h1>Discrete Mathematics</h1>
+
+    <p class="intro">
+        Logic, reasoning, propositional logic and first-order logic practice
+        for GATE CSE 2027.
+    </p>
+
+    <div class="meta">
+        2 resources
+    </div>
+
+    <div class="grid">
+
+        <a class="card" href="./gate_logic_quiz.html">
+            <span class="card-index">01</span>
+            <span class="card-title">Logic Quiz</span>
+            <span class="card-description">
+                Interactive practice covering propositional and logical reasoning.
+            </span>
+            <span class="card-arrow">Open resource ↗</span>
+        </a>
+
+        <a class="card" href="./GATE_Day1_Propositional_FOL_Logic.html">
+            <span class="card-index">02</span>
+            <span class="card-title">Daily Practice</span>
+            <span class="card-description">
+                Day 1 practice set focused on propositional and first-order logic.
+            </span>
+            <span class="card-arrow">Open resource ↗</span>
+        </a>
+
+    </div>
+
+</main>
+
+</body>
+</html>

@@ -1676,22 +1676,34 @@ body {
 
 .gate-practice-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
 }
 
 .gate-practice-grid a {
+    min-height: 118px;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     gap: 12px;
-    padding: 15px;
+    padding: 20px;
     border: 1px solid var(--border);
-    border-radius: 11px;
-    background: var(--surface);
+    border-radius: 15px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.032),
+            rgba(255,255,255,0.010)
+        ),
+        var(--surface);
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 12px;
-    transition: .18s ease;
+    font-size: 13px;
+    transition:
+        transform .2s ease,
+        border-color .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
 }
 
 .gate-practice-grid a:hover {
@@ -1700,8 +1712,15 @@ body {
     background: var(--surface-2);
 }
 
-.gate-practice-grid span {
+.gate-practice-grid span:first-child {
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.gate-practice-grid span:last-child {
     color: var(--text-muted);
+    font-size: 10px;
 }
 
 .gate-footer-callout {
@@ -2119,7 +2138,7 @@ body {
                         </div>
 
                         <div class="section-meta">
-                            6 resources
+                            7 resources
                         </div>
                     </div>
 
@@ -2171,6 +2190,18 @@ body {
                             <span class="gate-resource-index">06</span>
                             <strong>What to Read</strong>
                             <span>Reading and reference guide</span>
+                        </a>
+
+                        <a
+                            class="gate-resource searchable"
+                            href="https://drive.google.com/drive/folders/1F4BzeENk4dYP_i4Le_OAbguVYeYRO2sO?usp=sharing"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            data-search="gate resources private archive study materials external resources"
+                        >
+                            <span class="gate-resource-index">07</span>
+                            <strong>RESOURCES</strong>
+                            <span>Private resource archive ↗</span>
                         </a>
 
                     </div>
@@ -2244,24 +2275,28 @@ body {
                         </div>
 
                         <div class="section-meta">
-                            Personal + external resources
+                            Practice systems
                         </div>
                     </div>
 
                     <div class="gate-practice-grid">
 
-                        <a href="./GATE_2027/practice/GATE_Day1_Propositional_FOL_Logic.html">
-                            Daily Practice
+                        <a
+                            href="./GATE_2027/practice/GATE_Day1_Propositional_FOL_Logic.html"
+                            data-search="daily practice propositional fol logic logic practice gate"
+                        >
+                            <span>Daily Practice</span>
                             <span>Personal system ↗</span>
                         </a>
 
                         <a
-                            href="https://drive.google.com/drive/folders/1F4BzeENk4dYP_i4Le_OAbguVYeYRO2sO?usp=sharing"
+                            href="https://gate-quest.vercel.app/dashboard"
                             target="_blank"
                             rel="noopener noreferrer"
+                            data-search="gate pyq practice previous year questions gate quest"
                         >
-                            RESOURCES
-                            <span>Private archive ↗</span>
+                            <span>GATE PYQ Practice</span>
+                            <span>GATE Quest ↗</span>
                         </a>
 
                     </div>
